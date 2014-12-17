@@ -51,8 +51,7 @@ int main(void) {
     dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
     btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-    btCollisionShape* box = new btBoxShape(btVector3(1,1,1));
-
+    
     btDefaultMotionState* groundMotionState =
                     new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
 
@@ -62,15 +61,26 @@ int main(void) {
 
     dynamicsWorld->addRigidBody(groundRigidBody);
 
-    btDefaultMotionState* fallMotionState =
-    		new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
 
+    /*
+     * Make a box, give it some mass calculate inertia.
+     */
+    btCollisionShape* box = new btBoxShape(btVector3(1,1,1));
     btScalar mass = 1;
     btVector3 fallInertia(0, 0, 0);
     box->calculateLocalInertia(mass, fallInertia);
 
+    /*
+     * create a rigidbody for the box.
+     */
+    btDefaultMotionState* fallMotionState =
+    		new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, box, fallInertia);
     btRigidBody* fallRigidBody = new btRigidBody(fallRigidBodyCI);
+    
+    /*
+     * add the rigidbody (box) to the world
+     */
     dynamicsWorld->addRigidBody(fallRigidBody);
 
     while (!done)
