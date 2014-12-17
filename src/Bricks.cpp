@@ -12,7 +12,7 @@
 #define GL3_PROTOTYPES 1
 
 
-#include <iosfwd>
+#include <iostream>
 #include <GL/gl.h>
 #include <SDL.h>
 #include <btBulletDynamicsCommon.h>
@@ -53,6 +53,26 @@ int main(void) {
     btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
     btCollisionShape* box = new btBoxShape(btVector3(1,1,1));
 
+    btDefaultMotionState* groundMotionState =
+                    new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+
+    btRigidBody::btRigidBodyConstructionInfo
+                    groundRigidBodyCI(0, groundMotionState, groundShape, btVector3(0, 0, 0));
+    btRigidBody* groundRigidBody = new btRigidBody(groundRigidBodyCI);
+
+    dynamicsWorld->addRigidBody(groundRigidBody);
+
+    btDefaultMotionState* fallMotionState =
+    		new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+
+    btScalar mass = 1;
+    btVector3 fallInertia(0, 0, 0);
+    box->calculateLocalInertia(mass, fallInertia);
+
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, box, fallInertia);
+    btRigidBody* fallRigidBody = new btRigidBody(fallRigidBodyCI);
+    dynamicsWorld->addRigidBody(fallRigidBody);
+
     while (!done)
     {
         auto cur_tick = clock();
@@ -68,6 +88,9 @@ int main(void) {
         frame_time -= control_rate;
         dynamicsWorld->stepSimulation(1/60.f, 10);
 
+        btTransform trans;
+        fallRigidBody->getMotionState()->getWorldTransform(trans);
+
         while (SDL_PollEvent(&windowEvent)) {
 
         	switch (windowEvent.type) {
@@ -78,6 +101,8 @@ int main(void) {
         		break;
         	}
         }
+
+        std::cout << "sphere height: " << trans.getOrigin().getY() << std::endl;
 
         // Clear the screen to black
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
