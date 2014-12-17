@@ -4,7 +4,7 @@
  Author      : David O'Mahony
  Version     :
  Copyright   : GPL
- Description : Hello World in C++,
+ Description : 
  ============================================================================
  */
 
