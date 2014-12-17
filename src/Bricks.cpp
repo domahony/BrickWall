@@ -50,6 +50,9 @@ int main(void) {
     btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
     dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
+    btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+    btCollisionShape* box = new btBoxShape(btVector3(1,1,1));
+
     while (!done)
     {
         auto cur_tick = clock();
