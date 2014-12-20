@@ -34,26 +34,17 @@ int main(void) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-    SDL_Event windowEvent;
-
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-    auto control_rate = 1./120.;
-    auto tick_rate = 0.;
-    auto last_tick = clock();
-    auto frame_time = 0.;
-    auto done = false;
 
     app::World world;
     app::Ground ground;
 
     world.addRigidBody(ground.getRigidBody());
 
-
     app::Body body;
 
-   world.addRigidBody(body.getRigidBody());
+    world.addRigidBody(body.getRigidBody());
 
     while (!done)
     {
