@@ -7,10 +7,36 @@
 
 #include <GL/gl.h>
 #include <SDL.h>
+#include <functional>
+#include <memory>
 #include "EventLoop.h"
+#include "World.h"
+
+using std::function;
+using std::unique_ptr;
+
+static function<void ()> windowFn();
 
 int
 main(int argc, char **argv)
+{
+	auto swapbuffer = windowFn();
+
+	app::World w;
+
+	auto worldFn = [&w]() {
+			w.stepSimulation();
+	};
+
+	app::EventLoop el(60);
+
+	el.addFn(worldFn);
+	el.addFn(swapbuffer);
+	el.run();
+}
+
+function<void ()>
+windowFn()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -24,14 +50,10 @@ main(int argc, char **argv)
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    auto func = [window] () {
+    auto swapbuffer = [window] () {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_GL_SwapWindow(window);
     };
 
-	app::EventLoop el(60);
-	el.addFn(func);
-
-	el.run();
-
+   return swapbuffer;
 }

@@ -24,7 +24,7 @@ public:
 	}
 
 private:
-	float rate;
+	float fps;
 	std::vector<std::function<void ()>> fn;
 };
 
