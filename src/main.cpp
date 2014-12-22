@@ -11,6 +11,7 @@
 #include <memory>
 #include "EventLoop.h"
 #include "World.h"
+#include "FrameRate.h"
 
 using std::function;
 using std::unique_ptr;
@@ -23,14 +24,20 @@ main(int argc, char **argv)
 	auto swapbuffer = windowFn();
 
 	app::World w;
+	app::FrameRate fr;
 
 	auto worldFn = [&w]() {
 			w.stepSimulation();
 	};
 
+	auto frameFn = [&fr]() {
+		fr();
+	};
+
 	app::EventLoop el(60);
 
 	el.addFn(worldFn);
+	el.addFn(frameFn);
 	el.addFn(swapbuffer);
 	el.run();
 }

@@ -32,11 +32,6 @@ run()
 
     SDL_Event windowEvent;
 
-    /*
-    int tickcount = 0;
-    auto starttime = clock();
-    */
-
     while (!done)
     {
         auto cur_tick = clock();
@@ -66,16 +61,6 @@ run()
         	f();
         }
 
-        /*
-        tickcount++;
-        std::cout.precision(5);
-        double total = static_cast<double>(clock() - starttime) / CLOCKS_PER_SEC;
-        double frate = static_cast<double>(tickcount) / total;
-
-        std::cout << total << " ";
-        std::cout << tickcount << " ";
-        std::cout << frate << std::endl;
-        */
     }
 }
 
