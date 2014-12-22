@@ -24,7 +24,11 @@ EventLoop::~EventLoop() {
 void EventLoop::
 run()
 {
-	auto done = false;
+	/*
+	 * create a new object for rate-control.   The object should have method that determines if the continue should 
+	 * execute in the loop.  otherwise it could be all inteernal.
+	 */
+    auto done = false;
     auto control_rate = 1./fps;
     auto tick_rate = 0.;
     auto last_tick = clock();
