@@ -6,9 +6,8 @@
  */
 
 #include <SDL.h>
-#include <ctime>
-#include <iostream>
 #include "EventLoop.h"
+#include "FrameRateController.h"
 
 namespace app {
 
@@ -25,26 +24,16 @@ void EventLoop::
 run()
 {
 	auto done = false;
-    auto control_rate = 1./fps;
-    auto tick_rate = 0.;
-    auto last_tick = clock();
-    auto frame_time = 0.;
-
     SDL_Event windowEvent;
+
+    app::FrameRateController frc(fps);
 
     while (!done)
     {
-        auto cur_tick = clock();
-        auto delta = static_cast<double>(cur_tick - last_tick) / CLOCKS_PER_SEC;
 
-        frame_time += delta;
-        last_tick = cur_tick;
-
-        if (frame_time < control_rate) {
-        	continue;
-        }
-
-        frame_time -= control_rate;
+    	if (!frc.tick()) {
+    		continue;
+    	}
 
         while (SDL_PollEvent(&windowEvent)) {
 
