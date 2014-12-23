@@ -23,7 +23,7 @@ EventLoop::~EventLoop() {
 void EventLoop::
 run()
 {
-	auto done = false;
+    auto done = false;
     SDL_Event windowEvent;
 
     app::FrameRateController frc(fps);
