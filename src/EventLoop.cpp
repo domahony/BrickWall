@@ -12,17 +12,16 @@
 namespace app {
 
 EventLoop::EventLoop(float fps) : fps(fps) {
-	// TODO Auto-generated constructor stub
 
 }
 
 EventLoop::~EventLoop() {
-	// TODO Auto-generated destructor stub
 }
 
 void EventLoop::
 run()
 {
+
     auto done = false;
     SDL_Event windowEvent;
 
