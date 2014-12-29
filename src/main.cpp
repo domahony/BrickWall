@@ -34,7 +34,7 @@ main(int argc, char **argv)
 		fr();
 	};
 
-	app::EventLoop el(30);
+	app::EventLoop el(60);
 
 	el.addFn(worldFn);
 	el.addFn(frameFn);
