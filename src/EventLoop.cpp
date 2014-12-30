@@ -8,6 +8,8 @@
 #include <SDL.h>
 #include "EventLoop.h"
 #include "FrameRateController.h"
+#include "Renderer.h"
+#include "GroundGL.h"
 
 namespace app {
 
@@ -27,6 +29,9 @@ run()
 
     app::FrameRateController frc(fps);
 
+    app::gl::Renderer r;
+    app::gl::GroundGL g;
+
     while (!done)
     {
 
@@ -44,6 +49,8 @@ run()
         		break;
         	}
         }
+
+        r.render(g);
 
         for (auto f: fn) {
         	f();

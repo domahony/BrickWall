@@ -93,7 +93,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_bricks_OBJECTS = main.$(OBJEXT) World.$(OBJEXT) Ground.$(OBJEXT) \
-	Body.$(OBJEXT) EventLoop.$(OBJEXT)
+	Body.$(OBJEXT) EventLoop.$(OBJEXT) GroundGL.$(OBJEXT) \
+	Renderer.$(OBJEXT)
 bricks_OBJECTS = $(am_bricks_OBJECTS)
 am__DEPENDENCIES_1 =
 bricks_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -258,7 +259,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CXXFLAGS = `sdl2-config --cflags` $(BULLET_CFLAGS) -std=c++11
-bricks_SOURCES = main.cpp World.cpp Ground.cpp Body.cpp EventLoop.cpp
+bricks_SOURCES = main.cpp World.cpp Ground.cpp Body.cpp EventLoop.cpp GroundGL.cpp Renderer.cpp
 bricks_LDFLAGS = $(SDL_LDFLAGS) $(MAGICK_LDFLAGS) $(GL_LDFLAGS)
 bricks_LDADD = $(SDL_LDFLAGS) $(MAGICK_LDFLAGS) $(GL_LDFLAGS) $(BULLET_LDFLAGS)
 all: all-am
@@ -351,6 +352,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Body.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/EventLoop.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Ground.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GroundGL.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Renderer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/World.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 
