@@ -58,8 +58,8 @@ windowFn()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     auto swapbuffer = [window] () {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_GL_SwapWindow(window);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     };
 
    return swapbuffer;
