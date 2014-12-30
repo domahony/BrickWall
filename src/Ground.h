@@ -20,6 +20,8 @@ public:
 	btRigidBody* getRigidBody() const {
 		return groundRigidBody;
 	}
+private:
+	void initOpenGL();
 
 private:
     btCollisionShape* groundShape;
