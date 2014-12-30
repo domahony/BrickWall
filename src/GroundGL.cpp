@@ -74,7 +74,7 @@ GroundGL::GroundGL() : model_to_world(1.) {
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
     glEnableVertexAttribArray(posAttrib);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 
 }
 
