@@ -35,12 +35,6 @@ static const GLchar* fragmentSource =
 
 GroundGL::GroundGL() : model_to_world(1.) {
 
-    // Create Vertex Array Object
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    // Create a Vertex Buffer Object and copy the vertex data to it
-    glGenBuffers(1, &vbo);
 
     GLfloat vertices[] = {
         -1.0f, -1.0f, -0.5f,
@@ -51,8 +45,12 @@ GroundGL::GroundGL() : model_to_world(1.) {
         -1.0f, -1.0f, -0.5f,
     };
 
+    // Create a Vertex Buffer Object and copy the vertex data to it
+    glGenBuffers(1, &vbo);
+
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Create and compile the vertex shader
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -73,8 +71,17 @@ GroundGL::GroundGL() : model_to_world(1.) {
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
-    glEnableVertexAttribArray(posAttrib);
+    //glEnableVertexAttribArray(posAttrib);
+
+    // Create and bind Vertex Array Object
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
 }
 
@@ -84,7 +91,7 @@ GroundGL::~GroundGL() {
 
 void GroundGL::render(glm::mat4& view, glm::mat4& proj) {
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    //glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glUseProgram(shader);
 
     GLint uniModel = glGetUniformLocation(shader, "model");
@@ -96,7 +103,15 @@ void GroundGL::render(glm::mat4& view, glm::mat4& proj) {
     GLint uniProj = glGetUniformLocation(shader, "proj");
     glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
+    GLint posAttrib = glGetAttribLocation(shader, "position");
+
+    glBindVertexArray(vao);
+    glEnableVertexAttribArray(posAttrib);
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glDisableVertexAttribArray(posAttrib);
+    glBindVertexArray(0);
 }
 
 } /* namespace gl */
