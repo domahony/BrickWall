@@ -35,7 +35,6 @@ static const GLchar* fragmentSource =
 
 GroundGL::GroundGL() : model_to_world(1.) {
 
-
     GLfloat vertices[] = {
         -1.0f, -1.0f, -0.5f,
          1.0f, -1.0f, -0.5f,
@@ -67,11 +66,9 @@ GroundGL::GroundGL() : model_to_world(1.) {
     glAttachShader(shader, vertexShader);
     glAttachShader(shader, fragmentShader);
     glLinkProgram(shader);
-    glUseProgram(shader);
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
-    //glEnableVertexAttribArray(posAttrib);
 
     // Create and bind Vertex Array Object
     glGenVertexArrays(1, &vao);
@@ -86,12 +83,10 @@ GroundGL::GroundGL() : model_to_world(1.) {
 }
 
 GroundGL::~GroundGL() {
-	// TODO Auto-generated destructor stub
 }
 
 void GroundGL::render(glm::mat4& view, glm::mat4& proj) {
 
-    //glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glUseProgram(shader);
 
     GLint uniModel = glGetUniformLocation(shader, "model");
@@ -112,6 +107,7 @@ void GroundGL::render(glm::mat4& view, glm::mat4& proj) {
 
     glDisableVertexAttribArray(posAttrib);
     glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 } /* namespace gl */
