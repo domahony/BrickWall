@@ -21,6 +21,15 @@ Body::Body() :
     fallRigidBody = new btRigidBody(fallRigidBodyCI);
 }
 
+void Body::
+render()
+{
+	glUseProgram();
+	glBindVertexArray();
+	glEnableVertexAttribArray();
+	glDrawArrays();
+}
+
 Body::~Body() {
 	// TODO Auto-generated destructor stub
 }
