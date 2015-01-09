@@ -26,7 +26,14 @@ render()
 {
 	glUseProgram();
 	glBindVertexArray();
-	glEnableVertexAttribArray();
+	
+	for (int i = 0; i < attribs.length; i++) {
+		glEnableVertexAttribArray(i);
+	}
+	
+	shader.bindViewMatrix();
+	shader.bindModelMatrix(getWorldTransform());
+	
 	glDrawArrays();
 }
 
