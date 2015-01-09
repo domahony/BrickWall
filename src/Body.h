@@ -23,12 +23,16 @@ public:
 	void getWorldTransform(btTransform& trans) const {
 		fallMotionState->getWorldTransform(trans);
 	}
-
+	
+	void render();
+	
 private:
     btCollisionShape* box;
     btScalar mass;
     btDefaultMotionState* fallMotionState;
     btRigidBody* fallRigidBody;
+    glUint shader;
+    glUint vao;
 };
 
 } /* namespace app */
