@@ -11,6 +11,8 @@
 #include <memory>
 #include "EventLoop.h"
 #include "World.h"
+#include "Body.h"
+#include "Ground.h"
 #include "FrameRate.h"
 
 using std::function;
@@ -25,6 +27,10 @@ main(int argc, char **argv)
 
 	app::World w;
 	app::FrameRate fr;
+	app::Body b;
+	app::Ground g;
+	w.addRigidBody(b.getRigidBody());
+	w.addRigidBody(g.getRigidBody());
 
 	auto worldFn = [&w]() {
 			w.stepSimulation();
@@ -37,7 +43,7 @@ main(int argc, char **argv)
 	app::EventLoop el(60);
 
 	el.addFn(worldFn);
-	el.addFn(frameFn);
+	//el.addFn(frameFn);
 	el.addFn(swapbuffer);
 	el.run();
 }

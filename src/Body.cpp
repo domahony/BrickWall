@@ -11,19 +11,19 @@ namespace app {
 
 Body::Body() :
     box(new btBoxShape(btVector3(1,1,1))),
-    mass(1)
+    mass(1),
+	transform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)))
 {
     btVector3 fallInertia(0, 0, 0);
     box->calculateLocalInertia(mass, fallInertia);
-    fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-
-    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, box, fallInertia);
+    btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, this, box, fallInertia);
     fallRigidBody = new btRigidBody(fallRigidBodyCI);
 }
 
 void Body::
 render()
 {
+	/*
 	glUseProgram();
 	glBindVertexArray();
 	
@@ -35,6 +35,7 @@ render()
 	shader.bindModelMatrix(getWorldTransform());
 	
 	glDrawArrays();
+	*/
 }
 
 Body::~Body() {

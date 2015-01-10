@@ -9,10 +9,11 @@
 #define BODY_H_
 
 #include <btBulletDynamicsCommon.h>
+#include <iostream>
 
 namespace app {
 
-class Body {
+class Body : public btMotionState {
 public:
 	Body();
 	virtual ~Body();
@@ -21,18 +22,25 @@ public:
 	}
 
 	void getWorldTransform(btTransform& trans) const {
-		fallMotionState->getWorldTransform(trans);
+		trans = transform;
 	}
 	
+	void setWorldTransform(const btTransform& trans) {
+		transform = trans;
+		std::cout << transform.getOrigin().getX() << ", " << transform.getOrigin().getY() << std::endl;
+	}
+
 	void render();
 	
 private:
     btCollisionShape* box;
     btScalar mass;
-    btDefaultMotionState* fallMotionState;
+    btTransform transform;
     btRigidBody* fallRigidBody;
+    /*
     glUint shader;
     glUint vao;
+    */
 };
 
 } /* namespace app */
