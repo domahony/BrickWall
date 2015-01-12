@@ -10,6 +10,7 @@
 
 #include <glm/glm.hpp>
 #include "GroundGL.h"
+#include "Body.h"
 
 namespace app {
 namespace gl {
@@ -20,6 +21,7 @@ public:
 	virtual ~Renderer();
 
 	void render(GroundGL&);
+	void render(Body*);
 
 private:
 	glm::mat4 view;

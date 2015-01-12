@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "GroundGL.h"
+#include "GroundShader.h"
 
 namespace app {
 namespace gl {
@@ -33,6 +34,9 @@ GroundGL::GroundGL() : model_to_world(1.) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+
+    app::gl::GroundShader gshader;
+    shader = gshader.getShader();
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");

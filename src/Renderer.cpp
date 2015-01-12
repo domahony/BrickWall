@@ -14,10 +14,10 @@ namespace gl {
 
 Renderer::Renderer() :
 		view(glm::lookAt(
-				glm::vec3(2.5f, 2.5f, 2.0f),
+				glm::vec3(0.0f, -5.0f, 2.f),
 				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(0.0f, 0.0f, 1.0f))),
-		proj(glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 10.0f))
+				glm::vec3(0.0f, 1.0f, 0.0f))),
+		proj(glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 100.0f))
 {
 
 }
@@ -26,6 +26,12 @@ void Renderer::
 render(GroundGL& ground)
 {
 	ground.render(view, proj);
+}
+
+void Renderer::
+render(Body* body)
+{
+	body->render(view, proj);
 }
 
 Renderer::~Renderer() {

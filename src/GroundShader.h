@@ -18,6 +18,10 @@ public:
 	GroundShader();
 	virtual ~GroundShader();
 
+	GLuint getShader() const {
+		return shader;
+	}
+
 private:
 	GLuint shader;
 };

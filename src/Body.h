@@ -8,6 +8,11 @@
 #ifndef BODY_H_
 #define BODY_H_
 
+#define GL_GLEXT_PROTOTYPES 1
+#define GL3_PROTOTYPES 1
+#include <GL/gl.h>
+#include <glm/glm.hpp>
+
 #include <btBulletDynamicsCommon.h>
 #include <iostream>
 
@@ -30,17 +35,15 @@ public:
 		std::cout << transform.getOrigin().getX() << ", " << transform.getOrigin().getY() << std::endl;
 	}
 
-	void render();
-	
+	void render(glm::mat4& view, glm::mat4& proj);
+
 private:
     btCollisionShape* box;
     btScalar mass;
     btTransform transform;
     btRigidBody* fallRigidBody;
-    /*
-    glUint shader;
-    glUint vao;
-    */
+    GLuint shader;
+    GLuint vao;
 };
 
 } /* namespace app */
