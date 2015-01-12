@@ -42,14 +42,23 @@ void Renderer::
 render(const app::RenderBody& b)
 {
 
-	GLuint vao = b.getVAO();
 	GLuint shader = b.getShader();
 
-	std::vector<GLuint> idx = b.getVertexAttribIdx();
-
 	glUseProgram(shader);
+
+	GLuint uniModel = b.getShaderUniform("model");
+    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(b.getMode()));
+
+	GLuint uniView = b.getShaderUniform("view");
+    glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera.getView()));
+
+	GLuint unitProj = b.getShaderUniform("proj");
+    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(viewPort.getProj()));
+
+	GLuint vao = b.getVAO();
 	glBindVertexArray(vao);
 
+	std::vector<GLuint> idx = b.getVertexAttribIdx();
 	for (auto i: idx.begin()) {
 		glEnableVertexAttribArray(i);
 	}
