@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 #include "GroundGL.h"
 #include "Body.h"
+#include "RenderBody.h"
 
 namespace app {
 namespace gl {
@@ -22,6 +23,7 @@ public:
 
 	void render(GroundGL&);
 	void render(Body*);
+	void render(const app::RenderBody&);
 
 private:
 	glm::mat4 view;

@@ -5,9 +5,13 @@
  *      Author: domahony
  */
 
+#define GL_GLEXT_PROTOTYPES 1
+#define GL3_PROTOTYPES 1
+#include <GL/gl.h>
 #include "Renderer.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <vector>
 
 namespace app {
 namespace gl {
@@ -32,6 +36,33 @@ void Renderer::
 render(Body* body)
 {
 	body->render(view, proj);
+}
+
+void Renderer::
+render(const app::RenderBody& b)
+{
+
+	GLuint vao = b.getVAO();
+	GLuint shader = b.getShader();
+
+	std::vector<GLuint> idx = b.getVertexAttribIdx();
+
+	glUseProgram(shader);
+	glBindVertexArray(vao);
+
+	for (auto i: idx.begin()) {
+		glEnableVertexAttribArray(i);
+	}
+
+	GLenum mode = b.getMode();
+	GLint first = b.getFirstIdx();
+	GLsizei count = b.getCount();
+
+	glDrawArrays(mode, first, count);
+
+	glUseProgram(0);
+	glBindVertexArray(0);
+
 }
 
 Renderer::~Renderer() {
