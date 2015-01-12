@@ -9,7 +9,7 @@
 #include "GroundShader.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#
+
 namespace app {
 
 static GLuint initShader();
