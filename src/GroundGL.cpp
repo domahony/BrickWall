@@ -10,27 +10,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "GroundGL.h"
+#include "GroundShader.h"
 
 namespace app {
 namespace gl {
-
-// Shader sources
-static const GLchar* vertexSource =
-    "#version 150 core\n"
-    "in vec3 position;"
-    "uniform mat4 model;"
-    "uniform mat4 view;"
-    "uniform mat4 proj;"
-    "void main() {"
-    "   gl_Position = proj * view * model * vec4(position, 1.0);"
-    "}";
-
-static const GLchar* fragmentSource =
-    "#version 150 core\n"
-    "out vec4 outColor;"
-    "void main() {"
-    "   outColor = vec4(1.0,1.0,1.0,1.0);"
-    "}";
 
 
 GroundGL::GroundGL() : model_to_world(1.) {
@@ -51,21 +34,9 @@ GroundGL::GroundGL() : model_to_world(1.) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // Create and compile the vertex shader
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, nullptr);
-    glCompileShader(vertexShader);
 
-    // Create and compile the fragment shader
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
-    glCompileShader(fragmentShader);
-
-    // Link the vertex and fragment shader into a shader program
-    shader = glCreateProgram();
-    glAttachShader(shader, vertexShader);
-    glAttachShader(shader, fragmentShader);
-    glLinkProgram(shader);
+    app::gl::GroundShader gshader;
+    shader = gshader.getShader();
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
