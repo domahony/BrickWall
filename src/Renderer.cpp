@@ -9,8 +9,10 @@
 #define GL3_PROTOTYPES 1
 #include <GL/gl.h>
 #include "Renderer.h"
+#include "Camera.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 
 namespace app {
@@ -59,7 +61,7 @@ render(const app::RenderBody& b)
 	glBindVertexArray(vao);
 
 	std::vector<GLuint> idx = b.getVertexAttribIdx();
-	for (auto i: idx.begin()) {
+	for (auto i: idx) {
 		glEnableVertexAttribArray(i);
 	}
 
