@@ -14,6 +14,9 @@
 #include "Body.h"
 #include "Ground.h"
 #include "FrameRate.h"
+#include "Renderer.h"
+#include "ViewPort.h"
+#include "Camera.h"
 
 using std::function;
 using std::unique_ptr;
@@ -29,6 +32,11 @@ main(int argc, char **argv)
 	app::FrameRate fr;
 	app::Body b;
 	app::Ground g;
+
+	app::ViewPort view_port;
+	app::Camera camera;
+	app::gl::Renderer renderer;
+
 	w.addRigidBody(b.getRigidBody());
 	w.addRigidBody(g.getRigidBody());
 
@@ -40,10 +48,15 @@ main(int argc, char **argv)
 		fr();
 	};
 
+	auto renderfn = [&view_port, &camera, &w, &renderer]() {
+		w.render(view_port, camera, renderer);
+	};
+
 	app::EventLoop el(60, &b);
 
 	el.addFn(worldFn);
 	//el.addFn(frameFn);
+	el.addFn(renderfn);
 	el.addFn(swapbuffer);
 	el.run();
 }

@@ -8,9 +8,7 @@
 #ifndef RENDERBODY_H_
 #define RENDERBODY_H_
 
-#define GL_GLEXT_PROTOTYPES 1
-#define GL3_PROTOTYPES 1
-#include <GL/gl.h>
+#include "types.h"
 #include <iostream>
 #include <bullet/LinearMath/btMotionState.h>
 #include <glm/glm.hpp>
@@ -71,7 +69,12 @@ public:
 			return vertex_attrib_idx;
 	}
 
+	glm::mat4 getModelMatrix() const {
+		return model_matrix;
+	}
+
 private:
+
 	std::map<std::string, GLuint> uniform;
 	std::vector<GLuint> vertex_attrib_idx;
 	btTransform transform;
@@ -80,6 +83,8 @@ private:
 	GLenum mode;
 	GLint first_idx;
 	GLsizei count;
+	glm::mat4 model_matrix;
+
 };
 
 } /* namespace app */

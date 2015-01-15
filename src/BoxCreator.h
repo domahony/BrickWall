@@ -11,14 +11,11 @@
 namespace app {
 namespace gl {
 
-#include "RenderBody.h"
-
 class BoxCreator {
 public:
 	BoxCreator();
 	virtual ~BoxCreator();
 
-	app::RenderBody createBox();
 };
 
 } /* namespace gl */

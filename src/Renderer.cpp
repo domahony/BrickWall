@@ -5,11 +5,10 @@
  *      Author: domahony
  */
 
-#define GL_GLEXT_PROTOTYPES 1
-#define GL3_PROTOTYPES 1
-#include <GL/gl.h>
+#include "types.h"
 #include "Renderer.h"
 #include "Camera.h"
+#include "ViewPort.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -23,7 +22,7 @@ Renderer::Renderer() :
 				glm::vec3(0.0f, -5.0f, 2.f),
 				glm::vec3(0.0f, 0.0f, 0.0f),
 				glm::vec3(0.0f, 1.0f, 0.0f))),
-		proj(glm::perspective(45.0f, 800.0f / 600.0f, 1.0f, 100.0f))
+		proj(glm::perspective(75.0f, 800.0f / 600.0f, 1.0f, 100.0f))
 {
 
 }
@@ -41,21 +40,20 @@ render(Body* body)
 }
 
 void Renderer::
-render(const app::RenderBody& b)
+render(const app::ViewPort& vp, const app::Camera& camera, const app::RenderBody& b) const
 {
-
 	GLuint shader = b.getShader();
 
 	glUseProgram(shader);
 
 	GLuint uniModel = b.getShaderUniform("model");
-    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(b.getMode()));
+    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(b.getModelMatrix()));
 
 	GLuint uniView = b.getShaderUniform("view");
-    glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera.getView()));
+    glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera.getMatrix()));
 
 	GLuint unitProj = b.getShaderUniform("proj");
-    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(viewPort.getProj()));
+    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(vp.getProjMatrix()));
 
 	GLuint vao = b.getVAO();
 	glBindVertexArray(vao);

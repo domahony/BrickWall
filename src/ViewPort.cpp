@@ -1,23 +1,21 @@
 /*
- * BoxCreator.cpp
+ * ViewPort.cpp
  *
- *  Created on: Jan 12, 2015
+ *  Created on: Jan 14, 2015
  *      Author: domahony
  */
 
-#include "BoxCreator.h"
+#include "ViewPort.h"
 
 namespace app {
-namespace gl {
 
-BoxCreator::BoxCreator() {
+ViewPort::ViewPort() {
 	// TODO Auto-generated constructor stub
 
 }
 
-BoxCreator::~BoxCreator() {
+ViewPort::~ViewPort() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace gl */
 } /* namespace app */

@@ -12,6 +12,8 @@
 #include "GroundGL.h"
 #include "Body.h"
 #include "RenderBody.h"
+#include "Camera.h"
+#include "ViewPort.h"
 
 namespace app {
 namespace gl {
@@ -23,7 +25,7 @@ public:
 
 	void render(GroundGL&);
 	void render(Body*);
-	void render(const app::RenderBody&);
+	void render(const app::ViewPort&, const app::Camera&, const app::RenderBody&) const;
 
 private:
 	glm::mat4 view;

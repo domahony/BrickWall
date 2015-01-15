@@ -7,7 +7,12 @@
 
 #ifndef WORLD_H_
 #define WORLD_H_
+
 #include <btBulletDynamicsCommon.h>
+#include "Renderer.h"
+#include "ViewPort.h"
+#include "Camera.h"
+
 namespace app {
 
 class World {
@@ -22,6 +27,12 @@ public:
 	void stepSimulation() {
         dynamicsWorld->stepSimulation(1/60.f, 10);
 	}
+
+	void x(const app::gl::Renderer& x) const {
+
+	}
+
+	void render(const app::ViewPort& vp, const app::Camera camera, const app::gl::Renderer&) const;
 
 private:
     btBroadphaseInterface* broadphase;
