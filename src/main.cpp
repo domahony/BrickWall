@@ -17,6 +17,7 @@
 #include "Renderer.h"
 #include "ViewPort.h"
 #include "Camera.h"
+#include "BodyFactory.h"
 
 using std::function;
 using std::unique_ptr;
@@ -30,31 +31,30 @@ main(int argc, char **argv)
 
 	app::World w;
 	app::FrameRate fr;
-	app::Body b;
+	//app::Body b;
 	app::Ground g;
 
 	app::ViewPort view_port;
 	app::Camera camera;
 	app::gl::Renderer renderer;
 
-	w.addRigidBody(b.getRigidBody());
-	w.addRigidBody(g.getRigidBody());
+	btRigidBody* b2 = app::tmp::BodyFactory::createBody();
 
-	auto worldFn = [&w]() {
-			w.stepSimulation();
-	};
+	w.addRigidBody(b2);
+	//w.addRigidBody(b.getRigidBody());
+	w.addRigidBody(g.getRigidBody());
 
 	auto frameFn = [&fr]() {
 		fr();
 	};
 
 	auto renderfn = [&view_port, &camera, &w, &renderer]() {
+		w.stepSimulation();
 		w.render(view_port, camera, renderer);
 	};
 
-	app::EventLoop el(60, &b);
+	app::EventLoop el(60);
 
-	el.addFn(worldFn);
 	//el.addFn(frameFn);
 	el.addFn(renderfn);
 	el.addFn(swapbuffer);

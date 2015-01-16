@@ -10,13 +10,12 @@
 
 #include <functional>
 #include <vector>
-#include "Body.h"
 
 namespace app {
 
 class EventLoop {
 public:
-	EventLoop(float rate, app::Body* body);
+	EventLoop(float rate);
 	virtual ~EventLoop();
 
 	void run();
@@ -27,7 +26,6 @@ public:
 private:
 	float fps;
 	std::vector<std::function<void ()>> fn;
-	app::Body* body;
 };
 
 } /* namespace app */

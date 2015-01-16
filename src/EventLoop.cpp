@@ -13,7 +13,7 @@
 
 namespace app {
 
-EventLoop::EventLoop(float fps, app::Body* b) : fps(fps), body(b) {
+EventLoop::EventLoop(float fps) : fps(fps) {
 
 }
 
@@ -52,8 +52,6 @@ run()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         r.render(g);
-        r.render(body);
-
 
         for (auto f: fn) {
         	f();
