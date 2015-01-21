@@ -12,6 +12,7 @@
 #include <iostream>
 #include <bullet/LinearMath/btMotionState.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <map>
 #include <string>
 #include <vector>
@@ -29,7 +30,7 @@ public:
 
 	void setWorldTransform(const btTransform& trans) {
 		transform = trans;
-		std::cout << transform.getOrigin().getX() << ", " << transform.getOrigin().getY() << std::endl;
+		std::cout << "Yeah! " << transform.getOrigin().getX() << ", " << transform.getOrigin().getY() << std::endl;
 	}
 
 	GLuint getShader() const {
@@ -70,7 +71,10 @@ public:
 	}
 
 	glm::mat4 getModelMatrix() const {
-		return model_matrix;
+		glm::mat4 ret;
+		transform.getOpenGLMatrix(glm::value_ptr(ret));
+
+		return ret;
 	}
 
 private:
@@ -83,7 +87,6 @@ private:
 	GLenum mode;
 	GLint first_idx;
 	GLsizei count;
-	glm::mat4 model_matrix;
 
 };
 
