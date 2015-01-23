@@ -21,7 +21,7 @@ namespace app {
 
 class RenderBody: public btMotionState {
 public:
-	RenderBody();
+	RenderBody(const btTransform& trans);
 	virtual ~RenderBody();
 
 	void getWorldTransform(btTransform& trans) const {
@@ -79,9 +79,9 @@ public:
 
 private:
 
+	btTransform transform;
 	std::map<std::string, GLuint> uniform;
 	std::vector<GLuint> vertex_attrib_idx;
-	btTransform transform;
 	GLuint shader;
 	GLuint vao;
 	GLenum mode;

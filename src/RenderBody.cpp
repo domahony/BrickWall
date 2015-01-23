@@ -13,7 +13,9 @@ namespace app {
 static GLuint initVAO(GLuint shader, std::vector<GLuint>& v);
 static GLuint initShader();
 
-RenderBody::RenderBody(): shader(initShader()), vao(initVAO(shader, vertex_attrib_idx)), mode(GL_TRIANGLES), first_idx(0), count(36) {
+RenderBody::RenderBody(const btTransform& trans): transform(trans), shader(initShader()), vao(initVAO(shader, vertex_attrib_idx)), mode(GL_TRIANGLES), first_idx(0), count(36) {
+
+	mode = GL_POINTS;
 
 }
 
