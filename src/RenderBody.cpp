@@ -10,12 +10,10 @@
 
 namespace app {
 
-static GLuint initVAO(GLuint shader, std::vector<GLuint>& v);
+static GLuint initVAO(GLuint shader, std::vector<GLuint>& v, std::map<std::string, GLuint>& uniform);
 static GLuint initShader();
 
-RenderBody::RenderBody(const btTransform& trans): transform(trans), shader(initShader()), vao(initVAO(shader, vertex_attrib_idx)), mode(GL_TRIANGLES), first_idx(0), count(36) {
-
-	mode = GL_POINTS;
+RenderBody::RenderBody(const btTransform& trans): transform(trans), shader(initShader()), vao(initVAO(shader, vertex_attrib_idx, uniform)), mode(GL_TRIANGLES), first_idx(0), count(36) {
 
 }
 
@@ -31,7 +29,7 @@ initShader()
 }
 
 static GLuint
-initVAO(GLuint shader, std::vector<GLuint>& v)
+initVAO(GLuint shader, std::vector<GLuint>& v, std::map<std::string, GLuint>& uniform)
 {
 	GLfloat vertices[] = {
 	    -0.5f, -0.5f, -0.5f,
@@ -89,6 +87,13 @@ initVAO(GLuint shader, std::vector<GLuint>& v)
 
     app::gl::GroundShader gshader;
     shader = gshader.getShader();
+
+    GLint uniModel = glGetUniformLocation(shader, "model");
+    uniform["model"] = uniModel;
+    GLint uniView = glGetUniformLocation(shader, "view");
+    uniform["view"] = uniView;
+    GLint uniProj = glGetUniformLocation(shader, "proj");
+    uniform["proj"] = uniProj;
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
