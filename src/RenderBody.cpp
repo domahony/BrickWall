@@ -13,7 +13,7 @@ namespace app {
 static GLuint initVAO(GLuint shader);
 static GLuint initShader();
 
-RenderBody::RenderBody(): shader(initShader()), vao(initVAO(shader)) {
+RenderBody::RenderBody(): shader(initShader()), vao(initVAO(shader)), mode(GL_TRIANGLES), first_idx(0), count(36) {
 	// TODO Auto-generated constructor stub
 
 }
