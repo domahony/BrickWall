@@ -46,17 +46,17 @@ render(const app::ViewPort& vp, const app::Camera& camera, const app::RenderBody
 
 	glUseProgram(shader);
 
+	GLuint vao = b.getVAO();
+	glBindVertexArray(vao);
+
 	GLuint uniModel = b.getShaderUniform("model");
     glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(b.getModelMatrix()));
 
 	GLuint uniView = b.getShaderUniform("view");
     glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(camera.getMatrix()));
 
-	GLuint unitProj = b.getShaderUniform("proj");
-    glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(vp.getProjMatrix()));
-
-	GLuint vao = b.getVAO();
-	glBindVertexArray(vao);
+	GLuint uniProj = b.getShaderUniform("proj");
+    glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(vp.getProjMatrix()));
 
 	std::vector<GLuint> idx = b.getVertexAttribIdx();
 	for (auto i: idx) {

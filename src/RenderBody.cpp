@@ -10,11 +10,10 @@
 
 namespace app {
 
-static GLuint initVAO(GLuint shader);
+static GLuint initVAO(GLuint shader, std::vector<GLuint>& v);
 static GLuint initShader();
 
-RenderBody::RenderBody(): shader(initShader()), vao(initVAO(shader)), mode(GL_TRIANGLES), first_idx(0), count(36) {
-	// TODO Auto-generated constructor stub
+RenderBody::RenderBody(): shader(initShader()), vao(initVAO(shader, vertex_attrib_idx)), mode(GL_TRIANGLES), first_idx(0), count(36) {
 
 }
 
@@ -30,7 +29,7 @@ initShader()
 }
 
 static GLuint
-initVAO(GLuint shader)
+initVAO(GLuint shader, std::vector<GLuint>& v)
 {
 	GLfloat vertices[] = {
 	    -0.5f, -0.5f, -0.5f,
@@ -100,6 +99,7 @@ initVAO(GLuint shader)
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+    v.push_back(posAttrib);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
