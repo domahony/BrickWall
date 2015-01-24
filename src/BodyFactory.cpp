@@ -5,22 +5,23 @@
  *      Author: domahony
  */
 
+#include <memory>
 #include "BodyFactory.h"
-#include "RenderBody.h"
 #include <btBulletDynamicsCommon.h>
+#include "BoxMesh.h"
+#include "RenderBody.h"
 
 namespace app {
 namespace tmp {
 
 
 btRigidBody* BodyFactory::
-createBody()
+createBody(const btTransform& location, std::shared_ptr<app::BoxMesh> mesh)
 {
 	btCollisionShape* box = new btBoxShape(btVector3(1,1,1));
     btScalar mass(1);
-    btTransform transform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0));
 
-    app::RenderBody *rb = new RenderBody(transform);
+    app::RenderBody *rb = new RenderBody(mesh, location);
 
     btVector3 fallInertia(0, 0, 0);
     box->calculateLocalInertia(mass, fallInertia);

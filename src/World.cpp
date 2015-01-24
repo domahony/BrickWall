@@ -7,7 +7,8 @@
 
 #include "Renderer.h"
 #include "World.h"
-#include "RenderBody.h"
+
+#include "BoxMesh.h"
 #include "ViewPort.h"
 #include "Camera.h"
 

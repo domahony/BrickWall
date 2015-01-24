@@ -8,15 +8,21 @@
 #ifndef BODYFACTORY_H_
 #define BODYFACTORY_H_
 
+#include <memory>
+#include <btBulletDynamicsCommon.h>
+
 class btRigidBody;
 
 namespace app {
+
+class BoxMesh;
+
 namespace tmp {
 
 class BodyFactory {
 
 public:
-	static btRigidBody* createBody();
+	static btRigidBody* createBody(const btTransform&, std::shared_ptr<app::BoxMesh>);
 
 private:
 	BodyFactory() {

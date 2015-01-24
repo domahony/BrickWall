@@ -9,10 +9,12 @@
 #define RENDERBODY_H_
 
 #include "types.h"
+#include <memory>
 #include <iostream>
 #include <bullet/LinearMath/btMotionState.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "BoxMesh.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -21,8 +23,13 @@ namespace app {
 
 class RenderBody: public btMotionState {
 public:
-	RenderBody(const btTransform& trans);
-	virtual ~RenderBody();
+	RenderBody(const std::shared_ptr<app::BoxMesh> mesh, const btTransform& trans) : mesh(mesh), transform(trans) {
+
+	}
+
+	virtual ~RenderBody() {
+
+	}
 
 	void getWorldTransform(btTransform& trans) const {
 		trans = transform;
@@ -34,40 +41,31 @@ public:
 	}
 
 	GLuint getShader() const {
-		return shader;
+		return mesh->getShader();
 	}
 
 	GLuint getVAO() const {
-		return vao;
+		return mesh->getVAO();
 	}
 
 	GLuint getShaderUniform(const std::string& str) const {
-
-		auto iter = uniform.find(str);
-
-		if (iter == uniform.cend()) {
-			return -1;
-		} else {
-			return iter->second;
-		}
+		return mesh->getShaderUniform(str);
 	}
 
-	void render(glm::mat4& view, glm::mat4& proj);
-
 	GLenum getMode() const {
-		return mode;
+		return mesh->getMode();
 	}
 
 	GLint getFirstIdx() const {
-		return first_idx;
+		return mesh->getFirstIdx();
 	}
 
 	GLsizei getCount() const {
-		return count;
+		return mesh->getCount();
 	}
 
 	const std::vector<GLuint> getVertexAttribIdx() const {
-			return vertex_attrib_idx;
+		return mesh->getVertexAttribIdx();
 	}
 
 	glm::mat4 getModelMatrix() const {
@@ -80,13 +78,7 @@ public:
 private:
 
 	btTransform transform;
-	std::map<std::string, GLuint> uniform;
-	std::vector<GLuint> vertex_attrib_idx;
-	GLuint shader;
-	GLuint vao;
-	GLenum mode;
-	GLint first_idx;
-	GLsizei count;
+	std::shared_ptr<app::BoxMesh> mesh;
 
 };
 
