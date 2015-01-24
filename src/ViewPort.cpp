@@ -6,11 +6,13 @@
  */
 
 #include "ViewPort.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace app {
 
-ViewPort::ViewPort() {
-	// TODO Auto-generated constructor stub
+ViewPort::ViewPort() : proj(glm::perspective(75.0f, 800.0f / 600.0f, 1.0f, 100.0f))
+{
 
 }
 

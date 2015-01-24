@@ -20,7 +20,7 @@ createBody()
     btScalar mass(1);
     btTransform transform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0));
 
-    app::RenderBody *rb = new RenderBody();
+    app::RenderBody *rb = new RenderBody(transform);
 
     btVector3 fallInertia(0, 0, 0);
     box->calculateLocalInertia(mass, fallInertia);

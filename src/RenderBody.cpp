@@ -10,11 +10,10 @@
 
 namespace app {
 
-static GLuint initVAO(GLuint shader);
+static GLuint initVAO(GLuint shader, std::vector<GLuint>& v, std::map<std::string, GLuint>& uniform);
 static GLuint initShader();
 
-RenderBody::RenderBody(): shader(initShader()), vao(initVAO(shader)) {
-	// TODO Auto-generated constructor stub
+RenderBody::RenderBody(const btTransform& trans): transform(trans), shader(initShader()), vao(initVAO(shader, vertex_attrib_idx, uniform)), mode(GL_TRIANGLES), first_idx(0), count(36) {
 
 }
 
@@ -30,7 +29,7 @@ initShader()
 }
 
 static GLuint
-initVAO(GLuint shader)
+initVAO(GLuint shader, std::vector<GLuint>& v, std::map<std::string, GLuint>& uniform)
 {
 	GLfloat vertices[] = {
 	    -0.5f, -0.5f, -0.5f,
@@ -89,6 +88,13 @@ initVAO(GLuint shader)
     app::gl::GroundShader gshader;
     shader = gshader.getShader();
 
+    GLint uniModel = glGetUniformLocation(shader, "model");
+    uniform["model"] = uniModel;
+    GLint uniView = glGetUniformLocation(shader, "view");
+    uniform["view"] = uniView;
+    GLint uniProj = glGetUniformLocation(shader, "proj");
+    uniform["proj"] = uniProj;
+
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
 
@@ -100,6 +106,7 @@ initVAO(GLuint shader)
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+    v.push_back(posAttrib);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
