@@ -42,7 +42,6 @@
 							<tool id="org.eclipse.linuxtools.cdt.autotools.core.toolchain.tool.gpp.961697802" name="GCC C++ Compiler" superClass="org.eclipse.linuxtools.cdt.autotools.core.toolchain.tool.gpp">
 								<option id="gnu.cpp.compiler.option.include.paths.229571934" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/SDL2"/>
-									<listOptionValue builtIn="false" value="/usr/local/include/SDL2"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1041767562" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="&quot;GL_GLEXT_PROTOTYPES =1&quot;"/>
