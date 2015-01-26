@@ -20,7 +20,7 @@ namespace gl {
 
 class Renderer {
 public:
-	Renderer();
+	Renderer(const app::ViewPort&, const app::Camera&);
 	virtual ~Renderer();
 
 	void render(GroundGL&);
@@ -28,8 +28,8 @@ public:
 	void render(const app::ViewPort&, const app::Camera&, const app::RenderBody&) const;
 
 private:
-	glm::mat4 view;
-	glm::mat4 proj;
+	app::ViewPort vp;
+	app::Camera camera;
 };
 
 } /* namespace gl */

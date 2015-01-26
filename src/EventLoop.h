@@ -10,12 +10,13 @@
 
 #include <functional>
 #include <vector>
+#include "Renderer.h"
 
 namespace app {
 
 class EventLoop {
 public:
-	EventLoop(float rate);
+	EventLoop(const app::gl::Renderer& r, float rate);
 	virtual ~EventLoop();
 
 	void run();
@@ -24,6 +25,7 @@ public:
 	}
 
 private:
+	app::gl::Renderer r;
 	float fps;
 	std::vector<std::function<void ()>> fn;
 };
