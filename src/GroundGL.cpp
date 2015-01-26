@@ -18,6 +18,7 @@ namespace gl {
 
 GroundGL::GroundGL() : model_to_world(1.) {
 
+	/*
     GLfloat vertices[] = {
         -1.0f, -1.0f, -0.5f,
          1.0f, -1.0f, -0.5f,
@@ -25,6 +26,22 @@ GroundGL::GroundGL() : model_to_world(1.) {
          1.0f,  1.0f, -0.5f,
         -1.0f,  1.0f, -0.5f,
         -1.0f, -1.0f, -0.5f,
+    };
+    */
+
+    GLfloat vertices[] = {
+    	-10.0f, 10.0f, 0.0f,
+    	-10.0f, -10.0f, 0.0f,
+    	10.0f, -10.0f, 0.0f,
+
+    	/*
+        -1.0f, -0.0f, -1.0f,
+         1.0f, -0.0f, -1.0f,
+         1.0f, -0.0f,  1.0f,
+         1.0f, -0.0f,  1.0f,
+        -1.0f, -0.0f,  1.0f,
+        -1.0f, -0.0f, -1.0f,
+        */
     };
 
     // Create a Vertex Buffer Object and copy the vertex data to it
@@ -74,7 +91,7 @@ void GroundGL::render(glm::mat4& view, glm::mat4& proj) {
     glBindVertexArray(vao);
     glEnableVertexAttribArray(posAttrib);
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glDisableVertexAttribArray(posAttrib);
     glBindVertexArray(0);

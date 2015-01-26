@@ -11,7 +11,7 @@
 namespace app {
 
 Camera::Camera():matrix(glm::lookAt(
-		glm::vec3(0.0f, -5.0f, 2.f),
+		glm::vec3(-1.0f, 0.5f, 10.f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f)))
 {
