@@ -38,7 +38,7 @@ main(int argc, char **argv)
 
 	app::ViewPort view_port;
 	app::Camera camera;
-	app::gl::Renderer renderer;
+	app::gl::Renderer renderer(view_port, camera);
 
 	std::shared_ptr<app::BoxMesh> mesh(new app::BoxMesh());
 
@@ -68,7 +68,7 @@ main(int argc, char **argv)
 		w.render(view_port, camera, renderer);
 	};
 
-	app::EventLoop el(60);
+	app::EventLoop el(renderer, 60);
 
 	//el.addFn(frameFn);
 	el.addFn(renderfn);

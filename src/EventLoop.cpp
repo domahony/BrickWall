@@ -13,7 +13,7 @@
 
 namespace app {
 
-EventLoop::EventLoop(float fps) : fps(fps) {
+EventLoop::EventLoop(const app::gl::Renderer& r , float fps) : r(r), fps(fps) {
 
 }
 
@@ -29,7 +29,6 @@ run()
 
     app::FrameRateController frc(fps);
 
-    app::gl::Renderer r;
     app::gl::GroundGL g;
 
     while (!done)

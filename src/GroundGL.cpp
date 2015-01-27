@@ -30,9 +30,9 @@ GroundGL::GroundGL() : model_to_world(1.) {
     */
 
     GLfloat vertices[] = {
-    	-10.0f, 10.0f, 0.0f,
-    	-10.0f, -10.0f, 0.0f,
-    	10.0f, -10.0f, 0.0f,
+    	-10.0f, 0.0f, 10.0f,
+    	-10.0f, 0.0f, -10.0f,
+    	10.0f, 0.0f, -10.0f,
 
     	/*
         -1.0f, -0.0f, -1.0f,
