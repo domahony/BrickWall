@@ -33,7 +33,6 @@ main(int argc, char **argv)
 
 	app::World w;
 	app::FrameRate fr;
-	//app::Body b;
 	app::Ground g;
 
 	app::ViewPort view_port;
@@ -56,7 +55,6 @@ main(int argc, char **argv)
 	w.addRigidBody(b2);
 	w.addRigidBody(b3);
 	w.addRigidBody(b4);
-	//w.addRigidBody(b.getRigidBody());
 	w.addRigidBody(g.getRigidBody());
 
 	auto frameFn = [&fr]() {
