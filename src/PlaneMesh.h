@@ -1,53 +1,31 @@
 /*
- * Mesh.h
+ * RenderBody.h
  *
- *  Created on: Jan 26, 2015
+ *  Created on: Jan 12, 2015
  *      Author: domahony
  */
 
-#ifndef MESH_H_
-#define MESH_H_
+#ifndef PLANEMESH_H_
+#define PLANEMESH_H_
 
-/*
+#include "types.h"
+#include <iostream>
 #include <bullet/LinearMath/btMotionState.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <string>
-*/
-#include "types.h"
 #include <map>
+#include <string>
 #include <vector>
-#include <memory>
-#include "Shader.h"
 
 namespace app {
-namespace gl {
 
-class Mesh {
+class PlaneMesh {
 public:
-	Mesh(
-			std::shared_ptr<Shader> shader,
-			const GLuint& vao,
-			const GLenum& mode,
-			const GLint& first_idx,
-			const GLsizei& count):
-		shader(shader),
-		vertex_attrib_idx(vertex_attrib_idx),
-		shader(shader),
-		vao(vao),
-		mode(mode),
-		first_idx(first_idx),
-		count(count)
-	{
-
-	}
-
-	~Mesh() {
-		// TODO Auto-generated destructor stub
-	}
+	PlaneMesh();
+	virtual ~PlaneMesh();
 
 	GLuint getShader() const {
-		return shader->getShader();
+		return shader;
 	}
 
 	GLuint getVAO() const {
@@ -55,7 +33,14 @@ public:
 	}
 
 	GLuint getShaderUniform(const std::string& str) const {
-		return shader->getUniform(str);
+
+		auto iter = uniform.find(str);
+
+		if (iter == uniform.cend()) {
+			return -1;
+		} else {
+			return iter->second;
+		}
 	}
 
 	GLenum getMode() const {
@@ -75,10 +60,10 @@ public:
 	}
 
 private:
-	std::shared_ptr<app::gl::Shader> shader;
+
 	std::map<std::string, GLuint> uniform;
 	std::vector<GLuint> vertex_attrib_idx;
-
+	GLuint shader;
 	GLuint vao;
 	GLenum mode;
 	GLint first_idx;
@@ -86,7 +71,6 @@ private:
 
 };
 
-} /* namespace gl */
 } /* namespace app */
 
-#endif /* MESH_H_ */
+#endif /* PLANEMESH_H_ */

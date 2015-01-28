@@ -5,21 +5,23 @@
  *      Author: domahony
  */
 
-#include "BoxMesh.h"
+#include "PlaneMesh.h"
 #include "GroundShader.h"
 
 namespace app {
 
-static GLuint initVAO();
+static GLuint initVAO(GLuint shader, std::vector<GLuint>& v, std::map<std::string, GLuint>& uniform);
 static GLuint initShader();
 
-BoxMesh::BoxMesh():
-		Mesh(initShader(), initVAO(), GL_TRIANGLES, 0, 36)
-{
+PlaneMesh::PlaneMesh():
+		shader(initShader()),
+		vao(initVAO(shader, vertex_attrib_idx, uniform)),
+		mode(GL_TRIANGLES),
+		first_idx(0), count(6) {
 
 }
 
-BoxMesh::~BoxMesh() {
+PlaneMesh::~PlaneMesh() {
 	// TODO Auto-generated destructor stub
 }
 
@@ -31,50 +33,15 @@ initShader()
 }
 
 static GLuint
-initVAO()
+initVAO(GLuint shader, std::vector<GLuint>& v, std::map<std::string, GLuint>& uniform)
 {
 	GLfloat vertices[] = {
-	    -0.5f, -0.5f, -0.5f,
-	     0.5f, -0.5f, -0.5f,
-	     0.5f,  0.5f, -0.5f,
-	     0.5f,  0.5f, -0.5f,
-	    -0.5f,  0.5f, -0.5f,
-	    -0.5f, -0.5f, -0.5f,
-
-	    -0.5f, -0.5f,  0.5f,
-	     0.5f, -0.5f,  0.5f,
-	     0.5f,  0.5f,  0.5f,
-	     0.5f,  0.5f,  0.5f,
-	    -0.5f,  0.5f,  0.5f,
-	    -0.5f, -0.5f,  0.5f,
-
-	    -0.5f,  0.5f,  0.5f,
-	    -0.5f,  0.5f, -0.5f,
-	    -0.5f, -0.5f, -0.5f,
-	    -0.5f, -0.5f, -0.5f,
-	    -0.5f, -0.5f,  0.5f,
-	    -0.5f,  0.5f,  0.5f,
-
-	     0.5f,  0.5f,  0.5f,
-	     0.5f,  0.5f, -0.5f,
-	     0.5f, -0.5f, -0.5f,
-	     0.5f, -0.5f, -0.5f,
-	     0.5f, -0.5f,  0.5f,
-	     0.5f,  0.5f,  0.5f,
-
-	    -0.5f, -0.5f, -0.5f,
-	     0.5f, -0.5f, -0.5f,
-	     0.5f, -0.5f,  0.5f,
-	     0.5f, -0.5f,  0.5f,
-	    -0.5f, -0.5f,  0.5f,
-	    -0.5f, -0.5f, -0.5f,
-
-	    -0.5f,  0.5f, -0.5f,
-	     0.5f,  0.5f, -0.5f,
-	     0.5f,  0.5f,  0.5f,
-	     0.5f,  0.5f,  0.5f,
-	    -0.5f,  0.5f,  0.5f,
-	    -0.5f,  0.5f, -0.5f,
+	    -0.5f, -0.5f, 0.0f,
+	     0.5f, -0.5f, 0.0f,
+	     0.5f,  0.5f, 0.0f,
+	     0.5f,  0.5f, 0.0f,
+	    -0.5f,  0.5f, 0.0f,
+	    -0.5f, -0.5f, 0.0f,
 	};
 
 	GLuint vbo;
@@ -86,7 +53,7 @@ initVAO()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    /*
+
     app::gl::GroundShader gshader;
     shader = gshader.getShader();
 
@@ -99,7 +66,6 @@ initVAO()
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader, "position");
-    */
 
     GLuint vao;
 

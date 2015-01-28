@@ -16,58 +16,14 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "Mesh.h"
 
 namespace app {
 
-class BoxMesh {
+class BoxMesh : public app::gl::Mesh {
 public:
 	BoxMesh();
 	virtual ~BoxMesh();
-
-	GLuint getShader() const {
-		return shader;
-	}
-
-	GLuint getVAO() const {
-		return vao;
-	}
-
-	GLuint getShaderUniform(const std::string& str) const {
-
-		auto iter = uniform.find(str);
-
-		if (iter == uniform.cend()) {
-			return -1;
-		} else {
-			return iter->second;
-		}
-	}
-
-	GLenum getMode() const {
-		return mode;
-	}
-
-	GLint getFirstIdx() const {
-		return first_idx;
-	}
-
-	GLsizei getCount() const {
-		return count;
-	}
-
-	const std::vector<GLuint> getVertexAttribIdx() const {
-			return vertex_attrib_idx;
-	}
-
-private:
-
-	std::map<std::string, GLuint> uniform;
-	std::vector<GLuint> vertex_attrib_idx;
-	GLuint shader;
-	GLuint vao;
-	GLenum mode;
-	GLint first_idx;
-	GLsizei count;
 
 };
 
