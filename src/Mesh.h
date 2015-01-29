@@ -32,8 +32,6 @@ public:
 			const GLint& first_idx,
 			const GLsizei& count):
 		shader(shader),
-		vertex_attrib_idx(vertex_attrib_idx),
-		shader(shader),
 		vao(vao),
 		mode(mode),
 		first_idx(first_idx),
@@ -46,38 +44,31 @@ public:
 		// TODO Auto-generated destructor stub
 	}
 
-	GLuint getShader() const {
-		return shader->getShader();
-	}
 
-	GLuint getVAO() const {
-		return vao;
-	}
+	void render(const app::Camera& c, const app::ViewPort& vp, const btMotionState& state) const {
 
-	GLuint getShaderUniform(const std::string& str) const {
-		return shader->getUniform(str);
-	}
+		shader->enable();
+		glBindVertexArray(vao);
 
-	GLenum getMode() const {
-		return mode;
-	}
+		btTransform transform;
+		state.getWorldTransform(transform);
 
-	GLint getFirstIdx() const {
-		return first_idx;
-	}
+		btScalar scalar[16];
+		transform.getOpenGLMatrix(scalar);
 
-	GLsizei getCount() const {
-		return count;
-	}
+		shader->setCameraMatrix(glm::value_ptr(c.getMatrix()));
+		shader->setViewportMatrix(glm::value_ptr(vp.getProjMatrix()));
+		shader->setModelMatrix(scalar);
+		shader->enableVertexAttribs();
 
-	const std::vector<GLuint> getVertexAttribIdx() const {
-			return vertex_attrib_idx;
+		glDrawArrays(mode, first_idx, count);
+
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 
 private:
 	std::shared_ptr<app::gl::Shader> shader;
-	std::map<std::string, GLuint> uniform;
-	std::vector<GLuint> vertex_attrib_idx;
 
 	GLuint vao;
 	GLenum mode;

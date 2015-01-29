@@ -50,22 +50,41 @@ public:
     glAttachShader(shader, fragmentShader);
     glLinkProgram(shader);
 
-
 	}
 	~Shader() {
 		// TODO Auto-generated destructor stub
 	}
 
-	GLuint getUniform(const std::string& s) const {
-		return glGetUniformLocation(shader, s.c_str());
+	void enable() const {
+		glUseProgram(shader);
 	}
 
-	GLuint getVertexAttrib(const std::string& s) const {
-		return glGetAttribLocation(shader, s.c_str());
+	void setCameraMatrix(const btScalar* m) const {
+
+		GLint uniModel = glGetUniformLocation(shader, "view");
+		glUniformMatrix4fv(uniModel, 1, GL_FALSE, m);
+
 	}
 
-	GLuint getShader() const {
-		return shader;
+	void setViewportMatrix(const btScalar* m) const {
+
+		GLint uniModel = glGetUniformLocation(shader, "proj");
+		glUniformMatrix4fv(uniModel, 1, GL_FALSE, m);
+
+	}
+
+	void setModelMatrix(const btScalar* m) const {
+
+		GLint uniModel = glGetUniformLocation(shader, "model");
+		glUniformMatrix4fv(uniModel, 1, GL_FALSE, m);
+
+	}
+
+	void enableVertexAttribs() const {
+
+		GLint posAttrib = glGetAttribLocation(shader, "position");
+		glEnableVertexAttribArray(posAttrib);
+
 	}
 
 private:
