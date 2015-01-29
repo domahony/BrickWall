@@ -8,7 +8,7 @@
 #include "Renderer.h"
 #include "World.h"
 
-#include "BoxMesh.h"
+#include "Mesh.h"
 #include "ViewPort.h"
 #include "Camera.h"
 
@@ -32,11 +32,18 @@ render(const app::ViewPort& vp, const app::Camera camera, const app::gl::Rendere
 
 		auto shape = a[i]->getCollisionShape();
 
+		auto mesh = static_cast<app::gl::Mesh*>(shape->getUserPointer());
+		auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
+
+		mesh->render(camera, vp, *r);
+
+		/*
 		auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
 
 		if (r) {
 			renderer.render(vp, camera, *r);
 		}
+		*/
 
 	}
 }
