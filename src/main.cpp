@@ -13,8 +13,6 @@
 #include "BoxMesh.h"
 #include "EventLoop.h"
 #include "World.h"
-#include "Body.h"
-#include "Ground.h"
 #include "FrameRate.h"
 #include "ViewPort.h"
 #include "Camera.h"

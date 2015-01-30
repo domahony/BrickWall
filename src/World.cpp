@@ -30,11 +30,9 @@ render(const app::ViewPort& vp, const app::Camera camera) const {
 	for (int i = 0; i < a.size(); i++) {
 
 		auto shape = a[i]->getCollisionShape();
-
-		auto mesh = static_cast<app::gl::Mesh*>(shape->getUserPointer());
 		auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
 
-		mesh->render(camera, vp, *r);
+		r->render(camera, vp);
 
 	}
 }

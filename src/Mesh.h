@@ -48,13 +48,10 @@ public:
 	}
 
 
-	void render(const app::Camera& c, const app::ViewPort& vp, const btMotionState& state) const {
+	void render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transform) const {
 
 		shader->enable();
 		glBindVertexArray(vao);
-
-		btTransform transform;
-		state.getWorldTransform(transform);
 
 		btScalar scalar[16];
 		transform.getOpenGLMatrix(scalar);

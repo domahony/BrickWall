@@ -12,6 +12,8 @@
 #include <bullet/LinearMath/btMotionState.h>
 #include <vector>
 #include <memory>
+#include "Camera.h"
+#include "ViewPort.h"
 
 
 namespace app {
@@ -38,6 +40,8 @@ public:
 		transform = trans;
 		std::cout << "Yeah! " << transform.getOrigin().getX() << ", " << transform.getOrigin().getY() << std::endl;
 	}
+
+	void render(const app::Camera& c, const app::ViewPort& vp) const;
 
 private:
 	btTransform transform;
