@@ -15,14 +15,17 @@ class btRigidBody;
 
 namespace app {
 
-class BoxMesh;
+	namespace gl {
+		class Mesh;
+	};
 
 namespace tmp {
 
 class BodyFactory {
 
 public:
-	static btRigidBody* createBody(const btTransform&, std::shared_ptr<app::BoxMesh>);
+	static btRigidBody* createBody(const btTransform&, std::shared_ptr<app::gl::Mesh>);
+	static btRigidBody* createRoom(const btTransform&, std::shared_ptr<app::gl::Mesh>);
 
 private:
 	BodyFactory() {

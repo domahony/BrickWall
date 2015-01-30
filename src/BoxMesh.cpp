@@ -5,16 +5,16 @@
  *      Author: domahony
  */
 
+#include "types.h"
 #include "BoxMesh.h"
-#include "GroundShader.h"
+#include "Shader.h"
 
 namespace app {
 
-static GLuint initVAO();
-static GLuint initShader();
+static GLuint initVAO(std::shared_ptr<app::gl::Shader> shader);
 
-BoxMesh::BoxMesh():
-		Mesh(initShader(), initVAO(), GL_TRIANGLES, 0, 36)
+BoxMesh::BoxMesh(std::shared_ptr<app::gl::Shader> shader):
+		app::gl::Mesh(shader, initVAO(shader), GL_TRIANGLES, 0, 36)
 {
 
 }
@@ -24,14 +24,7 @@ BoxMesh::~BoxMesh() {
 }
 
 static GLuint
-initShader()
-{
-	app::gl::GroundShader s;
-	return s.getShader();
-}
-
-static GLuint
-initVAO()
+initVAO(std::shared_ptr<app::gl::Shader> shader)
 {
 	GLfloat vertices[] = {
 	    -0.5f, -0.5f, -0.5f,
@@ -86,20 +79,8 @@ initVAO()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    /*
-    app::gl::GroundShader gshader;
-    shader = gshader.getShader();
-
-    GLint uniModel = glGetUniformLocation(shader, "model");
-    uniform["model"] = uniModel;
-    GLint uniView = glGetUniformLocation(shader, "view");
-    uniform["view"] = uniView;
-    GLint uniProj = glGetUniformLocation(shader, "proj");
-    uniform["proj"] = uniProj;
-
     // Specify the layout of the vertex data
-    GLint posAttrib = glGetAttribLocation(shader, "position");
-    */
+    GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
 
     GLuint vao;
 
@@ -109,7 +90,6 @@ initVAO()
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-    v.push_back(posAttrib);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
