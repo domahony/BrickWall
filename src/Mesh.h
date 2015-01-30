@@ -9,16 +9,19 @@
 #define MESH_H_
 
 /*
+#include <string>
+*/
+
+#include "types.h"
 #include <bullet/LinearMath/btMotionState.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <string>
-*/
-#include "types.h"
 #include <map>
 #include <vector>
 #include <memory>
 #include "Shader.h"
+#include "Camera.h"
+#include "ViewPort.h"
 
 namespace app {
 namespace gl {

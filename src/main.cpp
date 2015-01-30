@@ -5,20 +5,20 @@
  *      Author: domahony
  */
 
-#include <GL/gl.h>
+#include "types.h"
 #include <SDL.h>
 #include <functional>
 #include <memory>
+#include "Shader.h"
+#include "BoxMesh.h"
 #include "EventLoop.h"
 #include "World.h"
 #include "Body.h"
 #include "Ground.h"
 #include "FrameRate.h"
-#include "Renderer.h"
 #include "ViewPort.h"
 #include "Camera.h"
 #include "BodyFactory.h"
-#include "BoxMesh.h"
 #include <btBulletDynamicsCommon.h>
 
 using std::function;
@@ -36,9 +36,10 @@ main(int argc, char **argv)
 
 	app::ViewPort view_port;
 	app::Camera camera;
-	app::gl::Renderer renderer(view_port, camera);
 
-	std::shared_ptr<app::gl::Mesh> mesh(new app::BoxMesh());
+	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
+	std::shared_ptr<app::gl::Mesh> cube(new app::BoxMesh(shader));
+	std::shared_ptr<app::gl::Mesh> floor(new app::BoxMesh(shader));
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,0));
@@ -47,29 +48,29 @@ main(int argc, char **argv)
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 
-	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, mesh);
-	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, mesh);
-	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, mesh);
-	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, mesh);
+	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cube);
+	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, cube);
+	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, cube);
+	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, cube);
 
-	btRigidBody* room = app::tmp::BodyFactory::createRoom(loc5);
+	btRigidBody* floorBody = app::tmp::BodyFactory::createRoom(loc5, floor);
 
 	w.addRigidBody(b1);
 	w.addRigidBody(b2);
 	w.addRigidBody(b3);
 	w.addRigidBody(b4);
-	w.addRigidBody(room);
+	w.addRigidBody(floorBody);
 
 	auto frameFn = [&fr]() {
 		fr();
 	};
 
-	auto renderfn = [&view_port, &camera, &w, &renderer]() {
+	auto renderfn = [&view_port, &camera, &w]() {
 		w.stepSimulation();
-		w.render(view_port, camera, renderer);
+		w.render(view_port, camera);
 	};
 
-	app::EventLoop el(renderer, 60);
+	app::EventLoop el(60);
 
 	//el.addFn(frameFn);
 	el.addFn(renderfn);

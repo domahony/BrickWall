@@ -8,7 +8,6 @@
 #include <memory>
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
-#include "BoxMesh.h"
 #include "RenderBody.h"
 
 namespace app {
@@ -16,7 +15,13 @@ namespace tmp {
 
 
 btRigidBody* BodyFactory::
-createBody(const btTransform& location, std::shared_ptr<app::BoxMesh> mesh)
+createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh)
+{
+	return 0;
+}
+
+btRigidBody* BodyFactory::
+createBody(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh)
 {
 	btCollisionShape* box = new btBoxShape(btVector3(1,1,1));
     btScalar mass(1);

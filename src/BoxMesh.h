@@ -8,6 +8,7 @@
 #ifndef BOXMESH_H_
 #define BOXMESH_H_
 
+/*
 #include "types.h"
 #include <iostream>
 #include <bullet/LinearMath/btMotionState.h>
@@ -16,13 +17,16 @@
 #include <map>
 #include <string>
 #include <vector>
+*/
+#include <memory>
 #include "Mesh.h"
 
 namespace app {
 
 class BoxMesh : public app::gl::Mesh {
+
 public:
-	BoxMesh();
+	BoxMesh(std::shared_ptr<app::gl::Shader>);
 	virtual ~BoxMesh();
 
 };

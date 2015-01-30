@@ -9,6 +9,7 @@
 #define SHADER_H_
 
 #include "types.h"
+#include <btBulletDynamicsCommon.h>
 
 namespace app {
 namespace gl {
@@ -57,6 +58,10 @@ public:
 
 	void enable() const {
 		glUseProgram(shader);
+	}
+
+	GLuint getShader() const {
+		return shader;
 	}
 
 	void setCameraMatrix(const btScalar* m) const {
