@@ -89,7 +89,7 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 		string line;
 		getline(f, line);
 
-		tokenizer<> tok(line);
+		tokenizer<boost::char_separator<char>> tok(line, boost::char_separator<char>(" "));
 
 		auto i = tok.begin();
 
@@ -104,7 +104,7 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 			pos.push_back(v);
 		}
 
-		if (*i == "n") {
+		if (*i == "vn") {
 			xyz v;
 			++i;
 			v.x = stof(*i);
@@ -119,8 +119,10 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 
 			++i;
 
+			boost::char_separator<char> sep("/", 0, boost::keep_empty_tokens);
 			for (int V = 0; V < 3; V++) {
-				tokenizer<boost::char_separator<char>> tok2(*i, boost::char_separator<char>("/"));
+
+				tokenizer<boost::char_separator<char>> tok2(*i, sep);
 
 				auto j = tok2.begin();
 
@@ -135,6 +137,7 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 				vert.norm = norms[n_idx-1];
 
 				verts.push_back(vert);
+				i++;
 			}
 
 		}
