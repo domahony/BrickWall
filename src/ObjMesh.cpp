@@ -127,8 +127,8 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 				auto j = tok2.begin();
 
 				int p_idx = std::stoi(*j);
-				*j++;
-				*j++;
+				j++;
+				j++;
 				int n_idx = std::stoi(*j);
 
 				Verts vert;
