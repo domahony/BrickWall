@@ -120,15 +120,19 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 			++i;
 
 			boost::char_separator<char> sep("/", 0, boost::keep_empty_tokens);
+
 			for (int V = 0; V < 3; V++) {
 
-				tokenizer<boost::char_separator<char>> tok2(*i, sep);
+				/*
+				 * not sure what's wrong with this loop.
+				 */
+				tokenizer<boost::char_separator<char>> tok2(*i++, sep);
 
 				auto j = tok2.begin();
 
 				int p_idx = std::stoi(*j);
-				j++;
-				j++;
+				++j;
+				++j;
 				int n_idx = std::stoi(*j);
 
 				Verts vert;
@@ -137,7 +141,6 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 				vert.norm = norms[n_idx-1];
 
 				verts.push_back(vert);
-				i++;
 			}
 
 		}
