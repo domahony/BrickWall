@@ -31,7 +31,7 @@ static GLfloat* loadVertices(const std::string& fname, vector<Verts>&);
 static GLuint initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader);
 
 ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader):
-		app::gl::Mesh(shader, initVAO(fname, shader), GL_TRIANGLES, 0, 36)
+		app::gl::Mesh(shader, initVAO(fname, shader), GL_TRIANGLES, 0, 6)
 {
 
 }
@@ -47,6 +47,19 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
 	vector<Verts> v;
 
 	loadVertices(fname, v);
+	for (auto i = v.begin(); i != v.end(); ++i) {
+		std::cout << "("
+			<< (*i).pos.x << ", "
+			<< (*i).pos.y << ", "
+			<< (*i).pos.z << ")"
+				<< std::endl;
+		std::cout << "("
+			<< (*i).norm.x << ", "
+			<< (*i).norm.y << ", "
+			<< (*i).norm.z << ")"
+				<< std::endl;
+	}
+	//std::exit(0);
 
 	GLuint vbo;
 
@@ -59,6 +72,7 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
 
     // Specify the layout of the vertex data
     GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
+    GLint normAttrib = glGetAttribLocation(shader->getShader(), "normal");
 
     GLuint vao;
 
@@ -68,12 +82,15 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
     return vao;
 }
+
+static void xxxx(const std::string& , const vector<xyz>&, const vector<xyz>&, vector<Verts>& verts);
 
 static GLfloat*
 loadVertices(const std::string& fname, vector<Verts>& verts)
@@ -83,11 +100,14 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 	vector<xyz> pos;
 	vector<xyz> norms;
 
-
-	while (!f.eof()) {
+	bool done = false;
+	while (!done) {
 
 		string line;
 		getline(f, line);
+		if (f.eof()) {
+			break;
+		}
 
 		tokenizer<boost::char_separator<char>> tok(line, boost::char_separator<char>(" "));
 
@@ -118,15 +138,25 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 		if (*i == "f") {
 
 			++i;
+			auto vert1 = *i++;
+			auto vert2 = *i++;
+			auto vert3 = *i;
 
-			boost::char_separator<char> sep("/", 0, boost::keep_empty_tokens);
+			std::string _v[] = {vert1,vert2,vert3};
 
 			for (int V = 0; V < 3; V++) {
+				xxxx(_v[V], pos, norms, verts);
+			}
 
-				/*
-				 * not sure what's wrong with this loop.
-				 */
-				tokenizer<boost::char_separator<char>> tok2(*i++, sep);
+		}
+	}
+}
+
+static void xxxx(const std::string& str, const vector<xyz>& pos, const vector<xyz>& norms, vector<Verts>& verts)
+{
+
+				boost::char_separator<char> sep("/", 0, boost::keep_empty_tokens);
+				tokenizer<boost::char_separator<char>> tok2(str, sep);
 
 				auto j = tok2.begin();
 
@@ -141,10 +171,6 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 				vert.norm = norms[n_idx-1];
 
 				verts.push_back(vert);
-			}
-
-		}
-	}
 }
 
 } /* namespace app */
