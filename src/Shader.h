@@ -21,6 +21,7 @@ public:
 
 	const GLchar* vertexSource = R"(#version 150 core
     in vec3 position;
+    in vec3 normal;
     uniform mat4 model;
     uniform mat4 view;
     uniform mat4 proj;
@@ -31,6 +32,8 @@ public:
 
 	const GLchar* fragmentSource = R"(#version 150 core
     out vec4 outColor;
+    uniform vec3 eye;
+    uniform vec3 light;
     void main() {
        outColor = vec4(1.0,1.0,1.0,1.0);
     };

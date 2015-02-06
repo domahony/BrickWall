@@ -29,6 +29,8 @@ public:
 	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
 	virtual ~ObjMesh();
 
+private:
+	int n_verts;
 };
 
 } /* namespace app */

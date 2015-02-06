@@ -27,11 +27,11 @@ using namespace std;
 
 namespace app {
 
-static GLfloat* loadVertices(const std::string& fname, vector<Verts>&);
-static GLuint initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader);
+static void loadVertices(const std::string& fname, vector<Verts>&);
+static GLuint initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& n_verts);
 
 ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader):
-		app::gl::Mesh(shader, initVAO(fname, shader), GL_TRIANGLES, 0, 6)
+		app::gl::Mesh(shader, initVAO(fname, shader, n_verts), GL_TRIANGLES, 0, n_verts)
 {
 
 }
@@ -41,7 +41,7 @@ ObjMesh::~ObjMesh() {
 }
 
 static GLuint
-initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
+initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& n_verts)
 {
 
 	vector<Verts> v;
@@ -59,6 +59,11 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
 			<< (*i).norm.z << ")"
 				<< std::endl;
 	}
+
+	n_verts = v.size() * 2;
+
+	std::cout << "Total Size: " << (v.size() * sizeof(Verts)) / sizeof(GLfloat) << std::endl;
+
 	//std::exit(0);
 
 	GLuint vbo;
@@ -67,7 +72,7 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
     glGenBuffers(1, &vbo);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, v.size()/sizeof(Verts), &v[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, v.size() * sizeof(v[0]), &v[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Specify the layout of the vertex data
@@ -81,8 +86,9 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
     glBindVertexArray(vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-    glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
+    //glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -92,7 +98,7 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader)
 
 static void xxxx(const std::string& , const vector<xyz>&, const vector<xyz>&, vector<Verts>& verts);
 
-static GLfloat*
+static void
 loadVertices(const std::string& fname, vector<Verts>& verts)
 {
 	ifstream f(fname.c_str());
