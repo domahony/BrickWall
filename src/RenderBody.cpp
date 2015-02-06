@@ -5,7 +5,14 @@
  *      Author: domahony
  */
 
+#include "RenderBody.h"
+#include "Mesh.h"
 
 namespace app {
+
+void RenderBody::
+render(const app::Camera& c, const app::ViewPort& vp) const {
+		mesh->render(c, vp, transform);
+	}
 
 } /* namespace app */

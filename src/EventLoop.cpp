@@ -5,15 +5,14 @@
  *      Author: domahony
  */
 
+#include "types.h"
 #include <SDL.h>
 #include "EventLoop.h"
 #include "FrameRateController.h"
-#include "Renderer.h"
-#include "GroundGL.h"
 
 namespace app {
 
-EventLoop::EventLoop(const app::gl::Renderer& r , float fps) : r(r), fps(fps) {
+EventLoop::EventLoop(float fps) : fps(fps) {
 
 }
 
@@ -28,8 +27,6 @@ run()
     SDL_Event windowEvent;
 
     app::FrameRateController frc(fps);
-
-    app::gl::GroundGL g;
 
     while (!done)
     {
@@ -50,7 +47,6 @@ run()
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        r.render(g);
 
         for (auto f: fn) {
         	f();

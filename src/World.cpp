@@ -5,12 +5,11 @@
  *      Author: domahony
  */
 
-#include "Renderer.h"
 #include "World.h"
-
-#include "BoxMesh.h"
+#include "Mesh.h"
 #include "ViewPort.h"
 #include "Camera.h"
+#include "RenderBody.h"
 
 namespace app {
 
@@ -25,18 +24,15 @@ World::World():
 }
 
 void World::
-render(const app::ViewPort& vp, const app::Camera camera, const app::gl::Renderer& renderer) const {
+render(const app::ViewPort& vp, const app::Camera camera) const {
 	btCollisionObjectArray a = dynamicsWorld->getCollisionObjectArray();
 
 	for (int i = 0; i < a.size(); i++) {
 
 		auto shape = a[i]->getCollisionShape();
-
 		auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
 
-		if (r) {
-			renderer.render(vp, camera, *r);
-		}
+		r->render(camera, vp);
 
 	}
 }
