@@ -19,7 +19,7 @@ render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transfo
 		btScalar scalar[16];
 		transform.getOpenGLMatrix(scalar);
 
-		glm::vec4 lightPosModel = glm::inverse(glm::make_mat4(scalar)) * glm::vec4(-10, 5, 0, 1);
+		glm::vec4 lightPosModel = glm::inverse(glm::make_mat4(scalar)) * glm::vec4(-7, 3, 9, 1);
 
 #ifdef DOM_VERBOSE
 		std::cout << "(" <<
