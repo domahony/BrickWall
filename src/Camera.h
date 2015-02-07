@@ -21,7 +21,12 @@ public:
 		return matrix;
 	}
 
+	glm::vec3 getViewPos() const {
+		return eye;
+	}
+
 private:
+	glm::vec3 eye;
 	glm::mat4 matrix;
 
 };

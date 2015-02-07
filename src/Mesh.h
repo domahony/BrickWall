@@ -19,6 +19,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "Shader.h"
 #include "Camera.h"
 #include "ViewPort.h"
@@ -48,24 +49,7 @@ public:
 	}
 
 
-	void render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transform) const {
-
-		shader->enable();
-		glBindVertexArray(vao);
-
-		btScalar scalar[16];
-		transform.getOpenGLMatrix(scalar);
-
-		shader->setCameraMatrix(glm::value_ptr(c.getMatrix()));
-		shader->setViewportMatrix(glm::value_ptr(vp.getProjMatrix()));
-		shader->setModelMatrix(scalar);
-		shader->enableVertexAttribs();
-
-		glDrawArrays(mode, first_idx, count);
-
-		glUseProgram(0);
-		glBindVertexArray(0);
-	}
+	void render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transform) const;
 
 private:
 	std::shared_ptr<app::gl::Shader> shader;
