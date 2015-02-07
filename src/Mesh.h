@@ -9,67 +9,67 @@
 #define MESH_H_
 
 /*
+#include <string>
+*/
+
+#include "types.h"
 #include <bullet/LinearMath/btMotionState.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <string>
-*/
-#include "types.h"
 #include <map>
 #include <vector>
+#include <memory>
+#include "Shader.h"
+#include "Camera.h"
+#include "ViewPort.h"
 
 namespace app {
 namespace gl {
 
 class Mesh {
 public:
-	Mesh() {
-		// TODO Auto-generated constructor stub
+	Mesh(
+			std::shared_ptr<Shader> shader,
+			const GLuint& vao,
+			const GLenum& mode,
+			const GLint& first_idx,
+			const GLsizei& count):
+		shader(shader),
+		vao(vao),
+		mode(mode),
+		first_idx(first_idx),
+		count(count)
+	{
 
 	}
+
 	~Mesh() {
 		// TODO Auto-generated destructor stub
 	}
 
-	GLuint getShader() const {
-		return shader;
-	}
 
-	GLuint getVAO() const {
-		return vao;
-	}
+	void render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transform) const {
 
-	GLuint getShaderUniform(const std::string& str) const {
+		shader->enable();
+		glBindVertexArray(vao);
 
-		auto iter = uniform.find(str);
+		btScalar scalar[16];
+		transform.getOpenGLMatrix(scalar);
 
-		if (iter == uniform.cend()) {
-			return -1;
-		} else {
-			return iter->second;
-		}
-	}
+		shader->setCameraMatrix(glm::value_ptr(c.getMatrix()));
+		shader->setViewportMatrix(glm::value_ptr(vp.getProjMatrix()));
+		shader->setModelMatrix(scalar);
+		shader->enableVertexAttribs();
 
-	GLenum getMode() const {
-		return mode;
-	}
+		glDrawArrays(mode, first_idx, count);
 
-	GLint getFirstIdx() const {
-		return first_idx;
-	}
-
-	GLsizei getCount() const {
-		return count;
-	}
-
-	const std::vector<GLuint> getVertexAttribIdx() const {
-			return vertex_attrib_idx;
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 
 private:
-	std::map<std::string, GLuint> uniform;
-	std::vector<GLuint> vertex_attrib_idx;
-	GLuint shader;
+	std::shared_ptr<app::gl::Shader> shader;
+
 	GLuint vao;
 	GLenum mode;
 	GLint first_idx;

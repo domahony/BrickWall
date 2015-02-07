@@ -5,8 +5,8 @@
  *      Author: domahony
  */
 
-#ifndef BOXMESH_H_
-#define BOXMESH_H_
+#ifndef OBJMESH_H_
+#define OBJMESH_H_
 
 /*
 #include "types.h"
@@ -23,14 +23,16 @@
 
 namespace app {
 
-class BoxMesh : public app::gl::Mesh {
+class ObjMesh : public app::gl::Mesh {
 
 public:
-	BoxMesh(std::shared_ptr<app::gl::Shader>);
-	virtual ~BoxMesh();
+	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
+	virtual ~ObjMesh();
 
+private:
+	int n_verts;
 };
 
 } /* namespace app */
 
-#endif /* BOXMESH_H_ */
+#endif /* OBJMESH_H_ */
