@@ -40,19 +40,24 @@ main(int argc, char **argv)
 	//std::shared_ptr<app::gl::Mesh> cube(new app::BoxMesh(shader));
 	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("plane", shader));
 	std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader));
+	std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader));
 	std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader));
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
-	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,0));
+	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(0.25,52,0));
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(0.5,50,1));
+	btTransform loc6(btQuaternion(0,0,0,1), btVector3(-5,55,6));
+	btTransform loc7(btQuaternion(0,0,0,1), btVector3(-1,20,0));
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 
-	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cube);
+	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus);
 	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, cube);
-	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, cube);
+	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, cubeplus);
 	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, cube);
+	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, cubeplus);
+	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, cubeplus);
 
 	btRigidBody* floorBody = app::tmp::BodyFactory::createRoom(loc5, floor);
 
@@ -60,6 +65,8 @@ main(int argc, char **argv)
 	w.addRigidBody(b2);
 	w.addRigidBody(b3);
 	w.addRigidBody(b4);
+	w.addRigidBody(b5);
+	w.addRigidBody(b6);
 	w.addRigidBody(floorBody);
 
 	auto frameFn = [&fr]() {
