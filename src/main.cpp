@@ -39,9 +39,13 @@ main(int argc, char **argv)
 	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
 	//std::shared_ptr<app::gl::Mesh> cube(new app::BoxMesh(shader));
 	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("plane", shader));
-	std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader));
-	std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader));
-	std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader));
+	//std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader));
+	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader));
+	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader));
+
+	std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/git/BrickWall/media/cube.obj", shader));
+	std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));
+	std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/git/BrickWall/media/plane.obj", shader));
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
