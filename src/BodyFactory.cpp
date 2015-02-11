@@ -14,31 +14,37 @@ namespace app {
 namespace tmp {
 
 
-btRigidBody* BodyFactory::
-createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh)
+void BodyFactory::
+createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh, app::World& w)
 {
-
 	/*
-    transform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0))),
-    groundShape(new btStaticPlaneShape(btVector3(0, 1, 0), 1)),
-    groundRigidBody(0)
-{
-*/
-	/*
-    btRigidBody::btRigidBodyConstructionInfo
-                    groundRigidBodyCI(0, this, groundShape, btVector3(0, 0, 0));
+	 * create floor
+	 *
+	 * create back wall
+	 * rotate about the X axis
+	 * translate -5 Z
+	 * translate +5 Y
+	 */
 
-    groundRigidBody = new btRigidBody(groundRigidBodyCI);
-
-    */
 	btCollisionShape* ground = new btStaticPlaneShape(btVector3(0,1,0), 1);
     app::RenderBody *rb = new RenderBody(mesh, location);
-
 	btRigidBody *ret = new btRigidBody(0, rb, ground, btVector3(0,0,0));
-
     ret->setUserPointer(rb);
+    w.addRigidBody(ret);
 
-    return ret;
+
+
+	btQuaternion rot(btVector3(1, 0, 0), 90.0 * M_PI/180.0);
+	//btTransform t1(rot, btVector3(0, 5, -5));
+	btTransform t1(btQuaternion(0,0,0,1), btVector3(0, 5, -5));
+
+ 	btTransform loc2(location * t1);
+
+	btCollisionShape *ground2 = new btStaticPlaneShape(btVector3(0, 0, -1), 0);
+	app::RenderBody *rb2 = new RenderBody(mesh, loc2);
+	btRigidBody* ret2 = new btRigidBody(0, rb2, ground2, btVector3(0,0,0));
+	ret2->setUserPointer(rb2);
+	w.addRigidBody(ret2);
 }
 
 btRigidBody* BodyFactory::

@@ -63,7 +63,7 @@ main(int argc, char **argv)
 	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, cubeplus);
 	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, cubeplus);
 
-	btRigidBody* floorBody = app::tmp::BodyFactory::createRoom(loc5, floor);
+	app::tmp::BodyFactory::createRoom(loc5, floor, w);
 
 	w.addRigidBody(b1);
 	w.addRigidBody(b2);
@@ -71,7 +71,6 @@ main(int argc, char **argv)
 	w.addRigidBody(b4);
 	w.addRigidBody(b5);
 	w.addRigidBody(b6);
-	w.addRigidBody(floorBody);
 
 	auto frameFn = [&fr]() {
 		fr();
