@@ -41,7 +41,7 @@ Shader() : shader(glCreateProgram())
     void main() {
 
        vec4 constantColor = vec4(0.9, 0.9, 0.9, 1.0);
-       float invOmniRad = 1.0/20.0;
+       float invOmniRad = 1.0/25.0;
        vec3 omniColor = vec3(1.0, 1.0, 1.0);
        vec3 ambientLightColor = vec3(0.2, 0.2, 0.2);
        float specExponent = 1500;

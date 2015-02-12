@@ -42,7 +42,9 @@ main(int argc, char **argv)
 	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));
 	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/git/BrickWall/media/plane.obj", shader));
 
-	app::ObjMesh floor("/home/domahony/git/BrickWall/media/plane.obj", shader);
+	app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader);
+	app::ObjMesh cubeplus("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader);
+	app::ObjMesh cube("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
@@ -51,17 +53,24 @@ main(int argc, char **argv)
 	btTransform loc6(btQuaternion(0,0,0,1), btVector3(-5,55,6));
 	btTransform loc7(btQuaternion(0,0,0,1), btVector3(-1,20,0));
 
+	btTransform loc8(btQuaternion(0,0,0,1), btVector3(-8.0, 500,-8.5));
+	btTransform loc9(btQuaternion(0,0,0,1), btVector3(5,75,0));
+	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
+
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 
-	/*
-	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus);
-	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, cube);
-	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, cubeplus);
-	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, cube);
-	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, cubeplus);
-	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, cubeplus);
+	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
+	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, cube.getMesh());
+	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, cubeplus.getMesh());
+	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, cube.getMesh());
+	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, cubeplus.getMesh());
+	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, cubeplus.getMesh());
 
-	app::tmp::BodyFactory::createRoom(loc5, floor, w);
+	btRigidBody* b7 = app::tmp::BodyFactory::createBody(loc8, cubeplus.getMesh());
+	btRigidBody* b8 = app::tmp::BodyFactory::createBody(loc9, cubeplus.getMesh());
+	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, cubeplus.getMesh());
+
+	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
 
 	w.addRigidBody(b1);
 	w.addRigidBody(b2);
@@ -69,7 +78,10 @@ main(int argc, char **argv)
 	w.addRigidBody(b4);
 	w.addRigidBody(b5);
 	w.addRigidBody(b6);
-	*/
+
+	w.addRigidBody(b7);
+	w.addRigidBody(b8);
+	w.addRigidBody(b9);
 
 	auto frameFn = [&fr]() {
 		fr();

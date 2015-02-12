@@ -8,6 +8,7 @@
 #include "types.h"
 #include "ObjMesh.h"
 #include "Shader.h"
+#include "Mesh.h"
 #include <fstream>
 #include <boost/tokenizer.hpp>
 
@@ -18,14 +19,78 @@ namespace app {
 
 static void init(const string&, shared_ptr<app::gl::Shader>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&, vector<ObjMesh::xyz_>&);
 
-ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader): triangles(), vertices(), normals()
+ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader):
+		triangles(), vertices(), normals(), shader(shader)
 {
 	init(fname, shader, triangles, vertices, normals);
 
-	/*
-	iface = new btTriangleIndexVertexArray(triangles.size() / 3, &triangles[0], sizeof(int) * 3,
-			vertices.size(), &vertices[0], sizeof(btScalar) * 3);
-	*/
+	create_mesh();
+
+	btTriangleMesh *tmesh = new btTriangleMesh();
+
+	for (auto v = triangles.begin(); v != triangles.end(); ++v) {
+
+		btVector3 vec[3];
+		for (int i = 0; i < 3; ++i) {
+			vec[i].setValue(
+					vertices[(*v).v[i]].x,
+					vertices[(*v).v[i]].y,
+					vertices[(*v).v[i]].z
+			);
+		}
+
+		tmesh->addTriangle(vec[0], vec[1], vec[2], true);
+	}
+
+	iface = tmesh;
+	mesh_shape = new btBvhTriangleMeshShape(tmesh, false);
+}
+
+void  ObjMesh::
+create_mesh() {
+
+	vector<GLfloat> verts;
+
+	for (auto v = triangles.begin(); v != triangles.end(); ++v) {
+
+		for (int i = 0; i < 3; ++i) {
+			verts.push_back( vertices[(*v).v[i]].x );
+			verts.push_back( vertices[(*v).v[i]].y );
+			verts.push_back( vertices[(*v).v[i]].z );
+
+			verts.push_back( normals[(*v).n[i]].x );
+			verts.push_back( normals[(*v).n[i]].y );
+			verts.push_back( normals[(*v).n[i]].z );
+		}
+	}
+
+	GLuint vbo;
+
+    // Create a Vertex Buffer Object and copy the vertex data to it
+    glGenBuffers(1, &vbo);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(verts[0]), &verts[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Specify the layout of the vertex data
+    GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
+    GLint normAttrib = glGetAttribLocation(shader->getShader(), "normal");
+
+    GLuint vao;
+
+    // Create and bind Vertex Array Object
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    mesh = shared_ptr<app::gl::Mesh>(new app::gl::Mesh(shader, vao, GL_TRIANGLES, 0, verts.size() * 2));
 }
 
 ObjMesh::~ObjMesh() {
@@ -56,57 +121,6 @@ init(const string& fname, shared_ptr<app::gl::Shader> shader, vector<ObjMesh::id
 			<< std::endl
 			<< std::endl;
 	}
-
-	std::exit(0);
-	/*
-	for (auto i = v.begin(); i != v.end(); ++i) {
-		std::cout << "("
-			<< (*i).pos.x << ", "
-			<< (*i).pos.y << ", "
-			<< (*i).pos.z << ")"
-				<< std::endl;
-		std::cout << "("
-			<< (*i).norm.x << ", "
-			<< (*i).norm.y << ", "
-			<< (*i).norm.z << ")"
-				<< std::endl;
-	}
-
-	int n_verts = v.size() * 2;
-
-	std::cout << "Total Size: " << (v.size() * sizeof(Verts)) / sizeof(GLfloat) << std::endl;
-	*/
-
-	//std::exit(0);
-
-	GLuint vbo;
-
-    // Create a Vertex Buffer Object and copy the vertex data to it
-    glGenBuffers(1, &vbo);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    //glBufferData(GL_ARRAY_BUFFER, v.size() * sizeof(v[0]), &v[0], GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Specify the layout of the vertex data
-    GLint posAttrib = glGetAttribLocation(shader->getShader(), "position");
-    GLint normAttrib = glGetAttribLocation(shader->getShader(), "normal");
-
-    GLuint vao;
-
-    // Create and bind Vertex Array Object
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    //glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0 * sizeof(GLfloat), 0);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
-    glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    //return vao;
 }
 
 static void xxxx(const std::string&, int, ObjMesh::idx_triangle&);

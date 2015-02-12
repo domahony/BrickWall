@@ -16,6 +16,7 @@ namespace app {
 
 namespace gl {
 	class Shader;
+	class Mesh;
 };
 
 class ObjMesh {
@@ -33,13 +34,28 @@ struct idx_triangle {
 };
 
 	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
+
+	std::shared_ptr<app::gl::Mesh> getMesh() const {
+		return mesh;
+	}
+
+	btCollisionShape* getShape() const {
+		return mesh_shape;
+	}
+
 	virtual ~ObjMesh();
 
 private:
+
+	void create_mesh();
+
 	std::vector<idx_triangle> triangles;
 	std::vector<xyz_> vertices;
 	std::vector<xyz_> normals;
 	btStridingMeshInterface *iface;
+	std::shared_ptr<app::gl::Shader> shader;
+	std::shared_ptr<app::gl::Mesh> mesh;
+	btBvhTriangleMeshShape *mesh_shape;
 };
 
 } /* namespace app */
