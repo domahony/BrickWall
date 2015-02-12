@@ -8,29 +8,38 @@
 #ifndef OBJMESH_H_
 #define OBJMESH_H_
 
-/*
-#include "types.h"
-#include <iostream>
-#include <bullet/LinearMath/btMotionState.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <map>
-#include <string>
 #include <vector>
-*/
 #include <memory>
-#include "Mesh.h"
+#include <bullet/btBulletCollisionCommon.h>
 
 namespace app {
 
-class ObjMesh : public app::gl::Mesh {
+namespace gl {
+	class Shader;
+};
+
+class ObjMesh {
 
 public:
+struct xyz_ {
+	btScalar x;
+	btScalar y;
+	btScalar z;
+};
+
+struct idx_triangle {
+	int v[3];
+	int n[3];
+};
+
 	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
 	virtual ~ObjMesh();
 
 private:
-	int n_verts;
+	std::vector<idx_triangle> triangles;
+	std::vector<xyz_> vertices;
+	std::vector<xyz_> normals;
+	btStridingMeshInterface *iface;
 };
 
 } /* namespace app */

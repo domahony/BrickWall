@@ -32,8 +32,6 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh, app
     ret->setUserPointer(rb);
     w.addRigidBody(ret);
 
-
-
 	btQuaternion rot(btVector3(1, 0, 0), 90.0 * M_PI/180.0);
 	//btTransform t1(rot, btVector3(0, 5, -5));
 	btTransform t1(btQuaternion(0,0,0,1), btVector3(0, 5, -5));

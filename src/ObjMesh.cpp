@@ -11,42 +11,54 @@
 #include <fstream>
 #include <boost/tokenizer.hpp>
 
-struct xyz {
-	float x;
-	float y;
-	float z;
-};
-
-struct Verts {
-	xyz pos;
-	xyz norm;
-};
-
 using namespace boost;
 using namespace std;
 
 namespace app {
 
-static void loadVertices(const std::string& fname, vector<Verts>&);
-static GLuint initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& n_verts);
+static void init(const string&, shared_ptr<app::gl::Shader>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&, vector<ObjMesh::xyz_>&);
 
-ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader):
-		app::gl::Mesh(shader, initVAO(fname, shader, n_verts), GL_TRIANGLES, 0, n_verts)
+ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader): triangles(), vertices(), normals()
 {
+	init(fname, shader, triangles, vertices, normals);
 
+	/*
+	iface = new btTriangleIndexVertexArray(triangles.size() / 3, &triangles[0], sizeof(int) * 3,
+			vertices.size(), &vertices[0], sizeof(btScalar) * 3);
+	*/
 }
 
 ObjMesh::~ObjMesh() {
 	// TODO Auto-generated destructor stub
 }
 
-static GLuint
-initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& n_verts)
+static void
+loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals);
+
+static void
+init(const string& fname, shared_ptr<app::gl::Shader> shader, vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals)
 {
+	loadVertices(fname, triangles, vertices, normals);
+	int tri_count = 0;
 
-	vector<Verts> v;
+	for (auto i = triangles.begin(); i != triangles.end(); ++i) {
 
-	loadVertices(fname, v);
+		std::cout << "("
+			<< (*i).v[0] << ", "
+			<< (*i).v[1] << ", "
+			<< (*i).v[2] << ") "
+			<< std::endl ;
+
+		std::cout << "("
+			<< (*i).n[0] << ", "
+			<< (*i).n[1] << ", "
+			<< (*i).n[2] << ") "
+			<< std::endl
+			<< std::endl;
+	}
+
+	std::exit(0);
+	/*
 	for (auto i = v.begin(); i != v.end(); ++i) {
 		std::cout << "("
 			<< (*i).pos.x << ", "
@@ -60,9 +72,10 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& 
 				<< std::endl;
 	}
 
-	n_verts = v.size() * 2;
+	int n_verts = v.size() * 2;
 
 	std::cout << "Total Size: " << (v.size() * sizeof(Verts)) / sizeof(GLfloat) << std::endl;
+	*/
 
 	//std::exit(0);
 
@@ -72,7 +85,7 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& 
     glGenBuffers(1, &vbo);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, v.size() * sizeof(v[0]), &v[0], GL_STATIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, v.size() * sizeof(v[0]), &v[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // Specify the layout of the vertex data
@@ -93,18 +106,15 @@ initVAO(const std::string& fname, std::shared_ptr<app::gl::Shader> shader, int& 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    return vao;
+    //return vao;
 }
 
-static void xxxx(const std::string& , const vector<xyz>&, const vector<xyz>&, vector<Verts>& verts);
+static void xxxx(const std::string&, int, ObjMesh::idx_triangle&);
 
 static void
-loadVertices(const std::string& fname, vector<Verts>& verts)
+loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals)
 {
 	ifstream f(fname.c_str());
-
-	vector<xyz> pos;
-	vector<xyz> norms;
 
 	bool done = false;
 	while (!done) {
@@ -120,25 +130,25 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 		auto i = tok.begin();
 
 		if (*i == "v") {
-			xyz v;
+			ObjMesh::xyz_ v;
 			++i;
 			v.x = stof(*i);
 			++i;
 			v.y = stof(*i);
 			++i;
 			v.z = stof(*i);
-			pos.push_back(v);
+			vertices.push_back(v);
 		}
 
 		if (*i == "vn") {
-			xyz v;
+			ObjMesh::xyz_ n;
 			++i;
-			v.x = stof(*i);
+			n.x = stof(*i);
 			++i;
-			v.y = stof(*i);
+			n.y = stof(*i);
 			++i;
-			v.z = stof(*i);
-			norms.push_back(v);
+			n.z = stof(*i);
+			normals.push_back(n);
 		}
 
 		if (*i == "f") {
@@ -150,17 +160,18 @@ loadVertices(const std::string& fname, vector<Verts>& verts)
 
 			std::string _v[] = {vert1,vert2,vert3};
 
+			ObjMesh::idx_triangle t_idx;
 			for (int V = 0; V < 3; V++) {
-				xxxx(_v[V], pos, norms, verts);
+				xxxx(_v[V], V, t_idx);
 			}
 
+			triangles.push_back(t_idx);
 		}
 	}
 }
 
-static void xxxx(const std::string& str, const vector<xyz>& pos, const vector<xyz>& norms, vector<Verts>& verts)
+static void xxxx(const std::string& str, int cnt, ObjMesh::idx_triangle& idx)
 {
-
 				boost::char_separator<char> sep("/", 0, boost::keep_empty_tokens);
 				tokenizer<boost::char_separator<char>> tok2(str, sep);
 
@@ -171,12 +182,8 @@ static void xxxx(const std::string& str, const vector<xyz>& pos, const vector<xy
 				++j;
 				int n_idx = std::stoi(*j);
 
-				Verts vert;
-
-				vert.pos = pos[p_idx-1];
-				vert.norm = norms[n_idx-1];
-
-				verts.push_back(vert);
+				idx.v[cnt] = p_idx - 1;
+				idx.n[cnt] = n_idx - 1;
 }
 
 } /* namespace app */
