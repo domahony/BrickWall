@@ -17,12 +17,13 @@ using namespace std;
 
 namespace app {
 
-static void init(const string&, shared_ptr<app::gl::Shader>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&, vector<ObjMesh::xyz_>&);
+static void init(const string&, shared_ptr<app::gl::Shader>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&,
+		vector<ObjMesh::xyz_>&, vector<ObjMesh::uv_>&);
 
 ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader):
 		triangles(), vertices(), normals(), shader(shader)
 {
-	init(fname, shader, triangles, vertices, normals);
+	init(fname, shader, triangles, vertices, normals, uvs);
 
 	create_mesh();
 
@@ -98,12 +99,15 @@ ObjMesh::~ObjMesh() {
 }
 
 static void
-loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals);
+loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles,
+		vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals, vector<ObjMesh::uv_>&);
 
 static void
-init(const string& fname, shared_ptr<app::gl::Shader> shader, vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals)
+init(const string& fname, shared_ptr<app::gl::Shader> shader,
+		vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices,
+		vector<ObjMesh::xyz_>& normals, vector<ObjMesh::uv_>& uvs)
 {
-	loadVertices(fname, triangles, vertices, normals);
+	loadVertices(fname, triangles, vertices, normals, uvs);
 	int tri_count = 0;
 
 	for (auto i = triangles.begin(); i != triangles.end(); ++i) {
@@ -126,7 +130,8 @@ init(const string& fname, shared_ptr<app::gl::Shader> shader, vector<ObjMesh::id
 static void xxxx(const std::string&, int, ObjMesh::idx_triangle&);
 
 static void
-loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals)
+loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles,
+		vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals, vector<ObjMesh::uv_>& uvs)
 {
 	ifstream f(fname.c_str());
 
@@ -163,6 +168,15 @@ loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles,
 			++i;
 			n.z = stof(*i);
 			normals.push_back(n);
+		}
+
+		if (*i == "vt") {
+			ObjMesh::uv_ uv;
+			++i;
+			uv.u = stof(*i);
+			++i;
+			uv.v = stof(*i);
+			uvs.push_back(uv);
 		}
 
 		if (*i == "f") {

@@ -28,7 +28,9 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	 */
 
 	//btCollisionShape* ground = new btStaticPlaneShape(btVector3(0,1,0), 1);
-    app::RenderBody *rb = new RenderBody(mesh, location);
+	btQuaternion rot0(btVector3(0, 0, 1), 0.0 * M_PI/180.0);
+	btTransform t0(rot0, btVector3(0, 0, 0));
+    app::RenderBody *rb = new RenderBody(mesh, t0 * location);
 	btRigidBody *ret = new btRigidBody(0, rb, shape, btVector3(0,0,0));
     ret->setUserPointer(rb);
     w.addRigidBody(ret);

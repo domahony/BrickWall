@@ -45,6 +45,7 @@ main(int argc, char **argv)
 	app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader);
 	app::ObjMesh cubeplus("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader);
 	app::ObjMesh cube("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader);
+	app::ObjMesh sphere("/home/domahony/Projects/ws-ogldev/Bricks2/media/sphere.obj", shader);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
@@ -60,15 +61,15 @@ main(int argc, char **argv)
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 
 	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
-	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, cube.getMesh());
-	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, cubeplus.getMesh());
-	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, cube.getMesh());
-	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, cubeplus.getMesh());
-	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, cubeplus.getMesh());
+	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());
+	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, sphere.getMesh());
+	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, sphere.getMesh());
+	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, sphere.getMesh());
+	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, sphere.getMesh());
 
-	btRigidBody* b7 = app::tmp::BodyFactory::createBody(loc8, cubeplus.getMesh());
-	btRigidBody* b8 = app::tmp::BodyFactory::createBody(loc9, cubeplus.getMesh());
-	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, cubeplus.getMesh());
+	btRigidBody* b7 = app::tmp::BodyFactory::createBody(loc8, sphere.getMesh());
+	btRigidBody* b8 = app::tmp::BodyFactory::createBody(loc9, sphere.getMesh());
+	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, sphere.getMesh());
 
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
 

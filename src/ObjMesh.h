@@ -31,6 +31,12 @@ struct xyz_ {
 struct idx_triangle {
 	int v[3];
 	int n[3];
+	int uv[3];
+};
+
+struct uv_ {
+	btScalar u;
+	btScalar v;
 };
 
 	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
@@ -52,6 +58,7 @@ private:
 	std::vector<idx_triangle> triangles;
 	std::vector<xyz_> vertices;
 	std::vector<xyz_> normals;
+	std::vector<uv_> uvs;
 	btStridingMeshInterface *iface;
 	std::shared_ptr<app::gl::Shader> shader;
 	std::shared_ptr<app::gl::Mesh> mesh;
