@@ -15,7 +15,8 @@
 namespace app {
 namespace gl {
 
-class Shader {
+template <class T>
+class Shader : protected T {
 public:
 
 	Shader();

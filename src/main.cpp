@@ -18,10 +18,12 @@
 #include "ViewPort.h"
 #include "Camera.h"
 #include "BodyFactory.h"
+#include "BlinPhonBasic.h"
 #include <btBulletDynamicsCommon.h>
 
 using std::function;
 using std::unique_ptr;
+using app::gl::BlinPhonBasic;
 
 static function<void ()> windowFn();
 
@@ -36,16 +38,19 @@ main(int argc, char **argv)
 	app::ViewPort view_port;
 	app::Camera camera;
 
-	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
+	std::shared_ptr<app::gl::Shader<BlinPhonBasic>> shader(new app::gl::Shader<BlinPhonBasic>());
 
-	//std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/git/BrickWall/media/cube.obj", shader));
-	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));
-	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/git/BrickWall/media/plane.obj", shader));
+	app::ObjMesh floor("/home/domahony/git/BrickWall/media/plane.obj", shader);
+	app::ObjMesh cubeplus("/home/domahony/git/BrickWall/media/cubeplus.obj", shader);
+	app::ObjMesh cube("/home/domahony/git/BrickWall/media/cube.obj", shader);
+	app::ObjMesh sphere("/home/domahony/git/BrickWall/media/world.obj", shader);
 
+	/*
 	app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader);
 	app::ObjMesh cubeplus("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader);
 	app::ObjMesh cube("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader);
 	app::ObjMesh sphere("/home/domahony/Projects/ws-ogldev/Bricks2/media/sphere.obj", shader);
+	*/
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
