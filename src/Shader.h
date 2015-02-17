@@ -9,17 +9,19 @@
 #define SHADER_H_
 
 #include "types.h"
+#include "ShaderSource.h"
+#include <memory>
 #include <iostream>
 #include <btBulletDynamicsCommon.h>
 
 namespace app {
 namespace gl {
 
-template <class T>
-class Shader : protected T {
+class Shader {
 public:
 
 	Shader();
+	Shader(std::shared_ptr<ShaderSource>);
 
 	~Shader();
 

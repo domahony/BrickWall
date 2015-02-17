@@ -9,15 +9,24 @@
 #define BLIN_PHON_BASIC_H_
 
 #include "types.h"
+#include "ShaderSource.h"
 #include <iostream>
 
 namespace app {
 namespace gl {
 
-class BlinPhonBasic {
+class BlinPhonBasic : public ShaderSource {
 public:
 
 	BlinPhonBasic();
+
+	const std::string get_vertex_source() const {
+		return vertex_source;
+	}
+
+	const std::string get_fragment_source() const {
+		return fragment_source;
+	}
 
 protected:
 	const std::string vertex_source;

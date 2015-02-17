@@ -38,7 +38,8 @@ main(int argc, char **argv)
 	app::ViewPort view_port;
 	app::Camera camera;
 
-	std::shared_ptr<app::gl::Shader<BlinPhonBasic>> shader(new app::gl::Shader<BlinPhonBasic>());
+	std::shared_ptr<app::gl::ShaderSource> bpb(new app::gl::BlinPhonBasic());
+	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader(bpb));
 
 	app::ObjMesh floor("/home/domahony/git/BrickWall/media/plane.obj", shader);
 	app::ObjMesh cubeplus("/home/domahony/git/BrickWall/media/cubeplus.obj", shader);
