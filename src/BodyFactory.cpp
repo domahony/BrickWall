@@ -27,7 +27,6 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	 * translate +5 Y
 	 */
 
-	//btCollisionShape* ground = new btStaticPlaneShape(btVector3(0,1,0), 1);
 	btQuaternion rot0(btVector3(0, 0, 1), 0.0 * M_PI/180.0);
 	btTransform t0(rot0, btVector3(0, 0, 0));
     app::RenderBody *rb = new RenderBody(mesh, t0 * location);
@@ -35,6 +34,7 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
     ret->setUserPointer(rb);
     w.addRigidBody(ret);
 
+    /*
 	btQuaternion rot(btVector3(1, 0, 0), 90.0 * M_PI/180.0);
 	btTransform t1(rot, btVector3(0, 10, -10));
  	btTransform loc2(location * t1);
@@ -63,6 +63,7 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	ret = new btRigidBody(0, rb, shape, btVector3(0,0,0));
 	ret->setUserPointer(rb);
 	w.addRigidBody(ret);
+	*/
 
 }
 

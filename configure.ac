@@ -16,8 +16,14 @@ GL_LDFLAGS=`pkg-config --libs gl`
 AC_SUBST([GL_LDFLAGS])
 BULLET_CFLAGS=`pkg-config --cflags bullet`
 BULLET_LDFLAGS=`pkg-config --libs bullet`
+
 AC_SUBST([BULLET_LDFLAGS])
 AC_SUBST([BULLET_CFLAGS])
+
+GEOTIFF_CFLAGS=-I/usr/include/geotiff
+GEOTIFF_LDFLAGS='-lgeotiff -ltiff'
+AC_SUBST([GEOTIFF_CFLAGS])
+AC_SUBST([GEOTIFF_LDFLAGS])
 
 AC_CONFIG_FILES(Makefile src/Makefile)
 AC_OUTPUT

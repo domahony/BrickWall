@@ -19,6 +19,7 @@
 #include "Camera.h"
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
+#include "TIFMesh.h"
 
 using std::function;
 using std::unique_ptr;
@@ -38,27 +39,30 @@ main(int argc, char **argv)
 
 	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
 
+	//app::gl::TIFMesh tif("/home/domahony/Projects/ws-ogldev/Bricks2/media/ASTGTM2_N48W054_dem.tif");
+
 	//std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/git/BrickWall/media/cube.obj", shader));
 	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));
 	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/git/BrickWall/media/plane.obj", shader));
 
-	app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader);
+	//app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader);
+	app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/0_0.obj", shader);
 	app::ObjMesh cubeplus("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader);
 	app::ObjMesh cube("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader);
 	app::ObjMesh sphere("/home/domahony/Projects/ws-ogldev/Bricks2/media/sphere.obj", shader);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
-	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
+	btTransform loc2(btQuaternion(0,0,0,1), btVector3(0.33,48,6));
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(0.25,52,0));
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(0.5,50,1));
-	btTransform loc6(btQuaternion(0,0,0,1), btVector3(-5,55,6));
-	btTransform loc7(btQuaternion(0,0,0,1), btVector3(-1,20,0));
+	btTransform loc6(btQuaternion(0,0,0,1), btVector3(5,55,6));
+	btTransform loc7(btQuaternion(0,0,0,1), btVector3(1,20,0));
 
-	btTransform loc8(btQuaternion(0,0,0,1), btVector3(-8.0, 500,-8.5));
+	btTransform loc8(btQuaternion(0,0,0,1), btVector3(8.0, 500,-8.5));
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(5,75,0));
-	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
+	btTransform loc10(btQuaternion(0,0,0,1), btVector3(9,60,-6));
 
-	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
+	btTransform loc5(btQuaternion(0,0,0,1), btVector3(-11, 0, -350));
 
 	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
 	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());

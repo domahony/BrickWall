@@ -1,8 +1,9 @@
-AM_CXXFLAGS=`sdl2-config --cflags` $(BULLET_CFLAGS) -std=c++11
+AM_CXXFLAGS=`sdl2-config --cflags` $(BULLET_CFLAGS) -std=c++11 $(GEOTIFF_CFLAGS)
 bin_PROGRAMS=bricks
 bricks_SOURCES=main.cpp World.cpp ObjMesh.cpp \
 	EventLoop.cpp Shader.cpp \
-	BoxMesh.cpp Camera.cpp ViewPort.cpp BodyFactory.cpp RenderBody.cpp Mesh.cpp RenderObject.cpp
+	BoxMesh.cpp Camera.cpp ViewPort.cpp BodyFactory.cpp RenderBody.cpp Mesh.cpp RenderObject.cpp \
+	TIFMesh.cpp
 
 bricks_LDFLAGS=$(SDL_LDFLAGS) $(MAGICK_LDFLAGS) $(GL_LDFLAGS)
-bricks_LDADD=$(SDL_LDFLAGS) $(MAGICK_LDFLAGS) $(GL_LDFLAGS) $(BULLET_LDFLAGS)
+bricks_LDADD=$(SDL_LDFLAGS) $(MAGICK_LDFLAGS) $(GL_LDFLAGS) $(BULLET_LDFLAGS) $(GEOTIFF_LDFLAGS)
