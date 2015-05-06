@@ -10,7 +10,7 @@
 
 namespace app {
 
-Camera::Camera():eye(0.0f, 14.0f, 16.0f), matrix(glm::lookAt(
+Camera::Camera():eye(0.0f, 7.0f, 6.0f), matrix(glm::lookAt(
 		eye,
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f)))

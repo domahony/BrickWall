@@ -65,10 +65,10 @@ main(int argc, char **argv)
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(-11, 0, -350));
 
 	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
-	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());
+	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, cube.getMesh());
 	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, sphere.getMesh());
-	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, sphere.getMesh());
-	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, sphere.getMesh());
+	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, cubeplus.getMesh());
+	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, cubeplus.getMesh());
 	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, sphere.getMesh());
 
 	btRigidBody* b7 = app::tmp::BodyFactory::createBody(loc8, sphere.getMesh());
@@ -92,7 +92,13 @@ main(int argc, char **argv)
 		fr();
 	};
 
-	auto renderfn = [&view_port, &camera, &w]() {
+	auto renderfn = [&view_port, &camera, &w, &b7]() {
+		btTransform t = b7->getWorldTransform();
+		glm::vec3 v(
+				t.getOrigin().getX(),
+				t.getOrigin().getY(),
+				t.getOrigin().getZ());
+		//camera.updatePos(v);
 		w.stepSimulation();
 		w.render(view_port, camera);
 	};

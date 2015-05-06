@@ -9,6 +9,7 @@
 #define CAMERA_H_
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace app {
 
@@ -23,6 +24,14 @@ public:
 
 	glm::vec3 getViewPos() const {
 		return eye;
+	}
+
+	void updatePos(const glm::vec3& p) {
+		eye = p;
+		matrix = glm::lookAt(
+				eye,
+				glm::vec3(0.0f, 0.0f, 0.0f),
+				glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 private:
