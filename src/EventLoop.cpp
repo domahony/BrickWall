@@ -12,7 +12,7 @@
 
 namespace app {
 
-EventLoop::EventLoop(float fps) : fps(fps) {
+EventLoop::EventLoop(float fps, app::CameraPtr& camera) : fps(fps), camera(camera) {
 
 }
 

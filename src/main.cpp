@@ -34,7 +34,8 @@ main(int argc, char **argv)
 	app::FrameRate fr;
 
 	app::ViewPort view_port;
-	app::Camera camera;
+	//app::Camera camera;
+	app::CameraPtr camera(new app::Camera);
 
 	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
 
@@ -93,7 +94,7 @@ main(int argc, char **argv)
 		w.render(view_port, camera);
 	};
 
-	app::EventLoop el(60);
+	app::EventLoop el(60, camera);
 
 	//el.addFn(frameFn);
 	el.addFn(renderfn);

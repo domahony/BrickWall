@@ -49,7 +49,7 @@ public:
 	}
 
 
-	void render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transform) const;
+	void render(const app::CameraPtr& c, const app::ViewPort& vp, const btTransform& transform) const;
 
 private:
 	std::shared_ptr<app::gl::Shader> shader;

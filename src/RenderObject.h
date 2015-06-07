@@ -21,7 +21,7 @@ public:
 	RenderObject();
 	virtual ~RenderObject();
 
-	void render(const app::Camera& c, const app::ViewPort& vp) const;
+	void render(const app::CameraPtr& c, const app::ViewPort& vp) const;
 	void add_body(std::shared_ptr<RenderBody> b);
 
 private:

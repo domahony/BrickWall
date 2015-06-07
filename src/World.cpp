@@ -24,7 +24,7 @@ World::World():
 }
 
 void World::
-render(const app::ViewPort& vp, const app::Camera camera) const {
+render(const app::ViewPort& vp, const app::CameraPtr camera) const {
 	btCollisionObjectArray a = dynamicsWorld->getCollisionObjectArray();
 
 	for (int i = 0; i < a.size(); i++) {

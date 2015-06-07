@@ -8,7 +8,9 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#include <memory>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace app {
 
@@ -18,18 +20,23 @@ public:
 	virtual ~Camera();
 
 	glm::mat4 getMatrix() const {
-		return matrix;
+		return glm::translate(orientation, eye * -1.f);
 	}
 
 	glm::vec3 getViewPos() const {
 		return eye;
 	}
 
+	void left();
+	void right();
+
 private:
 	glm::vec3 eye;
+	glm::mat4 orientation;
 	glm::mat4 matrix;
-
 };
+
+typedef std::shared_ptr<Camera> CameraPtr;
 
 } /* namespace app */
 

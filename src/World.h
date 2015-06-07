@@ -27,7 +27,7 @@ public:
         dynamicsWorld->stepSimulation(1/60.f, 10);
 	}
 
-	void render(const app::ViewPort& vp, const app::Camera camera) const;
+	void render(const app::ViewPort& vp, const app::CameraPtr camera) const;
 
 private:
     btBroadphaseInterface* broadphase;

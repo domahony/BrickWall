@@ -32,3 +32,6 @@
 /aclocal.m4
 /configure
 /Makefile.in
+.metadata
+.project
+*.tif

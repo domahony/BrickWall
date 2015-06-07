@@ -19,7 +19,7 @@ class RenderObject::impl {
 public:
 
 void
-render(const app::Camera& c, const app::ViewPort& vp) const {
+render(const app::CameraPtr& c, const app::ViewPort& vp) const {
 
 	for (auto b = body.begin(); b != body.end(); ++b) {
 		(*b)->render(c, vp);
@@ -50,7 +50,7 @@ void RenderObject::add_body(shared_ptr<RenderBody> b) {
 }
 
 void RenderObject::
-render(const app::Camera& c, const app::ViewPort& vp) const
+render(const app::CameraPtr& c, const app::ViewPort& vp) const
 {
 	pimpl->render(c, vp);
 }

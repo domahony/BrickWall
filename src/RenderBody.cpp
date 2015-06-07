@@ -11,7 +11,7 @@
 namespace app {
 
 void RenderBody::
-render(const app::Camera& c, const app::ViewPort& vp) const {
+render(const app::CameraPtr& c, const app::ViewPort& vp) const {
 		mesh->render(c, vp, transform);
 	}
 
