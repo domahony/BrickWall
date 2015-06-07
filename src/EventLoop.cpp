@@ -41,6 +41,9 @@ run()
         	case SDL_QUIT:
         		done = true;
         		break;
+        	case SDL_KEYDOWN:
+        		handleKey(windowEvent.key);
+        		break;
         	default:
         		break;
         	}
@@ -53,6 +56,21 @@ run()
         }
 
     }
+}
+
+void EventLoop::
+handleKey(const SDL_KeyboardEvent& e)
+{
+	switch (e.keysym.sym) {
+	case SDLK_LEFT:
+		camera->left();
+		break;
+	case SDLK_RIGHT:
+		camera->right();
+		break;
+	default:
+		break;
+	}
 }
 
 } /* namespace app */

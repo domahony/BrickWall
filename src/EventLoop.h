@@ -23,6 +23,8 @@ public:
 	void addFn(std::function<void ()> f) {
 		fn.push_back(f);
 	}
+private:
+	void handleKey(const SDL_KeyboardEvent&);
 
 private:
 	float fps;
