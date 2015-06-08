@@ -42,7 +42,7 @@ render(const app::CameraPtr& c, const app::ViewPort& vp, const btTransform& tran
 				viewPosModel.z << ", " <<
 				viewPosModel.w << ")" <<
 				std::endl;
-#endif DOM_VERBOSE
+#endif
 
 		shader->setViewPos(glm::value_ptr(viewPosModel));
 

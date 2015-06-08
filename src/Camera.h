@@ -29,6 +29,8 @@ public:
 
 	void left();
 	void right();
+	void up();
+	void down();
 
 private:
 	glm::vec3 eye;

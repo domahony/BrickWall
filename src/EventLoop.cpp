@@ -68,6 +68,12 @@ handleKey(const SDL_KeyboardEvent& e)
 	case SDLK_RIGHT:
 		camera->right();
 		break;
+	case SDLK_UP:
+		camera->up();
+		break;
+	case SDLK_DOWN:
+		camera->down();
+		break;
 	default:
 		break;
 	}
