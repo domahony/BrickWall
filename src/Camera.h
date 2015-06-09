@@ -20,7 +20,7 @@ public:
 	virtual ~Camera();
 
 	glm::mat4 getMatrix() const {
-		return glm::translate(orientation, eye * -1.f);
+		return glm::translate(glm::mat4(orientation), eye * -1.f);
 	}
 
 	glm::vec3 getViewPos() const {
@@ -34,7 +34,7 @@ public:
 
 private:
 	glm::vec3 eye;
-	glm::mat4 orientation;
+	glm::mat3 orientation;
 	glm::mat4 matrix;
 };
 
