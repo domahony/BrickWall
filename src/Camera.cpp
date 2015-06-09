@@ -73,7 +73,14 @@ void Camera::
 up() {
 	glm::quat q(orientation);
 	//q = glm::normalize(glm::rotate(q, -1.f, glm::axis(q)));
-	q = glm::normalize(glm::rotate(q, -1.f, glm::vec3(0,0,1)));
+
+	glm::vec3 a = glm::axis(q);
+	glm::vec3 a1(a.y, -a.x, 0);
+	glm::vec3 a2(-a.z, 0, a.x);
+
+	glm::vec3 a3 = a1 + a2;
+
+	q = glm::normalize(glm::rotate(q, -1.f, a3));
 	orientation = glm::mat3_cast(q);
 }
 
