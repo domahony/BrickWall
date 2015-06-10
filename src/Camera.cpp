@@ -9,28 +9,19 @@
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtc/constants.hpp>
 
 namespace app {
 
-Camera::Camera():eye(9.0f, 32.0f, -9.0f),
-		/*
-		matrix(glm::lookAt(
-		eye,
-		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f)))
-		*/
-		orientation(glm::translate(
-				glm::lookAt(
-						eye,
-						glm::vec3(0.0f, 0.0f, 0.0f),
-						glm::vec3(0.0f, 1.0f, 0.0f)),
-				eye * 1.f)),
-		matrix(glm::translate(glm::mat4(orientation), eye * -1.f))
+Camera::Camera():
+		eye(9.0f, 32.0f, -9.0f),
+		center(0.f, 0.f, 0.f),
+		upv(0.f, 1.f, 0.f),
+	_k(-1.f * glm::normalize(center - eye)),
+	_i(glm::normalize(glm::cross(glm::normalize(upv), _k))),
+	_j(glm::normalize(glm::cross(_k, _i)))
 {
-
-	//right();
-	//right();
-	//right();
+	orientation = glm::quat_cast(glm::mat3(_i, _j, _k));
 }
 
 Camera::~Camera() {
@@ -39,57 +30,26 @@ Camera::~Camera() {
 
 void Camera::
 left() {
-	glm::quat q(orientation);
-	//glm::quat q2(.01f, glm::axis(q));
-	//q = glm::normalize(q * q2);
-
-	std::cout << "Axis: "
-			<< glm::axis(q).x << ", "
-			<< glm::axis(q).y << ", "
-			<< glm::axis(q).z << std::endl;
-	std::cout << "Angle: " << glm::angle(q) << std::endl;
-	q = glm::normalize(glm::rotate(q, 1.f, glm::axis(q)));
-
-	orientation = glm::mat3_cast(q);
+	glm::quat rotation(1.f * glm::pi<float>() / 360.0f, _j);
+	orientation = glm::normalize(rotation * orientation);
 }
 
 void Camera::
 right() {
-	glm::quat q(orientation);
-	//glm::quat q2(.01f, glm::axis(q));
-	//q = glm::normalize(q * q2);
-	std::cout << "Axis: "
-			<< glm::axis(q).x << ", "
-			<< glm::axis(q).y << ", "
-			<< glm::axis(q).z << std::endl;
-
-	std::cout << "Angle: " << glm::angle(q) << std::endl;
-	q = glm::normalize(glm::rotate(q, -1.f, glm::axis(q)));
-
-	orientation = glm::mat3_cast(q);
+	glm::quat rotation(-1.f * glm::pi<float>() / 360.0f, _j);
+	orientation = glm::normalize(rotation * orientation);
 }
 
 void Camera::
 up() {
-	glm::quat q(orientation);
-	//q = glm::normalize(glm::rotate(q, -1.f, glm::axis(q)));
-
-	glm::vec3 a = glm::axis(q);
-	glm::vec3 a1(a.y, -a.x, 0);
-	glm::vec3 a2(-a.z, 0, a.x);
-
-	glm::vec3 a3 = a1 + a2;
-
-	q = glm::normalize(glm::rotate(q, -1.f, a3));
-	orientation = glm::mat3_cast(q);
+	glm::quat rotation(-1.f * glm::pi<float>() / 360.0f, _i);
+	orientation = glm::normalize(rotation * orientation);
 }
 
 void Camera::
 down() {
-	glm::quat q(orientation);
-	//q = glm::normalize(glm::rotate(q, 1.f, glm::axis(q)));
-	q = glm::normalize(glm::rotate(q, 1.f, glm::vec3(0,0,1)));
-	orientation = glm::mat3_cast(q);
+	glm::quat rotation(1.f * glm::pi<float>() / 360.0f, _i);
+	orientation = glm::normalize(rotation * orientation);
 }
 
 } /* namespace app */

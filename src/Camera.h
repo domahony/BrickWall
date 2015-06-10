@@ -11,6 +11,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace app {
 
@@ -20,7 +21,7 @@ public:
 	virtual ~Camera();
 
 	glm::mat4 getMatrix() const {
-		return glm::translate(glm::mat4(orientation), eye * -1.f);
+		return glm::translate(glm::mat4_cast(orientation), eye * -1.f);
 	}
 
 	glm::vec3 getViewPos() const {
@@ -34,8 +35,12 @@ public:
 
 private:
 	glm::vec3 eye;
-	glm::mat3 orientation;
-	glm::mat4 matrix;
+	glm::vec3 center;
+	glm::vec3 upv;
+	glm::vec3 _k;
+	glm::vec3 _i;
+	glm::vec3 _j;
+	glm::quat orientation;
 };
 
 typedef std::shared_ptr<Camera> CameraPtr;
