@@ -15,7 +15,7 @@ namespace app {
 
 Camera::Camera():
 		rota_angle(9.0f),
-		eye(0.0f, 0.5f, 19.0f),
+		eye(-2.0f, 0.5f, 29.0f),
 		center(0.f, -15.f, 0.f),
 		upv(0.f, 1.f, 0.f),
 	_k(glm::normalize(eye - center)),
