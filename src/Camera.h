@@ -34,6 +34,7 @@ public:
 	void down();
 
 private:
+	float rota_angle;
 	glm::vec3 eye;
 	glm::vec3 center;
 	glm::vec3 upv;
