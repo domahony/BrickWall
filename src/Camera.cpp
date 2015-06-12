@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_access.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/constants.hpp>
 
@@ -49,29 +50,37 @@ rotate(const glm::vec3& v, const float& angle, const glm::vec3& axis)
 void Camera::
 left() {
 	orientation = rotate(orientation, -1.f * rota_angle, _j);
-	_i = rotate(_i, -1.f * rota_angle, _j);
-	_k = rotate(_k, -1.f * rota_angle, _j);
+
+	glm::mat3 m = glm::mat3_cast(orientation);
+	_i = glm::normalize(glm::column(m, 0));
+	_k = glm::cross(_i, _j);
+
+	//_i = rotate(_i, -1.f * rota_angle, _j);
+	//_k = rotate(_k, -1.f * rota_angle, _j);
 }
 
 void Camera::
 right() {
 	orientation = rotate(orientation, rota_angle, _j);
-	_i = rotate(_i, rota_angle, _j);
-	_k = rotate(_k, rota_angle, _j);
+	glm::mat3 m = glm::mat3_cast(orientation);
+	_i = glm::normalize(glm::column(m, 0));
+	_k = glm::cross(_i, _j);
 }
 
 void Camera::
 up() {
 	orientation = rotate(orientation, -1.f * rota_angle, _i);
-	_j = rotate(_j, -1.f * rota_angle, _i);
-	_k = rotate(_k, -1.f * rota_angle, _i);
+	glm::mat3 m = glm::mat3_cast(orientation);
+	_j = glm::normalize(glm::column(m, 1));
+	_k = glm::cross(_i, _j);
 }
 
 void Camera::
 down() {
 	orientation = rotate(orientation, rota_angle, _i);
-	_j = rotate(_j, rota_angle, _i);
-	_k = rotate(_k, rota_angle, _i);
+	glm::mat3 m = glm::mat3_cast(orientation);
+	_j = glm::normalize(glm::column(m, 1));
+	_k = glm::cross(_i, _j);
 }
 
 } /* namespace app */
