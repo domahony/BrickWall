@@ -60,6 +60,7 @@ main(int argc, char **argv)
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
+	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
 
 	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
 	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());
@@ -73,6 +74,7 @@ main(int argc, char **argv)
 	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, sphere.getMesh());
 
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
+	app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
 
 	w.addRigidBody(b1);
 	w.addRigidBody(b2);

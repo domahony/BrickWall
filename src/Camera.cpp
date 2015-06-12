@@ -16,7 +16,7 @@ namespace app {
 
 Camera::Camera():
 		rota_angle(9.0f),
-		eye(-2.0f, 0.5f, 29.0f),
+		eye(0.0f, -0.5f, 20.0f),
 		center(0.f, -15.f, 0.f),
 		upv(0.f, 1.f, 0.f),
 	_k(glm::normalize(eye - center)),
@@ -54,9 +54,6 @@ left() {
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_i = glm::normalize(glm::column(m, 0));
 	_k = glm::cross(_i, _j);
-
-	//_i = rotate(_i, -1.f * rota_angle, _j);
-	//_k = rotate(_k, -1.f * rota_angle, _j);
 }
 
 void Camera::
