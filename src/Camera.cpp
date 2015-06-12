@@ -80,4 +80,14 @@ down() {
 	_k = glm::cross(_i, _j);
 }
 
+void Camera::
+forward() {
+	eye -= _k/3.f;
+}
+
+void Camera::
+backward() {
+	eye += _k/3.f;
+}
+
 } /* namespace app */

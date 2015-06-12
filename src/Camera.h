@@ -32,6 +32,8 @@ public:
 	void right();
 	void up();
 	void down();
+	void backward();
+	void forward();
 
 private:
 	float rota_angle;
