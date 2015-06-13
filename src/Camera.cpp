@@ -82,12 +82,12 @@ down() {
 
 void Camera::
 forward() {
-	eye -= _k/3.f;
+	eye -= _k;
 }
 
 void Camera::
 backward() {
-	eye += _k/3.f;
+	eye += _k;
 }
 
 } /* namespace app */
