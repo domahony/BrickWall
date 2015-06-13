@@ -9,7 +9,7 @@
 #include <SDL.h>
 #include <functional>
 #include <memory>
-#include "Shader.h"
+#include "Shader2.h"
 #include "BoxMesh.h"
 #include "ObjMesh.h"
 #include "EventLoop.h"
@@ -37,7 +37,7 @@ main(int argc, char **argv)
 	//app::Camera camera;
 	app::CameraPtr camera(new app::Camera);
 
-	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
+	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
 	//std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/git/BrickWall/media/cube.obj", shader));
 	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));

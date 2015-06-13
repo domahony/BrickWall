@@ -15,7 +15,7 @@
 namespace app {
 
 namespace gl {
-	class Shader;
+	class ShaderBase;
 	class Mesh;
 };
 
@@ -39,7 +39,7 @@ struct uv_ {
 	btScalar v;
 };
 
-	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
+	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase>);
 
 	std::shared_ptr<app::gl::Mesh> getMesh() const {
 		return mesh;
@@ -60,7 +60,7 @@ private:
 	std::vector<xyz_> normals;
 	std::vector<uv_> uvs;
 	btStridingMeshInterface *iface;
-	std::shared_ptr<app::gl::Shader> shader;
+	std::shared_ptr<app::gl::ShaderBase> shader;
 	std::shared_ptr<app::gl::Mesh> mesh;
 	btBvhTriangleMeshShape *mesh_shape;
 };

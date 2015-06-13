@@ -7,7 +7,7 @@
 
 #include "types.h"
 #include "ObjMesh.h"
-#include "Shader.h"
+#include "ShaderBase.h"
 #include "Mesh.h"
 #include <fstream>
 #include <boost/tokenizer.hpp>
@@ -17,10 +17,10 @@ using namespace std;
 
 namespace app {
 
-static void init(const string&, shared_ptr<app::gl::Shader>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&,
+static void init(const string&, shared_ptr<app::gl::ShaderBase>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&,
 		vector<ObjMesh::xyz_>&, vector<ObjMesh::uv_>&);
 
-ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader> shader):
+ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase> shader):
 		triangles(), vertices(), normals(), shader(shader)
 {
 	init(fname, shader, triangles, vertices, normals, uvs);
@@ -103,7 +103,7 @@ loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles,
 		vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals, vector<ObjMesh::uv_>&);
 
 static void
-init(const string& fname, shared_ptr<app::gl::Shader> shader,
+init(const string& fname, shared_ptr<app::gl::ShaderBase> shader,
 		vector<ObjMesh::idx_triangle>& triangles, vector<ObjMesh::xyz_>& vertices,
 		vector<ObjMesh::xyz_>& normals, vector<ObjMesh::uv_>& uvs)
 {

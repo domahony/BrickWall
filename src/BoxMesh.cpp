@@ -7,13 +7,12 @@
 
 #include "types.h"
 #include "BoxMesh.h"
-#include "Shader.h"
 
 namespace app {
 
-static GLuint initVAO(std::shared_ptr<app::gl::Shader> shader);
+static GLuint initVAO(std::shared_ptr<app::gl::ShaderBase> shader);
 
-BoxMesh::BoxMesh(std::shared_ptr<app::gl::Shader> shader):
+BoxMesh::BoxMesh(std::shared_ptr<app::gl::ShaderBase> shader):
 		app::gl::Mesh(shader, initVAO(shader), GL_TRIANGLES, 0, 36)
 {
 
@@ -24,7 +23,7 @@ BoxMesh::~BoxMesh() {
 }
 
 static GLuint
-initVAO(std::shared_ptr<app::gl::Shader> shader)
+initVAO(std::shared_ptr<app::gl::ShaderBase> shader)
 {
 	GLfloat vertices[] = {
 	    -0.5f, -0.5f, -0.5f,

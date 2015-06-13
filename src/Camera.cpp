@@ -50,7 +50,8 @@ rotate(const glm::vec3& v, const float& angle, const glm::vec3& axis)
 
 void Camera::
 left() {
-	orientation = rotate(orientation, -1.f * rota_angle, glm::vec3(0,1.f,0));
+	//orientation = rotate(orientation, -1.f * rota_angle, glm::vec3(0,1.f,0));
+	orientation = rotate(orientation, -1.f * rota_angle, _j);
 
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_i = glm::normalize(glm::column(m, 0));
@@ -59,7 +60,8 @@ left() {
 
 void Camera::
 right() {
-	orientation = rotate(orientation, rota_angle, glm::vec3(0,1.0,0));
+	//orientation = rotate(orientation, rota_angle, glm::vec3(0,1.0,0));
+	orientation = rotate(orientation, 1.f * rota_angle, _j);
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_i = glm::normalize(glm::column(m, 0));
 	_k = glm::cross(_i, _j);

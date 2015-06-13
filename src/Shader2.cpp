@@ -1,20 +1,18 @@
 /*
- * Shader.cpp
+ * Shader2.cpp
  *
- *  Created on: Jan 27, 2015
+ *  Created on: Jun 13, 2015
  *      Author: domahony
  */
 
-#include "Shader.h"
+#include "Shader2.h"
 
 namespace app {
 namespace gl {
 
-Shader::
-Shader() : shader(glCreateProgram())
-{
-
-	const GLchar* vertexSource = R"(#version 150 core
+static const
+GLchar* getVS() {
+	return R"(#version 150 core
     in vec3 position;
     in vec3 normal;
     out vec3 normOut;
@@ -30,8 +28,12 @@ Shader() : shader(glCreateProgram())
        pos = position;
     }
 )";
+}
 
-	const GLchar* fragmentSource = R"(#version 150 core
+static const
+GLchar* getFS()
+{
+	return R"(#version 150 core
     
     in vec3 normOut;
     in vec3 pos;
@@ -72,28 +74,13 @@ Shader() : shader(glCreateProgram())
        //outColor = vec4(1.0,1.0,1.0,1.0);
     };
 )";
+}
 
-    // Create and compile the vertex shader
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, nullptr);
-    glCompileShader(vertexShader);
+Shader2::
+Shader2() : ShaderBase(getVS(), getFS())
+{
 
-    // Create and compile the fragment shader
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
-    glCompileShader(fragmentShader);
-
-    // Link the vertex and fragment shader into a shader program
-    glAttachShader(shader, vertexShader);
-    glAttachShader(shader, fragmentShader);
-    glLinkProgram(shader);
-
-	}
-
-Shader::
-~Shader() {
-		// TODO Auto-generated destructor stub
-	}
+}
 
 } /* namespace gl */
 } /* namespace app */

@@ -20,7 +20,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
-#include "Shader.h"
+#include "ShaderBase.h"
 #include "Camera.h"
 #include "ViewPort.h"
 
@@ -30,7 +30,7 @@ namespace gl {
 class Mesh {
 public:
 	Mesh(
-			std::shared_ptr<Shader> shader,
+			std::shared_ptr<ShaderBase> shader,
 			const GLuint& vao,
 			const GLenum& mode,
 			const GLint& first_idx,
@@ -52,7 +52,7 @@ public:
 	void render(const app::CameraPtr& c, const app::ViewPort& vp, const btTransform& transform) const;
 
 private:
-	std::shared_ptr<app::gl::Shader> shader;
+	std::shared_ptr<app::gl::ShaderBase> shader;
 
 	GLuint vao;
 	GLenum mode;
