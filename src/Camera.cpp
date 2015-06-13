@@ -34,9 +34,9 @@ glm::quat
 rotate(const glm::quat& q, const float& a, const glm::vec3& axis)
 {
 	auto angle = a / glm::vec3::value_type(2);
-	//glm::vec3::value_type
-	auto c = std::cos(angle * glm::pi<glm::vec3::value_type>() / glm::vec3::value_type(180));
-	auto s = std::sin(angle * glm::pi<glm::vec3::value_type>() / glm::vec3::value_type(180));
+	auto c = std::cos(glm::radians(angle));
+	auto s = std::sin(glm::radians(angle));
+
 	glm::quat rotation(c, s * axis);
 	return glm::normalize(rotation * q);
 }
@@ -50,7 +50,7 @@ rotate(const glm::vec3& v, const float& angle, const glm::vec3& axis)
 
 void Camera::
 left() {
-	orientation = rotate(orientation, -1.f * rota_angle, _j);
+	orientation = rotate(orientation, -1.f * rota_angle, glm::vec3(0,1.f,0));
 
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_i = glm::normalize(glm::column(m, 0));
@@ -59,7 +59,7 @@ left() {
 
 void Camera::
 right() {
-	orientation = rotate(orientation, rota_angle, _j);
+	orientation = rotate(orientation, rota_angle, glm::vec3(0,1.0,0));
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_i = glm::normalize(glm::column(m, 0));
 	_k = glm::cross(_i, _j);
@@ -67,7 +67,7 @@ right() {
 
 void Camera::
 up() {
-	orientation = rotate(orientation, -1.f * rota_angle, _i);
+	orientation = rotate(orientation, -1.f * rota_angle, glm::vec3(1.f, 0, 0));
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_j = glm::normalize(glm::column(m, 1));
 	_k = glm::cross(_i, _j);
@@ -75,7 +75,7 @@ up() {
 
 void Camera::
 down() {
-	orientation = rotate(orientation, rota_angle, _i);
+	orientation = rotate(orientation, rota_angle, glm::vec3(1.f, 0, 0));
 	glm::mat3 m = glm::mat3_cast(orientation);
 	_j = glm::normalize(glm::column(m, 1));
 	_k = glm::cross(_i, _j);
