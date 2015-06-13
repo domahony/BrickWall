@@ -82,12 +82,16 @@ down() {
 
 void Camera::
 forward() {
-	eye -= _k;
+	glm::vec4 e(getMatrix() * glm::vec4(eye, 1));
+	e += glm::vec4(0,0,-1,0);
+	eye = glm::vec3(glm::inverse(getMatrix()) * e);
 }
 
 void Camera::
 backward() {
-	eye += _k;
+	glm::vec4 e(getMatrix() * glm::vec4(eye, 1));
+	e += glm::vec4(0,0,1,0);
+	eye = glm::vec3(glm::inverse(getMatrix()) * e);
 }
 
 } /* namespace app */
