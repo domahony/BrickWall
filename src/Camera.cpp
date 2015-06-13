@@ -33,9 +33,10 @@ Camera::~Camera() {
 glm::quat
 rotate(const glm::quat& q, const float& a, const glm::vec3& axis)
 {
-	float angle = a / 2.0f;
-	float c = std::cos(angle * glm::pi<float>() / 180.0f);
-	float s = std::sin(angle * glm::pi<float>() / 180.0f);
+	auto angle = a / glm::vec3::value_type(2);
+	//glm::vec3::value_type
+	auto c = std::cos(angle * glm::pi<glm::vec3::value_type>() / glm::vec3::value_type(180));
+	auto s = std::sin(angle * glm::pi<glm::vec3::value_type>() / glm::vec3::value_type(180));
 	glm::quat rotation(c, s * axis);
 	return glm::normalize(rotation * q);
 }
