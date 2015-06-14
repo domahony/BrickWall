@@ -5,14 +5,47 @@
  *      Author: domahony
  */
 
+#include <memory>
 #include "types.h"
 #include "Axis.h"
+#include "ShaderBase.h"
 
 namespace app {
 namespace gl {
 
+static const GLchar* getVS() {
+	return R"(#version 150 core
+    in vec3 position;
+    //uniform mat4 model;
+    //uniform mat4 view;
+    //uniform mat4 proj;
+    void main() {
+       //gl_Position = proj * view * model * vec4(position, 1.0);
+       gl_Position = vec4(position, 1.0);
+    }
+)";
+}
+
+static const GLchar* getFS() {
+	return R"(#version 150 core
+    out vec4 outColor;
+    void main() {
+       outColor = vec4(1.0,1.0,1.0,1.0);
+    };
+)";
+
+}
+
+class AxisShader : public ShaderBase
+{
+public:
+	AxisShader() : ShaderBase(getVS(), getFS())
+	{ }
+
+};
+
 static GLuint
-initVAO(std::shared_ptr<app::gl::Shader> shader)
+initVAO(std::shared_ptr<app::gl::ShaderBase> shader)
 {
 	GLfloat vertices[] = {
 		-0.5f, 0, 0,
@@ -51,14 +84,16 @@ initVAO(std::shared_ptr<app::gl::Shader> shader)
 }
 
 Axis::
-Axis() : vao(initVAO(0))
+Axis() : shader(new AxisShader), vao(initVAO(shader))
 {
 
 }
 
 void Axis::
-render()
+render() const
 {
+	shader->enable();
+	shader->enableVertexAttribs();
 	glBindVertexArray(vao);
 	glDrawArrays(GL_LINES, 0, 2);
 	glDrawArrays(GL_LINES, 2, 2);

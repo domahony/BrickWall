@@ -8,8 +8,13 @@
 #ifndef AXIS_H_
 #define AXIS_H_
 
+#include <memory>
+#include "types.h"
+
 namespace app {
 namespace gl {
+
+class ShaderBase;
 
 class Axis {
 public:
@@ -19,8 +24,9 @@ public:
 		// TODO Auto-generated destructor stub
 	}
 
-	void render();
+	void render() const;
 private:
+	std::shared_ptr<ShaderBase> shader;
 	GLuint vao;
 };
 

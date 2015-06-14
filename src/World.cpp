@@ -10,7 +10,6 @@
 #include "ViewPort.h"
 #include "Camera.h"
 #include "RenderBody.h"
-#include "Axis.h"
 
 namespace app {
 
@@ -34,6 +33,7 @@ render(const app::ViewPort& vp, const app::CameraPtr camera) const {
 		r->render(camera, vp);
 
 	}
+	axis.render();
 }
 
 World::~World() {

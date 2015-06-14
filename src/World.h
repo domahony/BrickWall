@@ -11,6 +11,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "ViewPort.h"
 #include "Camera.h"
+#include "Axis.h"
 
 namespace app {
 
@@ -35,6 +36,7 @@ private:
     btCollisionDispatcher* dispatcher;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* dynamicsWorld;
+    app::gl::Axis axis;
 
 };
 
