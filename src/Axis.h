@@ -10,6 +10,7 @@
 
 #include <memory>
 #include "types.h"
+#include "Camera.h"
 
 namespace app {
 namespace gl {
@@ -24,7 +25,7 @@ public:
 		// TODO Auto-generated destructor stub
 	}
 
-	void render() const;
+	void render(const app::CameraPtr) const;
 private:
 	std::shared_ptr<ShaderBase> shader;
 	GLuint vao;

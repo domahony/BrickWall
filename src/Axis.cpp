@@ -9,6 +9,7 @@
 #include "types.h"
 #include "Axis.h"
 #include "ShaderBase.h"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace app {
 namespace gl {
@@ -16,12 +17,10 @@ namespace gl {
 static const GLchar* getVS() {
 	return R"(#version 150 core
     in vec3 position;
-    //uniform mat4 model;
-    //uniform mat4 view;
-    //uniform mat4 proj;
+    uniform mat4 view;
     void main() {
-       //gl_Position = proj * view * model * vec4(position, 1.0);
-       gl_Position = vec4(position, 1.0);
+       gl_Position = vec4(mat3(view) * position, 1.0);
+       //gl_Position = view * vec4(position, 1.0);
     }
 )";
 }
@@ -30,7 +29,7 @@ static const GLchar* getFS() {
 	return R"(#version 150 core
     out vec4 outColor;
     void main() {
-       outColor = vec4(1.0,1.0,1.0,1.0);
+       outColor = vec4(1.0,0.0,0.0,1.0);
     };
 )";
 
@@ -48,12 +47,12 @@ static GLuint
 initVAO(std::shared_ptr<app::gl::ShaderBase> shader)
 {
 	GLfloat vertices[] = {
-		-0.5f, 0, 0,
 		0.5f, 0, 0,
-		0, -0.5f, 0,
+		-0.5f, 0, 0,
 		0, 0.5f, 0,
-		0, 0, -0.5f,
+		0, -0.5f, 0,
 		0, 0, 0.5f,
+		0, 0, -0.5f,
 	};
 
 	GLuint vbo;
@@ -75,7 +74,8 @@ initVAO(std::shared_ptr<app::gl::ShaderBase> shader)
     glBindVertexArray(vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+    //glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -90,15 +90,17 @@ Axis() : shader(new AxisShader), vao(initVAO(shader))
 }
 
 void Axis::
-render() const
+render(const app::CameraPtr camera) const
 {
+	glBindVertexArray(vao);
 	shader->enable();
 	shader->enableVertexAttribs();
-	glBindVertexArray(vao);
+	shader->setCameraMatrix(glm::value_ptr(camera->getMatrix()));
 	glDrawArrays(GL_LINES, 0, 2);
 	glDrawArrays(GL_LINES, 2, 2);
 	glDrawArrays(GL_LINES, 4, 2);
 	glBindVertexArray(0);
+	glUseProgram(0);
 }
 
 } /* namespace gl */

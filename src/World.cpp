@@ -27,13 +27,13 @@ void World::
 render(const app::ViewPort& vp, const app::CameraPtr camera) const {
 	btCollisionObjectArray a = dynamicsWorld->getCollisionObjectArray();
 
+	axis.render(camera);
 	for (int i = 0; i < a.size(); i++) {
 
 		auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
 		r->render(camera, vp);
 
 	}
-	axis.render();
 }
 
 World::~World() {
