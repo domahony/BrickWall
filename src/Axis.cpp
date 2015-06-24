@@ -100,15 +100,17 @@ render(const app::CameraPtr camera) const
 	glm::mat4 s(glm::scale(glm::mat4(1.f), glm::vec3(0.2f)));
 	glm::mat4 t(glm::translate(glm::mat4(1.f), glm::vec3(-0.8f, -0.8f, 0.f)));
 
-	glm::mat4 m(glm::mat3(camera->getMatrix()));
+	glm::mat4 m1(glm::mat3(camera->getOrientation()));
 
-	m = t * s * m;
+	//glm::mat4 m1(glm::mat3(glm::lookAt(camera->getViewPos(), glm::vec3(0), glm::vec3(0, 1.f, 0))));
+
+	m1 = t * s * m1;
 
 	glBindVertexArray(vao);
 	shader->enable();
 	shader->enableVertexAttribs();
 	//shader->setCameraMatrix(glm::value_ptr(camera->getMatrix()));
-	shader->setCameraMatrix(glm::value_ptr(m));
+	shader->setCameraMatrix(glm::value_ptr(m1));
 	glDrawArrays(GL_LINES, 0, 2);
 	glDrawArrays(GL_LINES, 2, 2);
 	glDrawArrays(GL_LINES, 4, 2);

@@ -24,6 +24,10 @@ public:
 		return glm::translate(glm::mat4_cast(orientation), eye * -1.f);
 	}
 
+	glm::mat4 getOrientation() const {
+		return glm::mat4_cast(orientation);
+	}
+
 	glm::vec3 getViewPos() const {
 		return eye;
 	}
