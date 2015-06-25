@@ -27,9 +27,10 @@ static const GLchar* getVS() {
 
 static const GLchar* getFS() {
 	return R"(#version 150 core
+    uniform vec3 color;
     out vec4 outColor;
     void main() {
-       outColor = vec4(1.0,0.0,0.0,1.0);
+       outColor = vec4(color, 1.0);
     };
 )";
 
@@ -54,9 +55,14 @@ initVAO(std::shared_ptr<app::gl::ShaderBase> shader)
 		0, 0, 0.5f,
 		0, 0, -0.5f,
 
-		0, 0, -0.5f,
-		0.2, 0, -0.2,
-		-0.2, 0, -0.2,
+		//0, 0, -0.5f,
+		//0.2, 0, -0.2,
+		//-0.2, 0, -0.2,
+
+		0, 0, 0.5f,
+		0.2, 0, 0.2,
+		-0.2, 0, 0.2,
+
 	};
 
 	GLuint vbo;
@@ -101,19 +107,23 @@ render(const app::CameraPtr camera) const
 	glm::mat4 t(glm::translate(glm::mat4(1.f), glm::vec3(-0.8f, -0.8f, 0.f)));
 
 	glm::mat4 m1(glm::mat3(camera->getOrientation()));
+	glm::mat4 m2(glm::lookAt(camera->getViewPos(), glm::vec3(0), glm::vec3(0, 1.f, 0)));
 
-	//glm::mat4 m1(glm::mat3(glm::lookAt(camera->getViewPos(), glm::vec3(0), glm::vec3(0, 1.f, 0))));
-
-	m1 = t * s * m1;
+	//m1 = t * s * glm::inverse(m1); //glm::mat4(glm::mat3(m2));
+	m1 = t * s * m1 * glm::inverse(glm::mat4(glm::mat3(m2)));
 
 	glBindVertexArray(vao);
 	shader->enable();
 	shader->enableVertexAttribs();
 	//shader->setCameraMatrix(glm::value_ptr(camera->getMatrix()));
 	shader->setCameraMatrix(glm::value_ptr(m1));
+	shader->setUniform("color", glm::vec3(1.f, 0, 0));
 	glDrawArrays(GL_LINES, 0, 2);
+	shader->setUniform("color", glm::vec3(0, 1.f, 0));
 	glDrawArrays(GL_LINES, 2, 2);
+	shader->setUniform("color", glm::vec3(0, 0, 1.f));
 	glDrawArrays(GL_LINES, 4, 2);
+	shader->setUniform("color", glm::vec3(1.f, 1.f, 1.f));
 	glDrawArrays(GL_TRIANGLES, 6, 3);
 	glBindVertexArray(0);
 	glUseProgram(0);

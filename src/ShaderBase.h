@@ -7,6 +7,8 @@
 
 #include "types.h"
 #include <btBulletDynamicsCommon.h>
+#include "glm/gtc/type_ptr.hpp"
+#include <string>
 
 #ifndef SHADERBASE_H_
 #define SHADERBASE_H_
@@ -71,6 +73,12 @@ public:
 		GLint uniModel = glGetUniformLocation(shader, "model");
 		glUniformMatrix4fv(uniModel, 1, GL_FALSE, m);
 
+	}
+
+	void setUniform(const std::string& s, const glm::vec3& v) const {
+
+		GLint uni = glGetUniformLocation(shader, s.c_str());
+		glUniform3fv(uni, 1, glm::value_ptr(v));
 	}
 
 	void enable() const {
