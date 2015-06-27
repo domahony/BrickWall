@@ -25,29 +25,9 @@ using std::unique_ptr;
 
 static function<void ()> windowFn();
 
-int
-main(int argc, char **argv)
+void
+populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere, std::vector<btRigidBody*>& s)
 {
-	auto swapbuffer = windowFn();
-
-	app::World w;
-	app::FrameRate fr;
-
-	app::ViewPort view_port;
-	//app::Camera camera;
-	app::CameraPtr camera(new app::Camera);
-
-	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
-
-	//std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/git/BrickWall/media/cube.obj", shader));
-	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));
-	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/git/BrickWall/media/plane.obj", shader));
-
-	app::ObjMesh floor("./media/plane.dat", shader);
-	app::ObjMesh cubeplus("./media/cubeplus.dat", shader);
-	app::ObjMesh cube("./media/cube.dat", shader);
-	app::ObjMesh sphere("./media/sphere.dat", shader);
-
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(0.25,52,0));
@@ -59,8 +39,6 @@ main(int argc, char **argv)
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(5,75,0));
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
 
-	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
-	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
 
 	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
 	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());
@@ -73,19 +51,46 @@ main(int argc, char **argv)
 	btRigidBody* b8 = app::tmp::BodyFactory::createBody(loc9, sphere.getMesh());
 	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, sphere.getMesh());
 
+	s.push_back(b1);
+	s.push_back(b2);
+	s.push_back(b3);
+	s.push_back(b4);
+	s.push_back(b5);
+	s.push_back(b6);
+	s.push_back(b7);
+	s.push_back(b8);
+	s.push_back(b9);
+}
+
+int
+main(int argc, char **argv)
+{
+	auto swapbuffer = windowFn();
+
+	app::World w;
+	app::FrameRate fr;
+
+	app::ViewPort view_port;
+	app::CameraPtr camera(new app::Camera);
+	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
+
+	app::ObjMesh floor("./media/plane.dat", shader);
+	app::ObjMesh cubeplus("./media/cubeplus.dat", shader);
+	app::ObjMesh cube("./media/cube.dat", shader);
+	app::ObjMesh sphere("./media/sphere.dat", shader);
+
+	std::vector<btRigidBody*> simulation;
+
+	populateSimulation(cubeplus, sphere, simulation);
+
+	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
+	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
 	app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
 
-	w.addRigidBody(b1);
-	w.addRigidBody(b2);
-	w.addRigidBody(b3);
-	w.addRigidBody(b4);
-	w.addRigidBody(b5);
-	w.addRigidBody(b6);
-
-	w.addRigidBody(b7);
-	w.addRigidBody(b8);
-	w.addRigidBody(b9);
+	for (auto s = simulation.begin(); s != simulation.end(); ++s) {
+		w.addRigidBody(*s);
+	}
 
 	auto frameFn = [&fr]() {
 		fr();
@@ -102,6 +107,8 @@ main(int argc, char **argv)
 	el.addFn(renderfn);
 	el.addFn(swapbuffer);
 	el.run();
+
+	return 0;
 }
 
 function<void ()>

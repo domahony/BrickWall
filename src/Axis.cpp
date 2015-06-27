@@ -112,7 +112,7 @@ render(const app::CameraPtr camera) const
 	//m1 = t * s * glm::inverse(m1); //glm::mat4(glm::mat3(m2));
 	//m1 = t * s * glm::mat4(glm::mat3(m2)) * m1;
 
-	m1 = glm::mat4(glm::mat3(m2)) * glm::inverse(m1);
+	m1 = t * glm::mat4(glm::mat3(m2)) * glm::inverse(m1) * s;
 
 	glBindVertexArray(vao);
 	shader->enable();
