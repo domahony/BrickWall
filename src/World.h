@@ -28,6 +28,8 @@ public:
         dynamicsWorld->stepSimulation(1/60.f, 10);
 	}
 
+	void reset();
+
 	void render(const app::ViewPort& vp, const app::CameraPtr camera) const;
 
 private:
@@ -39,6 +41,8 @@ private:
     app::gl::Axis axis;
 
 };
+
+typedef std::shared_ptr<World> WorldPtr;
 
 } /* namespace app */
 

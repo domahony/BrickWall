@@ -12,7 +12,7 @@
 
 namespace app {
 
-EventLoop::EventLoop(float fps, app::CameraPtr& camera) : fps(fps), camera(camera) {
+EventLoop::EventLoop(float fps, app::CameraPtr& camera, app::WorldPtr& world) : fps(fps), camera(camera), world(world) {
 
 }
 
@@ -79,6 +79,9 @@ handleKey(const SDL_KeyboardEvent& e)
 		break;
 	case SDLK_b:
 		camera->backward();
+		break;
+	case SDLK_r:
+		world->reset();
 		break;
 	default:
 		break;

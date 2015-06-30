@@ -24,6 +24,26 @@ World::World():
 }
 
 void World::
+reset()
+{
+	btCollisionObjectArray a = dynamicsWorld->getCollisionObjectArray();
+
+	for (int i = 0; i < a.size(); i++) {
+		auto o = a[i];
+		if (!o->isStaticOrKinematicObject()) {
+			std::cout << "Object: " << o->getUserPointer() << std::endl;
+			btTransform t = o->getWorldTransform();
+			btVector3 v = t.getOrigin();
+			v.setY(50);
+			t.setOrigin(v);
+			o->setWorldTransform(t);
+			o->setActivationState(1);
+			o->activate(true);
+		}
+	}
+}
+
+void World::
 render(const app::ViewPort& vp, const app::CameraPtr camera) const {
 	btCollisionObjectArray a = dynamicsWorld->getCollisionObjectArray();
 

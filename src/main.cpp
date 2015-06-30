@@ -67,11 +67,11 @@ main(int argc, char **argv)
 {
 	auto swapbuffer = windowFn();
 
-	app::World w;
 	app::FrameRate fr;
 
 	app::ViewPort view_port;
 	app::CameraPtr camera(new app::Camera);
+	app::WorldPtr w = std::make_shared<app::World>();
 	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
 	app::ObjMesh floor("./media/plane.dat", shader);
@@ -89,7 +89,7 @@ main(int argc, char **argv)
 	app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
 
 	for (auto s = simulation.begin(); s != simulation.end(); ++s) {
-		w.addRigidBody(*s);
+		w->addRigidBody(*s);
 	}
 
 	auto frameFn = [&fr]() {
@@ -97,11 +97,11 @@ main(int argc, char **argv)
 	};
 
 	auto renderfn = [&view_port, &camera, &w]() {
-		w.stepSimulation();
-		w.render(view_port, camera);
+		w->stepSimulation();
+		w->render(view_port, camera);
 	};
 
-	app::EventLoop el(60, camera);
+	app::EventLoop el(60, camera, w);
 
 	//el.addFn(frameFn);
 	el.addFn(renderfn);

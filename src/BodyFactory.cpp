@@ -16,7 +16,7 @@ namespace tmp {
 
 void BodyFactory::
 createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
-		app::World& w, btCollisionShape* shape)
+		app::WorldPtr w, btCollisionShape* shape)
 {
 	/*
 	 * create floor
@@ -33,7 +33,7 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
     app::RenderBody *rb = new RenderBody(mesh, t0 * location);
 	btRigidBody *ret = new btRigidBody(0, rb, shape, btVector3(0,0,0));
     ret->setUserPointer(rb);
-    w.addRigidBody(ret);
+    w->addRigidBody(ret);
 
 	btQuaternion rot(btVector3(1, 0, 0), 90.0 * M_PI/180.0);
 	btTransform t1(rot, btVector3(0, 10, -10));
@@ -42,7 +42,7 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	rb = new RenderBody(mesh, loc2);
 	ret = new btRigidBody(0, rb, shape, btVector3(0,0,0));
 	ret->setUserPointer(rb);
-	w.addRigidBody(ret);
+	w->addRigidBody(ret);
 
 	btQuaternion rot2(btVector3(0, 0, 1), 90 * M_PI/180.0);
 	btTransform t2(rot2, btVector3(10, 10, 0));
@@ -52,7 +52,7 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	rb = new RenderBody(mesh, loc3);
 	ret = new btRigidBody(0, rb, shape, btVector3(0,0,0));
 	ret->setUserPointer(rb);
-	w.addRigidBody(ret);
+	w->addRigidBody(ret);
 
 	btQuaternion rot3(btVector3(0, 0, -1), 90 * M_PI/180.0);
 	btTransform t3(rot3, btVector3(-10, 10, 0));
@@ -62,7 +62,7 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	rb = new RenderBody(mesh, loc4);
 	ret = new btRigidBody(0, rb, shape, btVector3(0,0,0));
 	ret->setUserPointer(rb);
-	w.addRigidBody(ret);
+	w->addRigidBody(ret);
 
 }
 
