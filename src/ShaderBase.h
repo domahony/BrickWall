@@ -8,6 +8,7 @@
 #include "types.h"
 #include <btBulletDynamicsCommon.h>
 #include "glm/gtc/type_ptr.hpp"
+#include <memory>
 #include <string>
 
 #ifndef SHADERBASE_H_
@@ -100,6 +101,8 @@ private:
 private:
 
 };
+
+typedef std::shared_ptr<ShaderBase> ShaderPtr;
 
 } /* namespace gl */
 } /* namespace app */

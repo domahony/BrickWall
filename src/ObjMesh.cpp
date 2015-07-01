@@ -20,24 +20,28 @@ namespace app {
 static void init(const string&, shared_ptr<app::gl::ShaderBase>, vector<ObjMesh::idx_triangle>&, vector<ObjMesh::xyz_>&,
 		vector<ObjMesh::xyz_>&, vector<ObjMesh::uv_>&);
 
-ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase> shader):
+ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase> shader, const float& scale):
 		triangles(), vertices(), normals(), shader(shader)
 {
 	init(fname, shader, triangles, vertices, normals, uvs);
 
-	create_mesh();
+	create_mesh(scale);
 
 	btTriangleMesh *tmesh = new btTriangleMesh();
 
 	for (auto v = triangles.begin(); v != triangles.end(); ++v) {
 
 		btVector3 vec[3];
+		btMatrix3x3 mat(btMatrix3x3::getIdentity().scaled(btVector3(scale, scale, scale)));
+
 		for (int i = 0; i < 3; ++i) {
 			vec[i].setValue(
 					vertices[(*v).v[i]].x,
 					vertices[(*v).v[i]].y,
 					vertices[(*v).v[i]].z
 			);
+
+			vec[i] = mat * vec[i];
 		}
 
 		tmesh->addTriangle(vec[0], vec[1], vec[2], true);
@@ -48,13 +52,39 @@ ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase> 
 }
 
 void  ObjMesh::
-create_mesh() {
+create_mesh(const float& s) {
 
 	vector<GLfloat> verts;
+
+	glm::mat4 scale(glm::scale(glm::mat4(1.f), glm::vec3(s)));
 
 	for (auto v = triangles.begin(); v != triangles.end(); ++v) {
 
 		for (int i = 0; i < 3; ++i) {
+
+		glm::vec3 sv(scale * glm::vec4(
+			vertices[(*v).v[i]].x,
+			vertices[(*v).v[i]].y,
+			vertices[(*v).v[i]].z,
+			1.f
+		));
+
+		glm::vec3 sn(scale * glm::vec4(
+			normals[(*v).n[i]].x,
+			normals[(*v).n[i]].y,
+			normals[(*v).n[i]].z,
+			0.f
+		));
+
+			verts.push_back(sv.x);
+			verts.push_back(sv.y);
+			verts.push_back(sv.z);
+
+			verts.push_back(sn.x);
+			verts.push_back(sn.y);
+			verts.push_back(sn.z);
+
+		/*
 			verts.push_back( vertices[(*v).v[i]].x );
 			verts.push_back( vertices[(*v).v[i]].y );
 			verts.push_back( vertices[(*v).v[i]].z );
@@ -62,6 +92,7 @@ create_mesh() {
 			verts.push_back( normals[(*v).n[i]].x );
 			verts.push_back( normals[(*v).n[i]].y );
 			verts.push_back( normals[(*v).n[i]].z );
+		*/
 		}
 	}
 

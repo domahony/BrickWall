@@ -39,7 +39,7 @@ struct uv_ {
 	btScalar v;
 };
 
-	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase>);
+	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase>, const float& scale=1.f);
 
 	std::shared_ptr<app::gl::Mesh> getMesh() const {
 		return mesh;
@@ -53,7 +53,7 @@ struct uv_ {
 
 private:
 
-	void create_mesh();
+	void create_mesh(const float&);
 
 	std::vector<idx_triangle> triangles;
 	std::vector<xyz_> vertices;

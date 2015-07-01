@@ -19,6 +19,7 @@
 #include "Camera.h"
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
+#include "Maze.h"
 
 using std::function;
 using std::unique_ptr;
@@ -88,6 +89,8 @@ main(int argc, char **argv)
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
 	app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
 
+	app::gl::Maze maze(w, shader, 10, 10);
+
 	for (auto s = simulation.begin(); s != simulation.end(); ++s) {
 		w->addRigidBody(*s);
 	}
@@ -95,6 +98,7 @@ main(int argc, char **argv)
 	auto frameFn = [&fr]() {
 		fr();
 	};
+
 
 	auto renderfn = [&view_port, &camera, &w]() {
 		w->stepSimulation();
