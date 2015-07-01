@@ -8,6 +8,7 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
+#include <random>
 #include <btBulletDynamicsCommon.h>
 #include "ViewPort.h"
 #include "Camera.h"
@@ -39,6 +40,9 @@ private:
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* dynamicsWorld;
     app::gl::Axis axis;
+    std::random_device device;
+    std::mt19937 gen;
+    std::uniform_real_distribution<> dis;
 
 };
 

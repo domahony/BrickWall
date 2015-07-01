@@ -18,7 +18,11 @@ World::World():
 	collisionConfiguration(new btDefaultCollisionConfiguration()),
 	dispatcher(new btCollisionDispatcher(collisionConfiguration)),
 	solver(new btSequentialImpulseConstraintSolver()),
-	dynamicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration))
+	dynamicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
+	device(),
+	//gen(device()),
+	gen(std::random_device()()),
+	dis(2, 80)
 {
     dynamicsWorld->setGravity(btVector3(0, -10, 0));
 }
@@ -34,7 +38,7 @@ reset()
 			std::cout << "Object: " << o->getUserPointer() << std::endl;
 			btTransform t = o->getWorldTransform();
 			btVector3 v = t.getOrigin();
-			v.setY(50);
+			v.setY(dis(gen));
 			t.setOrigin(v);
 			o->setWorldTransform(t);
 			o->setActivationState(1);
