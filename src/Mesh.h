@@ -39,7 +39,8 @@ public:
 		vao(vao),
 		mode(mode),
 		first_idx(first_idx),
-		count(count)
+		count(count),
+		local(btTransform::getIdentity())
 	{
 
 	}
@@ -58,6 +59,7 @@ private:
 	GLenum mode;
 	GLint first_idx;
 	GLsizei count;
+	btTransform local;
 
 };
 
