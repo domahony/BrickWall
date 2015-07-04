@@ -45,7 +45,6 @@ public:
 
 private:
 	btTransform transform;
-	btTransform local;
 	std::shared_ptr<app::gl::Mesh> mesh;
 
 };

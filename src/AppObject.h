@@ -8,26 +8,33 @@
 #ifndef APPOBJECT_H_
 #define APPOBJECT_H_
 
+#include "World.h"
+
 namespace app {
 namespace gl {
 
-class AppObject {
+class AppObject : btMotionState {
 public:
-	AppObject() {
-		// TODO Auto-generated constructor stub
+	AppObject(app::World& world);
 
+	void getWorldTransform(btTransform& trans) const {
+		trans = wtransform;
 	}
-	~AppObject() {
-		// TODO Auto-generated destructor stub
+
+	void setWorldTransform(const btTransform& trans) {
+		wtransform = trans;
+		std::cout << "Yeah! " << wtransform.getOrigin().getX() << ", " << wtransform.getOrigin().getY() << std::endl;
 	}
+
+	void render(const app::CameraPtr& c, const app::ViewPort& vp) const;
 
 private:
 	std::shared_ptr<Mesh> mesh;
 	btTransform local_size;
+	btTransform wtransform;
 
 	std::shared_ptr<btStridingMeshInterface> iface;
 	std::shared_ptr<btBvhTriangleMeshShape> shape;
-	std::shared_ptr<RenderBody> render;
 	std::shared_ptr<btRigidBody> rigid;
 
 };
