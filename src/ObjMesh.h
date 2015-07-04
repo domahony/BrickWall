@@ -45,7 +45,7 @@ struct uv_ {
 		return mesh;
 	}
 
-	btCollisionShape* getShape() const {
+	std::shared_ptr<btCollisionShape> getShape() const {
 		return mesh_shape;
 	}
 
@@ -62,7 +62,7 @@ private:
 	btStridingMeshInterface *iface;
 	std::shared_ptr<app::gl::ShaderBase> shader;
 	std::shared_ptr<app::gl::Mesh> mesh;
-	btBvhTriangleMeshShape *mesh_shape;
+	std::shared_ptr<btBvhTriangleMeshShape> mesh_shape;
 };
 
 } /* namespace app */

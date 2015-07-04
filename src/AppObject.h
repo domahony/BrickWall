@@ -9,13 +9,18 @@
 #define APPOBJECT_H_
 
 #include "World.h"
+#include "Mesh.h"
+#include "bullet/btBulletDynamicsCommon.h"
+
 
 namespace app {
 namespace gl {
 
 class AppObject : btMotionState {
 public:
-	AppObject(app::World& world);
+	AppObject(std::shared_ptr<Mesh>, std::shared_ptr<btCollisionShape>);
+
+	void addToWorld(app::World& world, const btRigidBody::btRigidBodyConstructionInfo& ctor);
 
 	void getWorldTransform(btTransform& trans) const {
 		trans = wtransform;
@@ -30,11 +35,10 @@ public:
 
 private:
 	std::shared_ptr<Mesh> mesh;
-	btTransform local_size;
 	btTransform wtransform;
 
 	std::shared_ptr<btStridingMeshInterface> iface;
-	std::shared_ptr<btBvhTriangleMeshShape> shape;
+	std::shared_ptr<btCollisionShape> shape;
 	std::shared_ptr<btRigidBody> rigid;
 
 };

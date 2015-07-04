@@ -20,6 +20,7 @@
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
 #include "Maze.h"
+#include "AppObject.h"
 
 using std::function;
 using std::unique_ptr;
@@ -88,6 +89,8 @@ main(int argc, char **argv)
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
 	app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
+
+	app::gl::AppObject ao(floor.getMesh(), floor.getShape());
 
 	app::gl::Maze maze(w, shader, 10, 10);
 

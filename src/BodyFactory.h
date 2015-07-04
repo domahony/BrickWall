@@ -26,7 +26,7 @@ class BodyFactory {
 
 public:
 	static btRigidBody* createBody(const btTransform&, std::shared_ptr<app::gl::Mesh>);
-	static void createRoom(const btTransform&, std::shared_ptr<app::gl::Mesh>, app::WorldPtr, btCollisionShape*);
+	static void createRoom(const btTransform&, std::shared_ptr<app::gl::Mesh>, app::WorldPtr, std::shared_ptr<btCollisionShape>);
 
 private:
 	BodyFactory() {

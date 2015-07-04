@@ -22,7 +22,7 @@ public:
 		size(size),
 		obj(std::make_shared<ObjMesh>("./media/plane.dat", shader, size)),
 		render(std::make_shared<RenderBody>(obj->getMesh(), btTransform(btQuaternion::getIdentity(), btVector3(0, 0, 0)))),
-		rigid(std::make_shared<btRigidBody>(0, render.get(), obj->getShape(), btVector3(0, 0, 0)))
+		rigid(std::make_shared<btRigidBody>(0, render.get(), obj->getShape().get(), btVector3(0, 0, 0)))
 	{
 		rigid->setUserPointer(render.get());
 	}

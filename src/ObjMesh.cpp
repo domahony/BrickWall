@@ -48,7 +48,7 @@ ObjMesh::ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase> 
 	}
 
 	iface = tmesh;
-	mesh_shape = new btBvhTriangleMeshShape(tmesh, false);
+	mesh_shape = std::make_shared<btBvhTriangleMeshShape>(tmesh, false);
 }
 
 void  ObjMesh::
