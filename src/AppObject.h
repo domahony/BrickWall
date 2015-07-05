@@ -20,7 +20,7 @@ class AppObject : btMotionState {
 public:
 	AppObject(std::shared_ptr<Mesh>, std::shared_ptr<btCollisionShape>);
 
-	void addToWorld(app::World& world, const btRigidBody::btRigidBodyConstructionInfo& ctor);
+	void addToWorld(app::WorldPtr world, const btRigidBody::btRigidBodyConstructionInfo& ctor);
 
 	void getWorldTransform(btTransform& trans) const {
 		trans = wtransform;
@@ -28,7 +28,6 @@ public:
 
 	void setWorldTransform(const btTransform& trans) {
 		wtransform = trans;
-		std::cout << "Yeah! " << wtransform.getOrigin().getX() << ", " << wtransform.getOrigin().getY() << std::endl;
 	}
 
 	void render(const app::CameraPtr& c, const app::ViewPort& vp) const;

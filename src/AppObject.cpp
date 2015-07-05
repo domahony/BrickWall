@@ -20,12 +20,14 @@ mesh(mesh), shape(shape)
 }
 
 void AppObject::
-addToWorld(app::World& world, const btRigidBody::btRigidBodyConstructionInfo& ctor)
+addToWorld(app::WorldPtr world, const btRigidBody::btRigidBodyConstructionInfo& ctor)
 {
 	btRigidBody::btRigidBodyConstructionInfo c(ctor);
 	c.m_motionState = this;
 	c.m_collisionShape = shape.get();
 	rigid = std::make_shared<btRigidBody>(c);
+	rigid->setUserPointer(this);
+	world->addRigidBody(rigid.get());
 }
 
 void AppObject::

@@ -10,6 +10,7 @@
 #include "ViewPort.h"
 #include "Camera.h"
 #include "RenderBody.h"
+#include "AppObject.h"
 
 namespace app {
 
@@ -54,7 +55,8 @@ render(const app::ViewPort& vp, const app::CameraPtr camera) const {
 	axis.render(camera);
 	for (int i = 0; i < a.size(); i++) {
 
-		auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
+		//auto r = static_cast<app::RenderBody*>(a[i]->getUserPointer());
+		auto r = static_cast<app::gl::AppObject*>(a[i]->getUserPointer());
 		r->render(camera, vp);
 
 	}

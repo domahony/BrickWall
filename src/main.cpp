@@ -87,15 +87,18 @@ main(int argc, char **argv)
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
-	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
-	app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
+	//app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
+	//app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
 
-	app::gl::AppObject ao(floor.getMesh(), floor.getShape());
+	//app::gl::AppObject ao(floor.getMesh(), floor.getShape());
+	app::gl::AppObject ao(sphere.getMesh(), sphere.getShape());
+	btRigidBody::btRigidBodyConstructionInfo info(0, nullptr, nullptr);
+	ao.addToWorld(w, info);
 
-	app::gl::Maze maze(w, shader, 10, 10);
+	//app::gl::Maze maze(w, shader, 10, 10);
 
 	for (auto s = simulation.begin(); s != simulation.end(); ++s) {
-		w->addRigidBody(*s);
+		//w->addRigidBody(*s);
 	}
 
 	auto frameFn = [&fr]() {
