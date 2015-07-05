@@ -14,7 +14,7 @@ namespace gl {
 
 AppObject::
 AppObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<btCollisionShape> shape) :
-mesh(mesh), shape(shape)
+mesh(mesh), shape(shape), wtransform(btTransform::getIdentity())
 {
 
 }
