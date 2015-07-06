@@ -9,6 +9,7 @@
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
 #include "RenderBody.h"
+#include "AppObject.h"
 
 namespace app {
 namespace tmp {
@@ -28,41 +29,30 @@ createRoom(const btTransform& location, std::shared_ptr<app::gl::Mesh> mesh,
 	 */
 
 	//btCollisionShape* ground = new btStaticPlaneShape(btVector3(0,1,0), 1);
+	btRigidBody::btRigidBodyConstructionInfo info(0, nullptr, nullptr);
 	btQuaternion rot0(btVector3(0, 0, 1), 0.0 * M_PI/180.0);
 	btTransform t0(rot0, btVector3(0, 0, 0));
-    app::RenderBody *rb = new RenderBody(mesh, t0 * location);
-	btRigidBody *ret = new btRigidBody(0, rb, shape.get(), btVector3(0,0,0));
-    ret->setUserPointer(rb);
-    w->addRigidBody(ret);
+
+	app::gl::AppObject *ao1 = new app::gl::AppObject(mesh, shape, t0);
+	ao1->addToWorld(w, info);
 
 	btQuaternion rot(btVector3(1, 0, 0), 90.0 * M_PI/180.0);
 	btTransform t1(rot, btVector3(0, 10, -10));
  	btTransform loc2(location * t1);
-
-	rb = new RenderBody(mesh, loc2);
-	ret = new btRigidBody(0, rb, shape.get(), btVector3(0,0,0));
-	ret->setUserPointer(rb);
-	w->addRigidBody(ret);
+	app::gl::AppObject *ao2 = new app::gl::AppObject(mesh, shape, loc2);
+	ao2->addToWorld(w, info);
 
 	btQuaternion rot2(btVector3(0, 0, 1), 90 * M_PI/180.0);
 	btTransform t2(rot2, btVector3(10, 10, 0));
-
  	btTransform loc3(location * t2);
-
-	rb = new RenderBody(mesh, loc3);
-	ret = new btRigidBody(0, rb, shape.get(), btVector3(0,0,0));
-	ret->setUserPointer(rb);
-	w->addRigidBody(ret);
+	app::gl::AppObject *ao3 = new app::gl::AppObject(mesh, shape, loc3);
+	ao3->addToWorld(w, info);
 
 	btQuaternion rot3(btVector3(0, 0, -1), 90 * M_PI/180.0);
 	btTransform t3(rot3, btVector3(-10, 10, 0));
-
  	btTransform loc4(location * t3);
-
-	rb = new RenderBody(mesh, loc4);
-	ret = new btRigidBody(0, rb, shape.get(), btVector3(0,0,0));
-	ret->setUserPointer(rb);
-	w->addRigidBody(ret);
+	app::gl::AppObject *ao4 = new app::gl::AppObject(mesh, shape, loc4);
+	ao4->addToWorld(w, info);
 
 }
 

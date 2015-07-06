@@ -28,40 +28,37 @@ using std::unique_ptr;
 static function<void ()> windowFn();
 
 void
-populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere, std::vector<btRigidBody*>& s)
+populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
+		app::WorldPtr w, std::vector<std::shared_ptr<app::gl::AppObject>>& sim)
 {
+	btRigidBody::btRigidBodyConstructionInfo info(5, nullptr, nullptr);
+
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
+	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
+			cubeplus.getMesh(), cubeplus.getShape(), loc1));
+	o->addToWorld(w, info);
+	sim.push_back(o);
+
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape(), loc2);
+	o->addToWorld(w, info);
+	sim.push_back(o);
+
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(0.25,52,0));
+
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(0.5,50,1));
+
 	btTransform loc6(btQuaternion(0,0,0,1), btVector3(-5,55,6));
+
 	btTransform loc7(btQuaternion(0,0,0,1), btVector3(-1,20,0));
 
 	btTransform loc8(btQuaternion(0,0,0,1), btVector3(-8.0, 500,-8.5));
+
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(5,75,0));
+
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
 
 
-	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
-	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());
-	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, sphere.getMesh());
-	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, sphere.getMesh());
-	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, sphere.getMesh());
-	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, sphere.getMesh());
-
-	btRigidBody* b7 = app::tmp::BodyFactory::createBody(loc8, sphere.getMesh());
-	btRigidBody* b8 = app::tmp::BodyFactory::createBody(loc9, sphere.getMesh());
-	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, sphere.getMesh());
-
-	s.push_back(b1);
-	s.push_back(b2);
-	s.push_back(b3);
-	s.push_back(b4);
-	s.push_back(b5);
-	s.push_back(b6);
-	s.push_back(b7);
-	s.push_back(b8);
-	s.push_back(b9);
 }
 
 int
@@ -76,30 +73,26 @@ main(int argc, char **argv)
 	app::WorldPtr w = std::make_shared<app::World>();
 	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
-	app::ObjMesh floor("./media/plane.dat", shader);
+	app::ObjMesh floor("./media/plane.dat", shader, 1);
 	app::ObjMesh cubeplus("./media/cubeplus.dat", shader);
 	app::ObjMesh cube("./media/cube.dat", shader);
 	app::ObjMesh sphere("./media/sphere.dat", shader);
 
-	std::vector<btRigidBody*> simulation;
-
-	populateSimulation(cubeplus, sphere, simulation);
+	std::vector<std::shared_ptr<app::gl::AppObject>> objects;
+	populateSimulation(cubeplus, sphere, w, objects);
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
-	//app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
+	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
 	//app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
 
-	//app::gl::AppObject ao(floor.getMesh(), floor.getShape());
-	app::gl::AppObject ao(sphere.getMesh(), sphere.getShape());
+	/*
 	btRigidBody::btRigidBodyConstructionInfo info(0, nullptr, nullptr);
+	app::gl::AppObject ao(floor.getMesh(), floor.getShape(), loc5);
 	ao.addToWorld(w, info);
+	*/
 
 	//app::gl::Maze maze(w, shader, 10, 10);
-
-	for (auto s = simulation.begin(); s != simulation.end(); ++s) {
-		//w->addRigidBody(*s);
-	}
 
 	auto frameFn = [&fr]() {
 		fr();

@@ -16,9 +16,9 @@
 namespace app {
 namespace gl {
 
-class AppObject : btMotionState {
+class AppObject : public btMotionState {
 public:
-	AppObject(std::shared_ptr<Mesh>, std::shared_ptr<btCollisionShape>);
+	AppObject(std::shared_ptr<Mesh>, std::shared_ptr<btCollisionShape>, const btTransform& pos);
 
 	void addToWorld(app::WorldPtr world, const btRigidBody::btRigidBodyConstructionInfo& ctor);
 

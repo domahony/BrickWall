@@ -13,8 +13,8 @@ namespace app {
 namespace gl {
 
 AppObject::
-AppObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<btCollisionShape> shape) :
-mesh(mesh), shape(shape), wtransform(btTransform::getIdentity())
+AppObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<btCollisionShape> shape, const btTransform& pos) :
+mesh(mesh), shape(shape), wtransform(pos)
 {
 
 }
@@ -25,7 +25,8 @@ addToWorld(app::WorldPtr world, const btRigidBody::btRigidBodyConstructionInfo& 
 	btRigidBody::btRigidBodyConstructionInfo c(ctor);
 	c.m_motionState = this;
 	c.m_collisionShape = shape.get();
-	rigid = std::make_shared<btRigidBody>(c);
+	//rigid = std::make_shared<btRigidBody>(c);
+	rigid = std::make_shared<btRigidBody>(c.m_mass, this, shape.get(), btVector3(0, 0, 0));
 	rigid->setUserPointer(this);
 	world->addRigidBody(rigid.get());
 }
