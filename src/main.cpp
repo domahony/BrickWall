@@ -31,7 +31,11 @@ void
 populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 		app::WorldPtr w, std::vector<std::shared_ptr<app::gl::AppObject>>& sim)
 {
-	btRigidBody::btRigidBodyConstructionInfo info(5, nullptr, nullptr);
+	btScalar mass(5);
+	btVector3 inertia(0, 0, 0);
+    cubeplus.getShape()->calculateLocalInertia(mass, inertia);
+
+	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, nullptr, inertia);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
