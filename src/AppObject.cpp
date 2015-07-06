@@ -24,9 +24,12 @@ addToWorld(app::WorldPtr world, const btRigidBody::btRigidBodyConstructionInfo& 
 {
 	btRigidBody::btRigidBodyConstructionInfo c(ctor);
 	c.m_motionState = this;
-	c.m_collisionShape = shape.get();
+
+	if (!c.m_collisionShape)
+		c.m_collisionShape = shape.get();
+
 	//rigid = std::make_shared<btRigidBody>(c);
-	rigid = std::make_shared<btRigidBody>(c.m_mass, this, shape.get(), btVector3(0, 0, 0));
+	rigid = std::make_shared<btRigidBody>(c.m_mass, this, c.m_collisionShape, btVector3(0, 0, 0));
 	rigid->setUserPointer(this);
 	world->addRigidBody(rigid.get());
 }

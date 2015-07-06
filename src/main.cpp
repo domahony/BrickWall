@@ -35,7 +35,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btVector3 inertia(0, 0, 0);
     cubeplus.getShape()->calculateLocalInertia(mass, inertia);
 
-	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, nullptr, inertia);
+	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, new btBoxShape(btVector3(1,1,1)), inertia);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
