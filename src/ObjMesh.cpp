@@ -245,4 +245,10 @@ static void xxxx(const std::string& str, int cnt, ObjMesh::idx_triangle& idx)
 				idx.n[cnt] = n_idx - 1;
 }
 
+template<>
+std::shared_ptr<btCollisionShape> getShapeX<btConvexHullShape>(const app::ObjMesh* o)
+{
+	std::exit(1);
+}
+
 } /* namespace app */

@@ -14,12 +14,19 @@
 
 namespace app {
 
+/*
+class ObjMesh;
+template<class T> std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o);
+*/
+
 namespace gl {
 	class ShaderBase;
 	class Mesh;
 };
 
 class ObjMesh {
+
+template<class T> friend std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o);
 
 public:
 struct xyz_ {
@@ -45,8 +52,10 @@ struct uv_ {
 		return mesh;
 	}
 
+	template<class T>
 	std::shared_ptr<btCollisionShape> getShape() const {
-		return mesh_shape;
+		return app::getShapeX<T>(this);
+		//return mesh_shape;
 	}
 
 	virtual ~ObjMesh();
@@ -64,6 +73,15 @@ private:
 	std::shared_ptr<app::gl::Mesh> mesh;
 	std::shared_ptr<btBvhTriangleMeshShape> mesh_shape;
 };
+
+template<class T>
+std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o)
+{
+	return o->mesh_shape;
+}
+
+//template<>
+//std::shared_ptr<btCollisionShape> getShapeX<btConvexHullShape>(const app::ObjMesh* o);
 
 } /* namespace app */
 
