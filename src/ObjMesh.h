@@ -55,7 +55,6 @@ struct uv_ {
 	template<class T>
 	std::shared_ptr<btCollisionShape> getShape() const {
 		return app::getShapeX<T>(this);
-		//return mesh_shape;
 	}
 
 	virtual ~ObjMesh();
@@ -64,6 +63,7 @@ private:
 
 	void create_mesh(const float&);
 
+	float scale;
 	std::vector<idx_triangle> triangles;
 	std::vector<xyz_> vertices;
 	std::vector<xyz_> normals;
@@ -79,9 +79,6 @@ std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o)
 {
 	return o->mesh_shape;
 }
-
-//template<>
-//std::shared_ptr<btCollisionShape> getShapeX<btConvexHullShape>(const app::ObjMesh* o);
 
 } /* namespace app */
 

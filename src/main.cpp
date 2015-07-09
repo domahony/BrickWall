@@ -34,7 +34,8 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btVector3 inertia(0, 0, 0);
     cubeplus.getShape<btConvexHullShape>()->calculateLocalInertia(mass, inertia);
 
-	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, new btBoxShape(btVector3(1,1,1)), inertia);
+	//btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, new btBoxShape(btVector3(1,1,1)), inertia);
+	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, nullptr, inertia);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
@@ -48,18 +49,39 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	sim.push_back(o);
 
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(0.25,52,0));
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc3);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(0.5,50,1));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc4);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 	btTransform loc6(btQuaternion(0,0,0,1), btVector3(-5,55,6));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc6);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 	btTransform loc7(btQuaternion(0,0,0,1), btVector3(-1,20,0));
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc7);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 	btTransform loc8(btQuaternion(0,0,0,1), btVector3(-8.0, 500,-8.5));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc8);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(5,75,0));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc9);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc10);
+	o->addToWorld(w, info);
+	sim.push_back(o);
 
 
 }
@@ -77,9 +99,9 @@ main(int argc, char **argv)
 	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
 	app::ObjMesh floor("./media/plane.dat", shader, 1);
-	app::ObjMesh cubeplus("./media/cubeplus.dat", shader);
+	app::ObjMesh cubeplus("./media/cubeplus.dat", shader, 2);
 	app::ObjMesh cube("./media/cube.dat", shader);
-	app::ObjMesh sphere("./media/sphere.dat", shader);
+	app::ObjMesh sphere("./media/sphere.dat", shader, 1.5);
 
 	std::vector<std::shared_ptr<app::gl::AppObject>> objects;
 	populateSimulation(cubeplus, sphere, w, objects);

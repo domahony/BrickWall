@@ -23,7 +23,7 @@ World::World():
 	device(),
 	//gen(device()),
 	gen(std::random_device()()),
-	dis(2, 80)
+	dis(55, 80)
 {
     dynamicsWorld->setGravity(btVector3(0, -10, 0));
 }
