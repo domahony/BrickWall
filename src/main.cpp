@@ -30,7 +30,7 @@ void
 populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 		app::WorldPtr w, std::vector<std::shared_ptr<app::gl::AppObject>>& sim)
 {
-	btScalar mass(5);
+	btScalar mass(50);
 	btVector3 inertia(0, 0, 0);
     cubeplus.getShape<btConvexHullShape>()->calculateLocalInertia(mass, inertia);
 
