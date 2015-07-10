@@ -21,7 +21,6 @@ World::World():
 	solver(new btSequentialImpulseConstraintSolver()),
 	dynamicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
 	device(),
-	//gen(device()),
 	gen(std::random_device()()),
 	dis(55, 80)
 {
