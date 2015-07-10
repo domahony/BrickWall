@@ -115,10 +115,6 @@ create_mesh(const float& s) {
 	mesh = shared_ptr<app::gl::Mesh>(new app::gl::Mesh(shader, vao, GL_TRIANGLES, 0, verts.size() * 2));
 }
 
-ObjMesh::~ObjMesh() {
-	// TODO Auto-generated destructor stub
-}
-
 static void
 loadVertices(const std::string& fname, vector<ObjMesh::idx_triangle>& triangles,
 		vector<ObjMesh::xyz_>& vertices, vector<ObjMesh::xyz_>& normals, vector<ObjMesh::uv_>&);

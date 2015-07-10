@@ -38,78 +38,81 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
     std::uniform_real_distribution<> ydis(25,400);
     std::uniform_real_distribution<> zdis(-9,9);
 
+    auto sphereShape = sphere.getShape<btConvexHullShape>();
+    auto cubeShape = cubeplus.getShape<btConvexHullShape>();
+
 	btScalar mass(dis(gen));
 	btVector3 inertia(0, 0, 0);
-    cubeplus.getShape<btConvexHullShape>()->calculateLocalInertia(mass, inertia);
+    sphereShape->calculateLocalInertia(mass, inertia);
 	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, nullptr, inertia);
 
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
-			cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc1));
+			cubeplus.getMesh(), cubeShape, loc1));
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc2);
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc2);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc3);
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc3);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc4);
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc4);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc6(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc6);
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc6);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    cubeShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc7(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc7);
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc7);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc8(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc8);
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc8);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphere.getShape<btConvexHullShape>(), loc9);
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc9);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
-    sphere.getShape<btConvexHullShape>()->calculateLocalInertia(mass, info.m_localInertia);
+    cubeShape->calculateLocalInertia(mass, info.m_localInertia);
 
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
-	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeplus.getShape<btConvexHullShape>(), loc10);
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc10);
 	o->addToWorld(w, info);
 	sim.push_back(o);
 
@@ -139,15 +142,6 @@ main(int argc, char **argv)
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
-	//app::tmp::BodyFactory::createRoom(loc5b, floor.getMesh(), w, floor.getShape());
-
-	/*
-	btRigidBody::btRigidBodyConstructionInfo info(0, nullptr, nullptr);
-	app::gl::AppObject ao(floor.getMesh(), floor.getShape(), loc5);
-	ao.addToWorld(w, info);
-	*/
-
-	//app::gl::Maze maze(w, shader, 10, 10);
 
 	auto frameFn = [&fr]() {
 		fr();

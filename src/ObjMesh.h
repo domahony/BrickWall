@@ -57,8 +57,6 @@ struct uv_ {
 		return app::getShapeX<T>(this);
 	}
 
-	virtual ~ObjMesh();
-
 private:
 
 	void create_mesh(const float&);
