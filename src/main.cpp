@@ -49,7 +49,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc1(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
 			cubeplus.getMesh(), cubeShape, loc1));
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -57,7 +57,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc2);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -65,7 +65,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc3);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -73,7 +73,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc4);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -81,7 +81,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc6(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc6);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -89,7 +89,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc7(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc7);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -97,7 +97,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc8(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc8);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -105,7 +105,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc9);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 	mass = dis(gen);
@@ -113,7 +113,7 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc10);
-	o->addToWorld(w, info);
+	w->addToWorld(o, info);
 	sim.push_back(o);
 
 

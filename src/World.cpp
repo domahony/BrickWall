@@ -22,7 +22,9 @@ World::World():
 	dynamicsWorld(new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)),
 	device(),
 	gen(std::random_device()()),
-	dis(55, 80)
+	disx(-9.1, 9.2),
+	disy(55, 80),
+	disz(-9.3, 9.0)
 {
     dynamicsWorld->setGravity(btVector3(0, -10, 0));
 }
@@ -31,18 +33,28 @@ void World::
 reset()
 {
 	btCollisionObjectArray a = dynamicsWorld->getCollisionObjectArray();
-
 	for (int i = 0; i < a.size(); i++) {
 		auto o = a[i];
 		if (!o->isStaticOrKinematicObject()) {
 			std::cout << "Object: " << o->getUserPointer() << std::endl;
+
 			btTransform t = o->getWorldTransform();
 			btVector3 v = t.getOrigin();
-			v.setY(dis(gen));
+
+			if (v.getY() < -10) {
+				dynamicsWorld->removeCollisionObject(o);
+			}
+
+			v.setX(disx(gen));
+			v.setY(disy(gen));
+			v.setZ(disz(gen));
 			t.setOrigin(v);
+			o->setInterpolationLinearVelocity(btVector3(0,0,0));
+			o->setInterpolationAngularVelocity(btVector3(0,0,0));
 			o->setWorldTransform(t);
 			o->setActivationState(1);
 			o->activate(true);
+
 		}
 	}
 }

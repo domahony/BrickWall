@@ -13,6 +13,7 @@
 #include "ViewPort.h"
 #include "Camera.h"
 #include "Axis.h"
+#include "AppObject.h"
 
 namespace app {
 
@@ -29,6 +30,20 @@ public:
         dynamicsWorld->stepSimulation(1/60.f, 10);
 	}
 
+	void addToWorld(std::shared_ptr<app::gl::AppObject>& o, const btRigidBody::btRigidBodyConstructionInfo& ctor)
+	{
+		btRigidBody::btRigidBodyConstructionInfo c(ctor);
+		c.m_motionState = o.get();
+
+		if (!c.m_collisionShape)
+			c.m_collisionShape = o->getCollisionShape().get();
+
+		std::shared_ptr<btRigidBody> rigid(std::make_shared<btRigidBody>(c));
+		o->setRigidBody(rigid);
+		rigid->setUserPointer(o.get());
+		dynamicsWorld->addRigidBody(rigid.get());
+	}
+
 	void reset();
 
 	void render(const app::ViewPort& vp, const app::CameraPtr camera) const;
@@ -42,7 +57,9 @@ private:
     app::gl::Axis axis;
     std::random_device device;
     std::mt19937 gen;
-    std::uniform_real_distribution<> dis;
+    std::uniform_real_distribution<> disx;
+    std::uniform_real_distribution<> disy;
+    std::uniform_real_distribution<> disz;
 
 };
 
