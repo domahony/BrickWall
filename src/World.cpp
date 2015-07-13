@@ -42,18 +42,37 @@ reset()
 			btVector3 v = t.getOrigin();
 
 			if (v.getY() < -10) {
-				dynamicsWorld->removeCollisionObject(o);
-			}
 
-			v.setX(disx(gen));
-			v.setY(disy(gen));
-			v.setZ(disz(gen));
-			t.setOrigin(v);
-			o->setInterpolationLinearVelocity(btVector3(0,0,0));
-			o->setInterpolationAngularVelocity(btVector3(0,0,0));
-			o->setWorldTransform(t);
-			o->setActivationState(1);
-			o->activate(true);
+				std::shared_ptr<app::gl::AppObject> new_object;
+
+				dynamicsWorld->removeCollisionObject(o);
+				for (auto i = objects.begin(); i != objects.end(); ++i) {
+					if (i->get() == o->getUserPointer()) {
+						new_object = std::make_shared<app::gl::AppObject>(*(i->get()));
+						v.setX(disx(gen));
+						v.setY(disy(gen));
+						v.setZ(disz(gen));
+						t.setOrigin(v);
+						new_object->setWorldTransform(t);
+						objects.erase(i);
+						break;
+					}
+				}
+				addToWorld(new_object,
+						btRigidBody::btRigidBodyConstructionInfo(new_object->getMass(),
+								nullptr, nullptr, new_object->getInitialInertia()));
+			} else {
+
+				v.setX(disx(gen));
+				v.setY(disy(gen));
+				v.setZ(disz(gen));
+				t.setOrigin(v);
+				o->setWorldTransform(t);
+				o->setInterpolationLinearVelocity(btVector3(0,0,0));
+				o->setInterpolationAngularVelocity(btVector3(0,0,0));
+				o->setActivationState(1);
+				o->activate(true);
+			}
 
 		}
 	}

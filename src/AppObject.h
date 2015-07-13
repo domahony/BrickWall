@@ -23,10 +23,37 @@ class AppObject : public btMotionState {
 public:
 	AppObject(std::shared_ptr<Mesh>, std::shared_ptr<btCollisionShape>, const btTransform& pos);
 
+	AppObject(const AppObject& ao) {
+		this->mesh = ao.mesh;
+		this->iface = ao.iface;
+		this->shape = ao.shape;
+		this->wtransform = ao.wtransform;
+		this->mass = ao.mass;
+		this->inertia = ao.inertia;
+	}
+
+	virtual ~AppObject() { }
+
 	void addToWorld(std::shared_ptr<app::World> w, const btRigidBody::btRigidBodyConstructionInfo& ctor);
 
 	void getWorldTransform(btTransform& trans) const {
 		trans = wtransform;
+	}
+
+	void setMass(float mass) {
+		this->mass = mass;
+	}
+
+	float getMass() const {
+		return mass;
+	}
+
+	void setInitialInertia(const btVector3& v) {
+		inertia = v;
+	}
+
+	btVector3 getInitialInertia() const {
+		return inertia;
 	}
 
 	void setWorldTransform(const btTransform& trans) {
@@ -50,6 +77,8 @@ private:
 	std::shared_ptr<btStridingMeshInterface> iface;
 	std::shared_ptr<btCollisionShape> shape;
 	std::shared_ptr<btRigidBody> rigid;
+	float mass;
+	btVector3 inertia;
 
 };
 

@@ -28,8 +28,7 @@ using std::unique_ptr;
 static function<void ()> windowFn();
 
 void
-populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
-		app::WorldPtr w, std::vector<std::shared_ptr<app::gl::AppObject>>& sim)
+populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere, app::WorldPtr w)
 {
 	std::random_device dev;
     std::mt19937 gen(dev());
@@ -50,7 +49,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
 			cubeplus.getMesh(), cubeShape, loc1));
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     sphereShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -58,7 +56,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc2(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc2);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     sphereShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -66,7 +63,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc3(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc3);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     sphereShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -74,7 +70,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc4(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc4);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     sphereShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -82,7 +77,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc6(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc6);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     cubeShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -90,7 +84,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc7(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc7);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     sphereShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -98,7 +91,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc8(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc8);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     sphereShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -106,7 +98,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc9(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc9);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 	mass = dis(gen);
     cubeShape->calculateLocalInertia(mass, info.m_localInertia);
@@ -114,7 +105,6 @@ populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere,
 	btTransform loc10(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
 	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc10);
 	w->addToWorld(o, info);
-	sim.push_back(o);
 
 
 }
@@ -136,8 +126,7 @@ main(int argc, char **argv)
 	app::ObjMesh cube("./media/cube.dat", shader);
 	app::ObjMesh sphere("./media/sphere.dat", shader, 1.5);
 
-	std::vector<std::shared_ptr<app::gl::AppObject>> objects;
-	populateSimulation(cubeplus, sphere, w, objects);
+	populateSimulation(cubeplus, sphere, w);
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));

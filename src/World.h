@@ -40,8 +40,13 @@ public:
 
 		std::shared_ptr<btRigidBody> rigid(std::make_shared<btRigidBody>(c));
 		o->setRigidBody(rigid);
+		o->setMass(c.m_mass);
+		o->setInitialInertia(c.m_localInertia);
+
 		rigid->setUserPointer(o.get());
 		dynamicsWorld->addRigidBody(rigid.get());
+
+		objects.push_back(o);
 	}
 
 	void reset();
@@ -54,6 +59,7 @@ private:
     btCollisionDispatcher* dispatcher;
     btSequentialImpulseConstraintSolver* solver;
     btDiscreteDynamicsWorld* dynamicsWorld;
+    std::vector<std::shared_ptr<app::gl::AppObject>> objects;
     app::gl::Axis axis;
     std::random_device device;
     std::mt19937 gen;
