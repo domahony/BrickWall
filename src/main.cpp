@@ -21,6 +21,7 @@
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
 #include "AppObject.h"
+#include "Slab.h"
 
 using std::function;
 using std::unique_ptr;
@@ -131,6 +132,8 @@ main(int argc, char **argv)
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
+
+	app::gl::Slab slab(loc5);
 
 	auto frameFn = [&fr]() {
 		fr();

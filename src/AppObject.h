@@ -32,7 +32,9 @@ public:
 		this->inertia = ao.inertia;
 	}
 
-	virtual ~AppObject() { }
+	virtual ~AppObject() {
+		std::cout << "Freeing AppObject " << this << std::endl;
+	}
 
 	void addToWorld(std::shared_ptr<app::World> w, const btRigidBody::btRigidBodyConstructionInfo& ctor);
 
