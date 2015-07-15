@@ -14,11 +14,18 @@
 namespace app {
 namespace gl {
 
+class Segment;
+
 class Maze {
 
 public:
 	Maze();
-	addSegment(Segment(left_wall, right_wall));
+	void addStraight();
+	void addLeftTurn();
+	void addRightTurn();
+	void addFork();
+	void addLeftFork();
+	void addRightFork();
 
 private:
 
