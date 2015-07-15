@@ -22,6 +22,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "AppObject.h"
 #include "Slab.h"
+#include "Maze.h"
 
 using std::function;
 using std::unique_ptr;
@@ -123,6 +124,7 @@ main(int argc, char **argv)
 	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
 	app::ObjMesh floor("./media/plane.dat", shader, 1);
+	/*
 	app::ObjMesh cubeplus("./media/cubeplus.dat", shader, 2);
 	app::ObjMesh cube("./media/cube.dat", shader);
 	app::ObjMesh sphere("./media/sphere.dat", shader, 1.5);
@@ -134,6 +136,9 @@ main(int argc, char **argv)
 	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
 
 	app::gl::Slab slab(loc5);
+	*/
+
+	app::gl::Maze maze;
 
 	auto frameFn = [&fr]() {
 		fr();

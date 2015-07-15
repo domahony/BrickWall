@@ -6,19 +6,14 @@
  */
 
 #include "Maze.h"
-#include "Slab.h"
-#include "ShaderBase.h"
 
 namespace app {
 namespace gl {
 
 Maze::
-Maze(WorldPtr world, ShaderPtr shader, const int& length, const int& width)
+Maze()
 {
 
-	std::shared_ptr<Slab> floor(std::make_shared<Slab>(50.f, shader));
-	world->addRigidBody(floor->getRigidBody().get());
-	slabs.push_back(floor);
 }
 
 } /* namespace gl */

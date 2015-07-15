@@ -8,22 +8,20 @@
 #ifndef MAZE_H_
 #define MAZE_H_
 
-#include "World.h"
-#include "ShaderBase.h"
 #include <memory>
 #include <vector>
 
 namespace app {
 namespace gl {
 
-class Slab;
-
 class Maze {
 
 public:
-	Maze(WorldPtr w, ShaderPtr s, const int& length, const int& width);
+	Maze();
+	addSegment(Segment(left_wall, right_wall));
+
 private:
-	std::vector<std::shared_ptr<Slab>> slabs;
+
 };
 
 } /* namespace gl */
