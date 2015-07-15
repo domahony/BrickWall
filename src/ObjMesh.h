@@ -14,12 +14,19 @@
 
 namespace app {
 
+/*
+class ObjMesh;
+template<class T> std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o);
+*/
+
 namespace gl {
-	class Shader;
+	class ShaderBase;
 	class Mesh;
 };
 
 class ObjMesh {
+
+template<class T> friend std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o);
 
 public:
 struct xyz_ {
@@ -39,31 +46,37 @@ struct uv_ {
 	btScalar v;
 };
 
-	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::Shader>);
+	ObjMesh(const std::string& fname, std::shared_ptr<app::gl::ShaderBase>, const float& scale=1.f);
 
 	std::shared_ptr<app::gl::Mesh> getMesh() const {
 		return mesh;
 	}
 
-	btCollisionShape* getShape() const {
-		return mesh_shape;
+	template<class T>
+	std::shared_ptr<btCollisionShape> getShape() const {
+		return app::getShapeX<T>(this);
 	}
-
-	virtual ~ObjMesh();
 
 private:
 
-	void create_mesh();
+	void create_mesh(const float&);
 
+	float scale;
 	std::vector<idx_triangle> triangles;
 	std::vector<xyz_> vertices;
 	std::vector<xyz_> normals;
 	std::vector<uv_> uvs;
 	btStridingMeshInterface *iface;
-	std::shared_ptr<app::gl::Shader> shader;
+	std::shared_ptr<app::gl::ShaderBase> shader;
 	std::shared_ptr<app::gl::Mesh> mesh;
-	btBvhTriangleMeshShape *mesh_shape;
+	std::shared_ptr<btBvhTriangleMeshShape> mesh_shape;
 };
+
+template<class T>
+std::shared_ptr<btCollisionShape> getShapeX(const app::ObjMesh* o)
+{
+	return o->mesh_shape;
+}
 
 } /* namespace app */
 

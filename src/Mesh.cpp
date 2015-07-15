@@ -11,7 +11,7 @@ namespace app {
 namespace gl {
 
 void Mesh::
-render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transform) const {
+render(const app::CameraPtr& c, const app::ViewPort& vp, const btTransform& transform) const {
 
 		shader->enable();
 		glBindVertexArray(vao);
@@ -32,7 +32,7 @@ render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transfo
 
 		shader->setLightPos(glm::value_ptr(lightPosModel));
 
-		glm::vec4 viewPos = glm::vec4(c.getViewPos(), 1);
+		glm::vec4 viewPos = glm::vec4(c->getViewPos(), 1);
 		glm::vec4 viewPosModel = glm::inverse(glm::make_mat4(scalar)) * viewPos;
 
 #ifdef DOM_VERBOSE
@@ -42,12 +42,12 @@ render(const app::Camera& c, const app::ViewPort& vp, const btTransform& transfo
 				viewPosModel.z << ", " <<
 				viewPosModel.w << ")" <<
 				std::endl;
-#endif DOM_VERBOSE
+#endif
 
 		shader->setViewPos(glm::value_ptr(viewPosModel));
 
 		//std::exit(1);
-		shader->setCameraMatrix(glm::value_ptr(c.getMatrix()));
+		shader->setCameraMatrix(glm::value_ptr(c->getMatrix()));
 		shader->setViewportMatrix(glm::value_ptr(vp.getProjMatrix()));
 		shader->setModelMatrix(scalar);
 		shader->enableVertexAttribs();

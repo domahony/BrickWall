@@ -26,7 +26,7 @@ namespace app {
 class BoxMesh : public app::gl::Mesh {
 
 public:
-	BoxMesh(std::shared_ptr<app::gl::Shader>);
+	BoxMesh(std::shared_ptr<app::gl::ShaderBase>);
 	virtual ~BoxMesh();
 
 };

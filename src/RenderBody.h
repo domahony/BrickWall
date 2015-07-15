@@ -41,7 +41,7 @@ public:
 		std::cout << "Yeah! " << transform.getOrigin().getX() << ", " << transform.getOrigin().getY() << std::endl;
 	}
 
-	void render(const app::Camera& c, const app::ViewPort& vp) const;
+	void render(const app::CameraPtr& c, const app::ViewPort& vp) const;
 
 private:
 	btTransform transform;

@@ -10,22 +10,28 @@
 
 #include <functional>
 #include <vector>
+#include "Camera.h"
+#include "World.h"
 
 namespace app {
 
 class EventLoop {
 public:
-	EventLoop(float rate);
+	EventLoop(float rate, app::CameraPtr& camera, app::WorldPtr& world);
 	virtual ~EventLoop();
 
 	void run();
 	void addFn(std::function<void ()> f) {
 		fn.push_back(f);
 	}
+private:
+	void handleKey(const SDL_KeyboardEvent&);
 
 private:
 	float fps;
 	std::vector<std::function<void ()>> fn;
+	app::CameraPtr camera;
+	app::WorldPtr world;
 };
 
 } /* namespace app */

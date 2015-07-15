@@ -5,11 +5,12 @@
  *      Author: domahony
  */
 
+#include <random>
 #include "types.h"
 #include <SDL.h>
 #include <functional>
 #include <memory>
-#include "Shader.h"
+#include "Shader2.h"
 #include "BoxMesh.h"
 #include "ObjMesh.h"
 #include "EventLoop.h"
@@ -19,86 +20,139 @@
 #include "Camera.h"
 #include "BodyFactory.h"
 #include <btBulletDynamicsCommon.h>
+#include "AppObject.h"
+#include "Slab.h"
 
 using std::function;
 using std::unique_ptr;
 
 static function<void ()> windowFn();
 
+void
+populateSimulation(const app::ObjMesh& cubeplus, const app::ObjMesh& sphere, app::WorldPtr w)
+{
+	std::random_device dev;
+    std::mt19937 gen(dev());
+    std::uniform_real_distribution<> dis(0.1,500);
+    std::uniform_real_distribution<> xdis(-9,9);
+    std::uniform_real_distribution<> ydis(25,400);
+    std::uniform_real_distribution<> zdis(-9,9);
+
+    auto sphereShape = sphere.getShape<btConvexHullShape>();
+    auto cubeShape = cubeplus.getShape<btConvexHullShape>();
+
+	btScalar mass(dis(gen));
+	btVector3 inertia(0, 0, 0);
+    sphereShape->calculateLocalInertia(mass, inertia);
+	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, nullptr, inertia);
+
+	btTransform loc1(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
+			cubeplus.getMesh(), cubeShape, loc1));
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc2(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc2);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc3(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc3);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc4(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc4);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc6(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc6);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    cubeShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc7(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc7);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc8(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc8);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    sphereShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc9(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(sphere.getMesh(), sphereShape, loc9);
+	w->addToWorld(o, info);
+
+	mass = dis(gen);
+    cubeShape->calculateLocalInertia(mass, info.m_localInertia);
+
+	btTransform loc10(btQuaternion(0,0,0,1), btVector3(xdis(gen), ydis(gen), zdis(gen)));
+	o = std::make_shared<app::gl::AppObject>(cubeplus.getMesh(), cubeShape, loc10);
+	w->addToWorld(o, info);
+
+
+}
+
 int
 main(int argc, char **argv)
 {
 	auto swapbuffer = windowFn();
 
-	app::World w;
 	app::FrameRate fr;
 
 	app::ViewPort view_port;
-	app::Camera camera;
+	app::CameraPtr camera(new app::Camera);
+	app::WorldPtr w = std::make_shared<app::World>();
+	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
-	std::shared_ptr<app::gl::Shader> shader(new app::gl::Shader());
+	app::ObjMesh floor("./media/plane.dat", shader, 1);
+	app::ObjMesh cubeplus("./media/cubeplus.dat", shader, 2);
+	app::ObjMesh cube("./media/cube.dat", shader);
+	app::ObjMesh sphere("./media/sphere.dat", shader, 1.5);
 
-	//std::shared_ptr<app::gl::Mesh> cube(new app::ObjMesh("/home/domahony/git/BrickWall/media/cube.obj", shader));
-	//std::shared_ptr<app::gl::Mesh> cubeplus(new app::ObjMesh("/home/domahony/git//BrickWall/media/cubeplus.obj", shader));
-	//std::shared_ptr<app::gl::Mesh> floor(new app::ObjMesh("/home/domahony/git/BrickWall/media/plane.obj", shader));
-
-	app::ObjMesh floor("/home/domahony/Projects/ws-ogldev/Bricks2/media/plane.obj", shader);
-	app::ObjMesh cubeplus("/home/domahony/Projects/ws-ogldev/Bricks2/media/cubeplus.obj", shader);
-	app::ObjMesh cube("/home/domahony/Projects/ws-ogldev/Bricks2/media/cube.obj", shader);
-	app::ObjMesh sphere("/home/domahony/Projects/ws-ogldev/Bricks2/media/sphere.obj", shader);
-
-	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0,50,0));
-	btTransform loc2(btQuaternion(0,0,0,1), btVector3(-0.33,48,6));
-	btTransform loc3(btQuaternion(0,0,0,1), btVector3(0.25,52,0));
-	btTransform loc4(btQuaternion(0,0,0,1), btVector3(0.5,50,1));
-	btTransform loc6(btQuaternion(0,0,0,1), btVector3(-5,55,6));
-	btTransform loc7(btQuaternion(0,0,0,1), btVector3(-1,20,0));
-
-	btTransform loc8(btQuaternion(0,0,0,1), btVector3(-8.0, 500,-8.5));
-	btTransform loc9(btQuaternion(0,0,0,1), btVector3(5,75,0));
-	btTransform loc10(btQuaternion(0,0,0,1), btVector3(-9,60,-9));
+	populateSimulation(cubeplus, sphere, w);
 
 	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
+	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
+	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
 
-	btRigidBody* b1 = app::tmp::BodyFactory::createBody(loc1, cubeplus.getMesh());
-	btRigidBody* b2 = app::tmp::BodyFactory::createBody(loc2, sphere.getMesh());
-	btRigidBody* b3 = app::tmp::BodyFactory::createBody(loc3, sphere.getMesh());
-	btRigidBody* b4 = app::tmp::BodyFactory::createBody(loc4, sphere.getMesh());
-	btRigidBody* b5 = app::tmp::BodyFactory::createBody(loc6, sphere.getMesh());
-	btRigidBody* b6 = app::tmp::BodyFactory::createBody(loc7, sphere.getMesh());
-
-	btRigidBody* b7 = app::tmp::BodyFactory::createBody(loc8, sphere.getMesh());
-	btRigidBody* b8 = app::tmp::BodyFactory::createBody(loc9, sphere.getMesh());
-	btRigidBody* b9 = app::tmp::BodyFactory::createBody(loc10, sphere.getMesh());
-
-	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape());
-
-	w.addRigidBody(b1);
-	w.addRigidBody(b2);
-	w.addRigidBody(b3);
-	w.addRigidBody(b4);
-	w.addRigidBody(b5);
-	w.addRigidBody(b6);
-
-	w.addRigidBody(b7);
-	w.addRigidBody(b8);
-	w.addRigidBody(b9);
+	app::gl::Slab slab(loc5);
 
 	auto frameFn = [&fr]() {
 		fr();
 	};
 
+
 	auto renderfn = [&view_port, &camera, &w]() {
-		w.stepSimulation();
-		w.render(view_port, camera);
+		w->stepSimulation();
+		w->render(view_port, camera);
 	};
 
-	app::EventLoop el(60);
+	app::EventLoop el(60, camera, w);
 
 	//el.addFn(frameFn);
 	el.addFn(renderfn);
 	el.addFn(swapbuffer);
 	el.run();
+
+	return 0;
 }
 
 function<void ()>

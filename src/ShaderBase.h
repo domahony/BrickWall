@@ -1,29 +1,44 @@
 /*
- * Shader.h
+ * ShaderBase.h
  *
- *  Created on: Jan 27, 2015
+ *  Created on: Jun 13, 2015
  *      Author: domahony
  */
 
-#ifndef SHADER_H_
-#define SHADER_H_
-
 #include "types.h"
-#include <iostream>
 #include <btBulletDynamicsCommon.h>
+#include "glm/gtc/type_ptr.hpp"
+#include <memory>
+#include <string>
+
+#ifndef SHADERBASE_H_
+#define SHADERBASE_H_
 
 namespace app {
 namespace gl {
 
-class Shader {
+class ShaderBase {
 public:
+	ShaderBase(const GLchar* vs, const GLchar* fs) : shader(glCreateProgram())
+{
+    // Create and compile the vertex shader
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vs, nullptr);
+    glCompileShader(vertexShader);
 
-	Shader();
+    // Create and compile the fragment shader
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fs, nullptr);
+    glCompileShader(fragmentShader);
 
-	~Shader();
+    // Link the vertex and fragment shader into a shader program
+    glAttachShader(shader, vertexShader);
+    glAttachShader(shader, fragmentShader);
+    glLinkProgram(shader);
 
-	void enable() const {
-		glUseProgram(shader);
+	}
+	virtual ~ShaderBase() {
+		// TODO Auto-generated destructor stub
 	}
 
 	GLuint getShader() const {
@@ -61,6 +76,16 @@ public:
 
 	}
 
+	void setUniform(const std::string& s, const glm::vec3& v) const {
+
+		GLint uni = glGetUniformLocation(shader, s.c_str());
+		glUniform3fv(uni, 1, glm::value_ptr(v));
+	}
+
+	void enable() const {
+		glUseProgram(shader);
+	}
+
 	void enableVertexAttribs() const {
 
 		GLint posAttrib = glGetAttribLocation(shader, "position");
@@ -73,9 +98,13 @@ public:
 private:
 	GLuint shader;
 
+private:
+
 };
+
+typedef std::shared_ptr<ShaderBase> ShaderPtr;
 
 } /* namespace gl */
 } /* namespace app */
 
-#endif /* SHADER_H_ */
+#endif /* SHADERBASE_H_ */

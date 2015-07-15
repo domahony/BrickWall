@@ -12,7 +12,7 @@
 
 namespace app {
 
-EventLoop::EventLoop(float fps) : fps(fps) {
+EventLoop::EventLoop(float fps, app::CameraPtr& camera, app::WorldPtr& world) : fps(fps), camera(camera), world(world) {
 
 }
 
@@ -41,6 +41,9 @@ run()
         	case SDL_QUIT:
         		done = true;
         		break;
+        	case SDL_KEYDOWN:
+        		handleKey(windowEvent.key);
+        		break;
         	default:
         		break;
         	}
@@ -53,6 +56,36 @@ run()
         }
 
     }
+}
+
+void EventLoop::
+handleKey(const SDL_KeyboardEvent& e)
+{
+	switch (e.keysym.sym) {
+	case SDLK_LEFT:
+		camera->left();
+		break;
+	case SDLK_RIGHT:
+		camera->right();
+		break;
+	case SDLK_UP:
+		camera->up();
+		break;
+	case SDLK_DOWN:
+		camera->down();
+		break;
+	case SDLK_f:
+		camera->forward();
+		break;
+	case SDLK_b:
+		camera->backward();
+		break;
+	case SDLK_r:
+		world->reset();
+		break;
+	default:
+		break;
+	}
 }
 
 } /* namespace app */
