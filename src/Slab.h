@@ -22,7 +22,7 @@ class Mesh;
 
 class Slab : public AppObject {
 public:
-	Slab(const btTransform&);
+	Slab(std::shared_ptr<app::gl::Mesh>, std::shared_ptr<btCollisionShape>, const btTransform&);
 	~Slab();
 
 	float get_width() const {
@@ -34,10 +34,6 @@ public:
 	}
 
 private:
-	static std::shared_ptr<app::gl::ShaderBase> shader;
-	static app::ObjMesh floor;
-	static std::shared_ptr<app::gl::Mesh> mesh;
-	static std::shared_ptr<btCollisionShape> shape;
 	float width;
 	float height;
 };

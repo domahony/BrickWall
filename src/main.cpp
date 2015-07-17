@@ -121,24 +121,25 @@ main(int argc, char **argv)
 	app::ViewPort view_port;
 	app::CameraPtr camera(new app::Camera);
 	app::WorldPtr w = std::make_shared<app::World>();
-	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
 
-	app::ObjMesh floor("./media/plane.dat", shader, 1);
 	/*
+	std::shared_ptr<app::gl::ShaderBase> shader(new app::gl::Shader2());
+	app::ObjMesh floor("./media/plane.dat", shader, 1);
 	app::ObjMesh cubeplus("./media/cubeplus.dat", shader, 2);
 	app::ObjMesh cube("./media/cube.dat", shader);
 	app::ObjMesh sphere("./media/sphere.dat", shader, 1.5);
 
 	populateSimulation(cubeplus, sphere, w);
 
-	btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
 	btTransform loc5b(btQuaternion(btVector3(0, 1, 0), 72.f * M_PI/180.f), btVector3(-65, -10, 0));
-	app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
-
 	app::gl::Slab slab(loc5);
 	*/
 
-	app::gl::Maze maze;
+	//btTransform loc5(btQuaternion(0,0,0,1), btVector3(0, 0, 0));
+	//app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
+
+
+	app::gl::Maze maze(w);
 
 	auto frameFn = [&fr]() {
 		fr();

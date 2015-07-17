@@ -10,16 +10,22 @@
 
 #include <memory>
 #include <vector>
+#include "ObjMesh.h"
+
+class btCollisionShape;
 
 namespace app {
-namespace gl {
+class World;
 
-class Segment;
+namespace gl {
+class AppObject;
+class ShaderBase;
+class Mesh;
 
 class Maze {
 
 public:
-	Maze();
+	Maze(std::shared_ptr<app::World>);
 	void addStraight();
 	void addLeftTurn();
 	void addRightTurn();
@@ -28,6 +34,12 @@ public:
 	void addRightFork();
 
 private:
+	std::shared_ptr<app::gl::ShaderBase> shader;
+	app::ObjMesh floor;
+	std::shared_ptr<app::gl::Mesh> mesh;
+	std::shared_ptr<btCollisionShape> shape;
+	std::shared_ptr<app::World> world;
+	std::vector<std::shared_ptr<app::gl::AppObject>> slabs;
 
 };
 
