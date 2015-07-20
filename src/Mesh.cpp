@@ -30,7 +30,7 @@ render(const app::CameraPtr& c, const app::ViewPort& vp, const btTransform& tran
 				std::endl;
 #endif
 
-		shader->setLightPos(glm::value_ptr(lightPosModel));
+		//shader->setLightPos(glm::value_ptr(lightPosModel));
 
 		glm::vec4 viewPos = glm::vec4(c->getViewPos(), 1);
 		glm::vec4 viewPosModel = glm::inverse(glm::make_mat4(scalar)) * viewPos;
@@ -44,6 +44,7 @@ render(const app::CameraPtr& c, const app::ViewPort& vp, const btTransform& tran
 				std::endl;
 #endif
 
+		shader->setLightPos(glm::value_ptr(viewPosModel));
 		shader->setViewPos(glm::value_ptr(viewPosModel));
 
 		//std::exit(1);
