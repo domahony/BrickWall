@@ -48,7 +48,6 @@ private:
 	std::shared_ptr<app::World> world;
 	std::vector<std::shared_ptr<app::gl::AppObject>> slabs;
 	btTransform pos;
-	btQuaternion dir;
 	float width;
 	float length;
 	btVector3 halfX;

@@ -26,7 +26,6 @@ Maze(std::shared_ptr<app::World> w) :
 	shape(floor.getShape<btBvhTriangleMeshShape>()),
 	world(w),
 	pos(btTransform::getIdentity()),
-	dir(btQuaternion::getIdentity()),
 	width(20),
 	length(20),
 	halfX(width/2.f, 0, 0),
@@ -36,106 +35,33 @@ Maze(std::shared_ptr<app::World> w) :
 {
 
 	addStraight();
+	addLeftTurn();
 	addStraight();
 	addLeftTurn();
-	//addStraight();
-	/*
-	tran.setOrigin(tran.getOrigin() + btVector3(0, 0, -width));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
+	addStraight();
 
-	l = btTransform(ZP90, tran.getOrigin() + halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	l = btTransform(XP90, tran.getOrigin() - halfZ + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(-width, 0, 0));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	l = btTransform(XP90, tran.getOrigin() - halfZ + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	l = btTransform(XN90, tran.getOrigin() + halfZ + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-	*/
-	/*
-	tran.setOrigin(tran.getOrigin() + btVector3(20, 0, 0));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(0, 0, -20));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(0, 0, -20));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(0, 0, -20));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(0, 0, -20));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(-20, 0, 0));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(-20, 0, 0));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(-20, 0, 0));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	tran.setOrigin(tran.getOrigin() + btVector3(-20, 0, 0));
-	s = std::make_shared<app::gl::Slab>(mesh, shape, tran);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-	*/
 }
 
 void Maze::
 addStraight()
 {
-	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, pos));
+	btTransform t(btTransform::getIdentity());
+
+	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, t * pos));
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	btTransform l(dir * ZP90, pos.getOrigin() + halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
+	btTransform l(ZP90, t.getOrigin() + halfX + halfY);
+	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * l);
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	l = btTransform(dir * ZN90, pos.getOrigin() - halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
+	l = btTransform(ZN90, t.getOrigin() -  halfX + halfY);
+	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * l);
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	pos.setOrigin(pos.getOrigin() + quatRotate(dir, btVector3(0, 0, -length)));
+	pos.setOrigin(pos.getOrigin() + quatRotate(pos.getRotation(), btVector3(0, 0, -length)));
 }
 
 void Maze::
@@ -144,27 +70,25 @@ addLeftTurn()
 	/*
 	 * need to change turn left by 90degrees (-90 deg around Y axis);
 	 */
+	btTransform t(btTransform::getIdentity());
 
-	dir = btQuaternion(btVector3(0, 1, 0), glm::radians(90.f)) * dir;
-	addStraight();
-
-	/*
-	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, pos));
+	btTransform l(ZP90, t.getOrigin() +  halfX + halfY);
+	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, pos * l));
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	btTransform l(ZP90, pos.getOrigin() + halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
+	pos = pos * btTransform(btQuaternion(btVector3(0, 1, 0), glm::radians(90.f)));
+
+	s = std::make_shared<app::gl::Slab>(mesh, shape, t * pos);
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	l = btTransform(XP90, pos.getOrigin() - halfZ + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, l);
+	l = btTransform(ZP90, t.getOrigin() + halfX + halfY);
+	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * l);
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	pos.setOrigin(pos.getOrigin() + btVector3(-width, 0, 0));
-	*/
+	pos.setOrigin(pos.getOrigin() + quatRotate(pos.getRotation(), btVector3(0, 0, -length)));
 }
 
 void Maze::
