@@ -37,7 +37,14 @@ Maze(std::shared_ptr<app::World> w) :
 	addStraight();
 	addLeftTurn();
 	addStraight();
+	addStraight();
+	addRightTurn();
+	addStraight();
+	addStraight();
+	addStraight();
+	addRightTurn();
 	addLeftTurn();
+	addStraight();
 	addStraight();
 
 }
@@ -45,56 +52,43 @@ Maze(std::shared_ptr<app::World> w) :
 void Maze::
 addStraight()
 {
-	btTransform t(btTransform::getIdentity());
+	addSection(btTransform(ZN90, -halfX + halfY), btTransform(ZP90, halfX + halfY));
+}
 
-	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, t * pos));
+void Maze::
+addSection(const btTransform& left, const btTransform& right)
+{
+	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, pos));
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	btTransform l(ZP90, t.getOrigin() + halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * l);
+	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * right);
 	world->addToWorld(s, info);
 	slabs.push_back(s);
 
-	l = btTransform(ZN90, t.getOrigin() -  halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * l);
+	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * left);
 	world->addToWorld(s, info);
 	slabs.push_back(s);
-
 	pos.setOrigin(pos.getOrigin() + quatRotate(pos.getRotation(), btVector3(0, 0, -length)));
+
 }
 
 void Maze::
 addLeftTurn()
 {
-	/*
-	 * need to change turn left by 90degrees (-90 deg around Y axis);
-	 */
-	btTransform t(btTransform::getIdentity());
+	btTransform delta(btQuaternion(btVector3(0, 1, 0), glm::radians(90.f)));
+	pos = pos * delta;
 
-	btTransform l(ZP90, t.getOrigin() +  halfX + halfY);
-	std::shared_ptr<app::gl::AppObject> s(std::make_shared<app::gl::Slab>(mesh, shape, pos * l));
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	pos = pos * btTransform(btQuaternion(btVector3(0, 1, 0), glm::radians(90.f)));
-
-	s = std::make_shared<app::gl::Slab>(mesh, shape, t * pos);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	l = btTransform(ZP90, t.getOrigin() + halfX + halfY);
-	s = std::make_shared<app::gl::Slab>(mesh, shape, pos * l);
-	world->addToWorld(s, info);
-	slabs.push_back(s);
-
-	pos.setOrigin(pos.getOrigin() + quatRotate(pos.getRotation(), btVector3(0, 0, -length)));
+	addSection(btTransform(XN90, halfZ + halfY), btTransform(ZP90, halfX + halfY));
 }
 
 void Maze::
 addRightTurn()
 {
+	btTransform delta(btQuaternion(btVector3(0, 1, 0), glm::radians(-90.f)));
+	pos = pos * delta;
 
+	addSection(btTransform(XN90, halfZ + halfY), btTransform(ZN90, -halfX + halfY));
 }
 
 void Maze::

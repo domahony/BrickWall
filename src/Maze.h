@@ -36,6 +36,7 @@ public:
 
 private:
 
+	void addSection(const btTransform&, const btTransform&);
 	static btQuaternion ZP90;
 	static btQuaternion ZN90;
 	static btQuaternion XN90;
