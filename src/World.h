@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "Axis.h"
 #include "AppObject.h"
+#include "Vehicle.h"
 
 namespace app {
 
@@ -47,6 +48,11 @@ public:
 		dynamicsWorld->addRigidBody(rigid.get());
 
 		objects.push_back(o);
+	}
+
+	void addVehicle(app::gl::Vehicle* v)
+	{
+		dynamicsWorld->addAction(v);
 	}
 
 	void reset();

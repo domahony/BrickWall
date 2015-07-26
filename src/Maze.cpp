@@ -31,8 +31,11 @@ Maze(std::shared_ptr<app::World> w) :
 	halfX(width/2.f, 0, 0),
 	halfY(0, width/2.f, 0),
 	halfZ(0, 0, width/2.f),
-	info(0, nullptr, nullptr)
+	info(0, nullptr, nullptr),
+	vehicle(shader)
 {
+
+	w->addVehicle(&vehicle);
 
 	addStraight();
 	addLeftTurn();
