@@ -139,7 +139,7 @@ main(int argc, char **argv)
 	//app::tmp::BodyFactory::createRoom(loc5, floor.getMesh(), w, floor.getShape<btBvhTriangleMeshShape>());
 
 
-	app::gl::Maze maze(w);
+	app::gl::Maze maze(w, camera);
 
 	auto frameFn = [&fr]() {
 		fr();

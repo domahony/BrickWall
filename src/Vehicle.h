@@ -12,13 +12,14 @@
 #include <bullet/BulletDynamics/Dynamics/btActionInterface.h>
 #include "ObjMesh.h"
 #include "AppObject.h"
+#include "Camera.h"
 
 namespace app {
 namespace gl {
 
 class Vehicle: public btActionInterface {
 public:
-	Vehicle(std::shared_ptr<app::gl::ShaderBase>);
+	Vehicle(std::shared_ptr<app::World> w, std::shared_ptr<app::gl::ShaderBase>, app::CameraPtr);
 	~Vehicle() {
 		// TODO Auto-generated destructor stub
 	}

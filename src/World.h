@@ -55,6 +55,10 @@ public:
 		dynamicsWorld->addAction(v);
 	}
 
+	void move_vehicle_forward() {
+
+	}
+
 	void reset();
 
 	void render(const app::ViewPort& vp, const app::CameraPtr camera) const;

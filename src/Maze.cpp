@@ -9,6 +9,7 @@
 #include "World.h"
 #include "Slab.h"
 #include "Shader2.h"
+#include "Camera.h"
 
 namespace app {
 namespace gl {
@@ -19,7 +20,7 @@ btQuaternion Maze::XN90(btVector3(1, 0, 0), glm::radians(-90.f));
 btQuaternion Maze::XP90(btVector3(1, 0, 0), glm::radians(90.f));
 
 Maze::
-Maze(std::shared_ptr<app::World> w) :
+Maze(std::shared_ptr<app::World> w, app::CameraPtr camera) :
 	shader(std::make_shared<app::gl::Shader2>()),
 	floor("./media/plane.dat", shader, 1),
 	mesh(floor.getMesh()),
@@ -32,7 +33,7 @@ Maze(std::shared_ptr<app::World> w) :
 	halfY(0, width/2.f, 0),
 	halfZ(0, 0, width/2.f),
 	info(0, nullptr, nullptr),
-	vehicle(shader)
+	vehicle(w, shader, camera)
 {
 
 	w->addVehicle(&vehicle);
@@ -47,6 +48,11 @@ Maze(std::shared_ptr<app::World> w) :
 	addStraight();
 	addRightTurn();
 	addLeftTurn();
+	addStraight();
+	addStraight();
+	addRightTurn();
+	addStraight();
+	addStraight();
 	addStraight();
 	addStraight();
 

@@ -83,6 +83,9 @@ handleKey(const SDL_KeyboardEvent& e)
 	case SDLK_r:
 		world->reset();
 		break;
+	case SDLK_z:
+		world->move_vehicle_forward();
+		break;
 	default:
 		break;
 	}

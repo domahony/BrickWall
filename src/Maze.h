@@ -18,6 +18,7 @@ class btCollisionShape;
 
 namespace app {
 class World;
+class Camera;
 
 namespace gl {
 class AppObject;
@@ -27,7 +28,7 @@ class Mesh;
 class Maze {
 
 public:
-	Maze(std::shared_ptr<app::World>);
+	Maze(std::shared_ptr<app::World>, app::CameraPtr);
 	void addStraight();
 	void addLeftTurn();
 	void addRightTurn();
