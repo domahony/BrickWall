@@ -32,11 +32,22 @@ Maze(std::shared_ptr<app::World> w, app::CameraPtr camera) :
 	halfX(width/2.f, 0, 0),
 	halfY(0, width/2.f, 0),
 	halfZ(0, 0, width/2.f),
-	info(0, nullptr, nullptr),
-	vehicle(w, shader, camera)
+	info(0, nullptr, nullptr)
 {
+	app::ObjMesh cubeplus("./media/cubeplus.dat", shader, 2);
+    auto cubeShape = cubeplus.getShape<btConvexHullShape>();
 
-	w->addVehicle(&vehicle);
+	btScalar mass(3.0);
+	btVector3 inertia(0, 0, 0);
+    cubeShape->calculateLocalInertia(mass, inertia);
+	btRigidBody::btRigidBodyConstructionInfo info(mass, nullptr, nullptr, inertia);
+
+	btTransform loc1(btQuaternion(0,0,0,1), btVector3(0, 2, 0));
+	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
+			cubeplus.getMesh(), cubeShape, loc1));
+
+	w->addToWorld(o, info);
+	//w->addVehicle(&vehicle);
 
 	addStraight();
 	addLeftTurn();

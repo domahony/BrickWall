@@ -11,7 +11,7 @@
 
 namespace app {
 
-ViewPort::ViewPort() : proj(glm::perspective(75.0f, 800.0f / 600.0f, 1.0f, 100.0f))
+ViewPort::ViewPort() : proj(glm::perspective(75.0f, 800.0f / 600.0f, 0.01f, 100000.0f))
 {
 
 }

@@ -23,10 +23,14 @@ static btTransform get_init_location(app::CameraPtr c)
 	glm::vec4 v1(m * glm::vec4(0,13,-35,0));
 
 	return btTransform(btQuaternion::getIdentity(),
+			btVector3(0, 2, 0));
+	/*
+	return btTransform(btQuaternion::getIdentity(),
 			btVector3(
 					v.x + v1.x,
 					v.y + v1.y,
 					v.z + v1.z));
+	*/
 }
 
 Vehicle::

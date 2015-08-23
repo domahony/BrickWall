@@ -11,8 +11,8 @@
 #include <memory>
 #include <vector>
 #include "ObjMesh.h"
+#include "Camera.h"
 #include <btBulletDynamicsCommon.h>
-#include "Vehicle.h"
 
 class btCollisionShape;
 
@@ -57,7 +57,6 @@ private:
 	btVector3 halfY;
 	btVector3 halfZ;
 	btRigidBody::btRigidBodyConstructionInfo info;
-	Vehicle vehicle;
 };
 
 } /* namespace gl */

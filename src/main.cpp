@@ -176,6 +176,8 @@ windowFn()
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    glDepthRange(0.0000001, 10);
+
     auto swapbuffer = [window] () {
         SDL_GL_SwapWindow(window);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
