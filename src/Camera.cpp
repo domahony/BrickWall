@@ -16,7 +16,7 @@ namespace app {
 
 Camera::Camera():
 		rota_angle(9.0f),
-		eye(0.0f, 215.5f, -50.0f),
+		eye(0.0f, 115.5f, -50.0f),
 		center(0.f, 0.f, 0.f),
 		upv(0.f, 1.f, 0.f),
 	_k(glm::normalize(eye - center)),
@@ -95,6 +95,46 @@ backward() {
 	glm::vec4 e(getMatrix() * glm::vec4(eye, 1));
 	e += glm::vec4(0,0,1,0);
 	eye = glm::vec3(glm::inverse(getMatrix()) * e);
+}
+
+int
+camera_callback(void* p, SDL_Event* e)
+{
+	int ret = 1;
+	if (e->type == SDL_KEYDOWN) {
+		Camera* c = static_cast<Camera*>(p);
+
+		switch (e->key.keysym.sym) {
+		case SDLK_LEFT:
+			c->left();
+			ret = 0;
+			break;
+		case SDLK_RIGHT:
+			c->right();
+			ret = 0;
+			break;
+		case SDLK_UP:
+			c->up();
+			ret = 0;
+			break;
+		case SDLK_DOWN:
+			c->down();
+			ret = 0;
+			break;
+		case SDLK_f:
+			c->forward();
+			ret = 0;
+			break;
+		case SDLK_b:
+			c->backward();
+			ret = 0;
+			break;
+		default:
+			break;
+		}
+	}
+
+	return ret;
 }
 
 } /* namespace app */

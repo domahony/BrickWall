@@ -27,6 +27,7 @@ run()
     SDL_Event windowEvent;
 
     app::FrameRateController frc(fps);
+	SDL_AddEventWatch(app::camera_callback, camera.get());
 
     while (!done)
     {
@@ -62,6 +63,7 @@ void EventLoop::
 handleKey(const SDL_KeyboardEvent& e)
 {
 	switch (e.keysym.sym) {
+	/*
 	case SDLK_LEFT:
 		camera->left();
 		break;
@@ -80,6 +82,7 @@ handleKey(const SDL_KeyboardEvent& e)
 	case SDLK_b:
 		camera->backward();
 		break;
+	*/
 	case SDLK_r:
 		world->reset();
 		break;

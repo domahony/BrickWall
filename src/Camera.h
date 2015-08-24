@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <SDL.h>
 
 namespace app {
 
@@ -51,6 +52,8 @@ private:
 };
 
 typedef std::shared_ptr<Camera> CameraPtr;
+
+int camera_callback(void*, SDL_Event*);
 
 } /* namespace app */
 
