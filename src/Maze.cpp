@@ -46,6 +46,8 @@ Maze(std::shared_ptr<app::World> w, app::CameraPtr camera) :
 	std::shared_ptr<app::gl::AppObject> o(std::make_shared<app::gl::AppObject>(
 			cubeplus.getMesh(), cubeShape, loc1));
 
+	SDL_AddEventWatch(app::gl::keyboard_callback, o.get());
+
 	w->addToWorld(o, info);
 	//w->addVehicle(&vehicle);
 

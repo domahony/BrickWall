@@ -70,6 +70,8 @@ public:
 		rigid = r;
 	}
 
+	void left();
+
 	void render(const app::CameraPtr& c, const app::ViewPort& vp) const;
 
 private:
@@ -83,6 +85,8 @@ private:
 	btVector3 inertia;
 
 };
+
+int keyboard_callback(void *, SDL_Event*);
 
 } /* namespace gl */
 } /* namespace app */
