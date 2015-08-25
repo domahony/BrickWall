@@ -42,16 +42,33 @@ render(const app::CameraPtr& c, const app::ViewPort& vp) const
 void AppObject::
 left()
 {
-	/*
-	btTransform t;
-	getWorldTransform(t);
-
-	btVector3 o = t.getOrigin();
-	o += btVector3(-1, 0, 0);
-	t.setOrigin(o);
-	setWorldTransform(t);
-	*/
 	rigid->translate(btVector3(-1, 0, 0));
+	//rigid->setCollisionFlags(rigid->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	rigid->setActivationState(DISABLE_DEACTIVATION);
+}
+
+void AppObject::
+right()
+{
+	rigid->translate(btVector3(1, 0, 0));
+	//rigid->setCollisionFlags(rigid->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	rigid->setActivationState(DISABLE_DEACTIVATION);
+}
+
+void AppObject::
+forward()
+{
+	rigid->translate(btVector3(0, 0, 1));
+	//rigid->setCollisionFlags(rigid->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	rigid->setActivationState(DISABLE_DEACTIVATION);
+}
+
+void AppObject::
+back()
+{
+	rigid->translate(btVector3(0, 0, -1));
+	//rigid->setCollisionFlags(rigid->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+	rigid->setActivationState(DISABLE_DEACTIVATION);
 }
 
 int
@@ -67,12 +84,15 @@ keyboard_callback(void *p, SDL_Event *e)
 			ret = 1;
 			break;
 		case SDLK_l:  //right
+			c->right();
 			ret = 0;
 			break;
 		case SDLK_k: //forward (up)
+			c->forward();
 			ret = 0;
 			break;
 		case SDLK_j: //back (down)
+			c->back();
 			ret = 0;
 			break;
 		default:

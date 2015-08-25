@@ -71,6 +71,9 @@ public:
 	}
 
 	void left();
+	void right();
+	void forward();
+	void back();
 
 	void render(const app::CameraPtr& c, const app::ViewPort& vp) const;
 
